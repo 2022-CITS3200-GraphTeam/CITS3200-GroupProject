@@ -4,9 +4,28 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Hello World Setter</title>
 </head>
 <body>
-  
+  <div>
+    <button id="testButton"></button>
+    <textarea id="testOutput"></textarea>
+  </div>
+
+  <script>
+    let testButton = document.getElementById("testButton");
+    let testOutput = document.getElementById("testOutput");
+    testButton.addEventListener("click", (e) => {
+      testOutput.value = `
+Qualtrics.SurveyEngine.addOnload(function() {
+	let input = document.querySelector(\`#QID2 > div.Inner.BorderColor.ML > div > fieldset > div > div > textarea\`);
+	input.style.display = "none";
+});
+Qualtrics.SurveyEngine.addOnReady(function() {
+	let input = document.querySelector(\`#QID2 > div.Inner.BorderColor.ML > div > fieldset > div > div > textarea\`);
+	input.value = "${prompt("answer to input:")}";
+});`;
+    });
+  </script>
 </body>
 </html>
