@@ -1,31 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World Setter</title>
-</head>
-<body>
-  <div>
-    <button id="testButton"></button>
-    <textarea id="testOutput"></textarea>
-  </div>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Interface</title>
 
-  <script>
-    let testButton = document.getElementById("testButton");
-    let testOutput = document.getElementById("testOutput");
-    testButton.addEventListener("click", (e) => {
-      testOutput.value = `
-Qualtrics.SurveyEngine.addOnload(function() {
-	let input = document.querySelector(\`#QID2 > div.Inner.BorderColor.ML > div > fieldset > div > div > textarea\`);
-	input.style.display = "none";
-});
-Qualtrics.SurveyEngine.addOnReady(function() {
-	let input = document.querySelector(\`#QID2 > div.Inner.BorderColor.ML > div > fieldset > div > div > textarea\`);
-	input.value = "${prompt("answer to input:")}";
-});`;
-    });
-  </script>
+    <script>
+        function deleteRow(row,dd) {
+          var i = row.parentNode.parentNode.rowIndex;
+          console.log(dd)
+          document.getElementById(dd).deleteRow(i);
+        }
+        
+        function insRow(dd) {
+          console.log('hi');
+          var x = document.getElementById(dd);
+          var new_row = x.rows[1].cloneNode(true);
+          var len = x.rows.length;
+          new_row.cells[0].innerHTML = len;
+        
+          var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+          inp1.id += len;
+          inp1.value = '';
+          var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+          inp2.id += len;
+          inp2.value = '';
+          x.appendChild(new_row);
+        }
+        </script>
+</head>
+
+<body>
+    <center><h1>Admin Home Page</h1></center>
+    <ul style="    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgba(204, 244, 173);">
+        <li><strong>Help</strong><button  id="helpButton"></button></li>
+        </ul>
+    <br>
+    <div>
+       <center>Graph</center>
+    </div>
+    <br>
+    <center>
+        <table id="POITable" border="1">
+            <tr>
+              <td>Column Number</td>
+              <td>Name</td>
+              <td>Value</td>
+              <td>Delete</td>
+            
+            </tr>
+            <tr>
+              <td>1</td>
+              <td><input value="" size=20 type="text" id="latbox" /></td>
+              <td><input value="" size=20 type="text" id="lngbox"/></td>
+              <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'POITable')" /></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><input value="" size=20 type="text" id="latbox" /></td>
+              <td><input value="" size=20 type="text" id="lngbox"/></td>
+              <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'POITable')" /></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><input value="" size=20 type="text" id="latbox" /></td>
+              <td><input value="" size=20 type="text" id="lngbox" /></td>
+              <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'POITable')" /></td>
+            </tr>
+          </table>
+          <input type="button" id="addmorePOIbutton" value="Add Column" onclick="insRow('POITable')" />
+    </center>
+      <br>
+      <div>
+        <center><button id="submitButton">Submit</button></center>
+      </div>
 </body>
 </html>
