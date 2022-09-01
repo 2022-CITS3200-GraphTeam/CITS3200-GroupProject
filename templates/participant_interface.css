@@ -58,7 +58,7 @@ body{
 
 /*Help bar*/
 .helpBar {
-    background-color: rgb(153, 250, 161);
+    background-color: rgb(173, 252, 179);
     overflow: hidden;
   }
 #helpButton {
@@ -84,10 +84,11 @@ body{
 
 /* Modal Content */
 .modal-content {
-  background-color:  rgb(153, 250, 161);
+  background-color:  rgb(173, 252, 179);
   margin: auto;
   padding: 20px;
-  width: 80%;
+  width: 30%;
+  text-align: center;
 }
 
 /* The Close Button */
