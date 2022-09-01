@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Participant Interface</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="participant_interface.css" />
+    <script src="participant_interface.js"></script>
+    <title>Participant Interface</title>
+  </head>
+  <body>
+    <!--Sidebar code-->
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">x</a>
+      Integer Value <br />
+      <form>
+        <input type="int" id="integer" name="integer" />
+      </form>
+      <button id="colSubmitButton">Submit</button> <br /><br />
+      <button id="leftColumn"><</button>
+      Section Name
+      <button id="rightColumn">></button>
+    </div>
 
-  <!--Got to include sidebar code too-->
+    <!--Open Sidebar-->
+    <div id="mainSidebar" class="mainSidebar">
+      <button id="openButton" onclick="openNav()">></button>
+    </div>
+    
+    <!--Top help button for instructions pop up-->
+    <div class="helpBar">
+      <button id="helpButton">Help</button>
+    </div>
 
-  <!--Top help button for instructions pop up-->
-  <div>
-    <button id="helpButton">Help</button>
-  </div>
+    <!--Got to include instructions pop up code too -->
+    <div>
+      <button id="closePopup">X</button>
+      Tutorial <br /><br />
+      To begin click a section of the graph and drag it up or down.<br />
+      You will be restricted to a total size for the graph, the graph can only
+      be submitted when all values reach the total. <br />
+      Specific values can be entered using the sidebar. <br />
+      <button id="confirmButton">Confirm</button>
+    </div>
 
-  <!--Got to include instructions pop up code too -->
-
-  <!--Area where the graph will be placed in-->
-  <div>
-    Graph Area
-  </div>
-   <!--Graph submit button-->
-  <div>
-    <button id="submitButton">Submit</button>
-  </div>
-  
-  
-</body>
+    <!--Area where the graph will be placed in-->
+    <div id="graphArea" class="graphArea">
+      Graph Area
+    </div>
+    <!--Graph submit button-->
+    <div>
+      <button id="submitButton">Submit</button>
+    </div>
+  </body>
 </html>

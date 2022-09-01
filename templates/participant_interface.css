@@ -1,0 +1,68 @@
+/*Base Body*/
+body{
+    background-color:rgb(56, 56, 56);
+}
+
+/*Graph Area */
+.graphArea{
+    background-color: white;
+    margin: auto;
+    width: 90%;
+    height: 90%;
+    padding: 50px;
+}
+#submitButton{
+    margin: auto;
+    width: 10%;
+    height: 10%;
+    padding: 10px;
+}
+
+/*Side Bar */
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(255, 255, 255);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/*Side bar Open*/
+.mainSidebar {
+    position:fixed;
+    width:20px;
+    height:100px;
+    background:rgb(230, 230, 230);
+    left:10px;
+    top:100px;
+    transition: margin-left 0.5s;
+    padding: 16px;
+}
+#openButton {
+    
+}
+
+/*Help bar*/
+.helpBar {
+    background-color: rgb(153, 250, 161);
+    overflow: hidden;
+  }
+#helpButton {
+    float:left;
+    text-align: center;
+    padding: 14px 16px;
+}
+
