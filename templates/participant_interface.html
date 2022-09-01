@@ -5,9 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="participant_interface.css" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <title>Participant Interface</title>
   </head>
   <body>
+    <!-- Trigger/Open The Modal -->
+    <div class="helpBar">
+      <button id="helpButton">Help</button>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+    
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      Tutorial <br /><br />
+      To begin click a section of the graph and drag it up or down.<br />
+      You will be restricted to a total size for the graph, the graph can only
+      be submitted when all values reach the total. <br />
+      Specific values can be entered using the sidebar. <br />
+      <button id="confirmButton">Confirm</button>
+    </div>
+  </div>
+
     <!--Sidebar code-->
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">x</a>
@@ -25,23 +46,7 @@
     <div id="mainSidebar" class="mainSidebar">
       <button id="openButton" onclick="openNav()">></button>
     </div>
-
-    <!--Top help button for instructions pop up-->
-    <div class="helpBar">
-      <button id="helpButton">Help</button>
-    </div>
-
-    <!--Got to include instructions pop up code too -->
-    <div>
-      <button id="closePopup">X</button>
-      Tutorial <br /><br />
-      To begin click a section of the graph and drag it up or down.<br />
-      You will be restricted to a total size for the graph, the graph can only
-      be submitted when all values reach the total. <br />
-      Specific values can be entered using the sidebar. <br />
-      <button id="confirmButton">Confirm</button>
-    </div>
-
+    
     <!--Area where the graph will be placed in-->
     <div id="graphArea" class="graphArea">
       Graph Area
@@ -51,17 +56,7 @@
       <button id="submitButton">Submit</button>
     </div>
 
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn">Open Modal</button>
 
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>Some text in the Modal..</p>
-    </div>
 
   </div>
   </body>

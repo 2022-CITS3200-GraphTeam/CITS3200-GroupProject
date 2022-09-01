@@ -1,22 +1,8 @@
-/*Side Bar Scripts */
-function openNav() {
-  document.getElementById("mySidebar").style.width = "250px";
-  document.getElementById("mySidebar").style.padding = "8px 8px 8px 32px";
-  document.getElementById("mainSidebar").style.marginLeft = "250px";
-}
-
-function closeNav() {
-  document.getElementById("mySidebar").style.width = "0";
-  document.getElementById("mySidebar").style.padding = "0px 0px 0px 0px";
-  document.getElementById("mainSidebar").style.marginLeft= "0";
-
-}
-
 // Get the modal
 var modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+var btn = document.getElementById("helpButton");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
@@ -39,3 +25,18 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+/*Side Bar Scripts */
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("mySidebar").style.padding = "8px 8px 8px 32px";
+  document.getElementById("mainSidebar").style.marginLeft = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("mySidebar").style.padding = "0px 0px 0px 0px";
+  document.getElementById("mainSidebar").style.marginLeft= "0";
+
+}
+
