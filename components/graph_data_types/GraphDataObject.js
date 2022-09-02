@@ -46,8 +46,6 @@ export class GraphDataObject {
     /**
      * An object describing restrictions and/or requirements on the graph
      * for it to be 'valid'. e.g. 'strictly increasing'.
-     * Currently unused.
-     * TODO: determine structure of restrictions
      * 
      * @type {Array<GraphRestriction>}
      */

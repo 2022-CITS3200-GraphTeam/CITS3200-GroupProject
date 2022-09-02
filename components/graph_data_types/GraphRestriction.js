@@ -1,4 +1,4 @@
 // TODO: class jsdoc
 export class GraphRestriction {
-  // TODO: see issue #8
+  // TODO: to be implemented later - see issue #8
 };
