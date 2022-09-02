@@ -1,3 +1,4 @@
+import { GraphAxis } from "./GraphAxis.js";
 import { GraphPoint } from "./GraphPoint.js";
 import { StyledElement } from "./StyledElement.js";
 
@@ -17,13 +18,19 @@ export class GraphDataObject extends StyledElement {
   // TODO: constructor jsdoc
   constructor() {
     /**
-     * A list of 'points' of the graph; what a 'point' represents depends on
-     * the type of the graph. E.g. a 'point' could be a bar on a bar graph,
-     * a slice of a pie graph, or a point on a line graph.
+     * A map from 'names'/values (i.e. the x axis) to 'points' of the graph.
      * 
-     * @type {Array<GraphPoint>}
+     * @type {Map<*, GraphPoint>}
      */
-    this.points = [];
+    this.points = new Map();
+
+    /**
+     * TODO: proper description
+     * Note: ordered list, order determined and used by inheriting types
+     * 
+     * @type {Array<GraphAxis>}
+     */
+    this.axi = [];
 
     // TODO
   }
