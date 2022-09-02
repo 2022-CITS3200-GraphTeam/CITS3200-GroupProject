@@ -9,12 +9,11 @@
     <script>
         function deleteRow(row,dd) {
           var i = row.parentNode.parentNode.rowIndex;
-          console.log(dd)
+          console.log(dd);
           document.getElementById(dd).deleteRow(i);
         }
         
         function insRow(dd) {
-          console.log('hi');
           var x = document.getElementById(dd);
           var new_row = x.rows[1].cloneNode(true);
           var len = x.rows.length;
