@@ -1,43 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../components/admin_interface_main/main.css" rel="stylesheet">
+    <script src="../components/admin_interface_main/main.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Interface</title>
 
-    <script>
-        function deleteRow(row,dd) {
-          var i = row.parentNode.parentNode.rowIndex;
-          console.log(dd)
-          document.getElementById(dd).deleteRow(i);
-        }
-        
-        function insRow(dd) {
-          console.log('hi');
-          var x = document.getElementById(dd);
-          var new_row = x.rows[1].cloneNode(true);
-          var len = x.rows.length;
-          new_row.cells[0].innerHTML = len;
-        
-          var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-          inp1.id += len;
-          inp1.value = '';
-          var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
-          inp2.id += len;
-          inp2.value = '';
-          x.appendChild(new_row);
-        }
-        </script>
 </head>
 
 <body>
     <center><h1>Admin Home Page</h1></center>
-    <ul style="    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: rgba(204, 244, 173);">
+    <ul id="columns">
         <li><strong>Help</strong><button  id="helpButton"></button></li>
         </ul>
     <br>
