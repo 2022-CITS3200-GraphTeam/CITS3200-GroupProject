@@ -7,18 +7,35 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <nav class="navbar navbar-expand-sm py-3" id="navbar-admin">
+
+      <ul class="navbar-nav">
+
+        <li><a class="nav-item nav-link"><img src="../components/admin_interface_main/Icons/icon_menu_.png"> </a></li>
+
+        <li><a class="nav-item nav-link">Help <img src="../components/admin_interface_main/Icons/icon_help.png"></a></li>
+
+      </ul>
+
+</nav>
     <title>Admin Interface</title>
 
 </head>
 
-<body>
-    <center><h1>Admin Home Page</h1></center>
-    <ul id="columns">
-        <li><strong>Help</strong><button  id="helpButton"></button></li>
-        </ul>
-    <br>
+<body
     <div>
-       <center>Graph</center>
+      <body onload="generateGraph()">
+        <div class="chartMenu">
+        </div>
+        <div class="chartCard">
+          <div class="chartBox">
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js">
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
+      </body>
     </div>
     <br>
     <center>
