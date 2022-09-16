@@ -28,7 +28,7 @@ export function getInjectionTemplate() {
 
       // add iframe
       let graph = document.createElement("iframe");
-      graph.srcdoc = `${srcdoc}`;
+      graph.srcdoc = `${srcdoc}`; // TODO: convert to using jsdelivr
       graph.style = "width: 100%; height: 450px;"; // ! TEMP
 
       getAnswerContainer(this).appendChild(graph);

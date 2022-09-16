@@ -18,6 +18,8 @@ function generateFailText(code) {
  * TODO: accept actual graph data inputs and set the graph data for the participant interface
  * ! current method for setting the iframe MUST be changed at some point
  * 
+ * TODO: convert to using jsdelivr
+ * 
  * @returns {Promise<string>} the injection as a string
  */
 export async function generateCode() {
