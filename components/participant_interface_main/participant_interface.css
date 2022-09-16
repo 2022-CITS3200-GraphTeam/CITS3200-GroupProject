@@ -1,0 +1,80 @@
+/*Base Body*/
+body {
+  background-color: rgb(56, 56, 56);
+  margin: 0px;
+}
+
+/*Graph Area */
+.graphArea {
+  background-color: white;
+  margin: auto;
+  width: 90%;
+  height: 90%;
+  padding: 50px;
+}
+.forms {
+  margin: auto;
+  width: 10%;
+}
+#submitButton {
+  margin: auto;
+  width: 10%;
+  height: 10%;
+  padding: 10px;
+}
+
+/*Help bar*/
+.helpBar {
+  background-color: rgb(173, 252, 179);
+  overflow: hidden;
+}
+#helpButton {
+  float: left;
+  text-align: center;
+  padding: 10px 20px;
+  margin: 20px 20px 20px 20px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: rgb(173, 252, 179);
+  padding: 20px;
+  width: 30%;
+  text-align: center;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
