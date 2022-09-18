@@ -69,10 +69,30 @@ function deleteRow(row, dd) {
       }
     };
   
+    //pintpointing the chart, so that the click understands the canvs tag
+    const ctx = document.getElementById('myChart');
     // render init block
     const myChart = new Chart(
       document.getElementById('myChart'),
       config
     );
+
+    //Function that understands the clicking event - testing how to properly use this
+    function clickHandler(click){
+        const points = myChart.getElementsAtEventForMode(click, 'nearest', 
+            { intersect: true }, true);
+        if (points.length){
+            const firstPoint = points[0];
+           //console.log(firstPoint);
+            const value = myChart.data.datasets[firstPoint.datasetIndex].
+                data[firstPoint.index];
+            console.log(value);
+
+            //Still to add correct reference to bar data structure
+            //location.href = dataStructureReference;
+            //window.open(dataStructureReference);
+        }
+    }
+    ctx.onclick = clickHandler;
   }
   
