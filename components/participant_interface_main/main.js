@@ -67,7 +67,7 @@ function generateGraph() {
               data[firstPoint.index];
           console.log(value);
 
-          //Still to add correct reference to bar data structure
+          //Still to add correct reference to bar data structure - gotta think about 
           //location.href = dataStructureReference;
           //window.open(dataStructureReference);
       }
