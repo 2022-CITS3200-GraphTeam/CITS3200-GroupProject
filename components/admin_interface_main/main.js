@@ -19,12 +19,17 @@ function insRow(dd) {
   inp2.value = '';
   x.appendChild(new_row);
 }
+function getTitle() {
+  var testTitle = document.getElementById("title").value;
+  //document.getElementById("title").innerHTML = testTitle;
+  return testTitle;
+}
+//const button = document.getElementById("generateGraph");
 
 function generateGraph() {
   const data = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [{
-      label: 'Weekly Sales',
       data: [18, 12, 6, 9, 12, 3, 9],
       backgroundColor: [
         'rgba(255, 26, 104, 0.2)',
@@ -55,6 +60,10 @@ function generateGraph() {
     data,
     options: {
       plugins: {
+        title: {
+          display: true,
+          text: getTitle(),
+        },
         dragData: {
           onDragStart: (event) => {
             console.log(event)
@@ -75,3 +84,5 @@ function generateGraph() {
     config
   );
 }
+
+//button.addEventListerner('click',generateGraph);

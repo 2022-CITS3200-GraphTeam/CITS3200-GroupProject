@@ -41,7 +41,7 @@
 
   <center>
 
-    <form>
+   
       <label for="title">Title:</label>
       <input type="text" id="title" name="title" placeholder="Enter Title"><br>
       <label for="xTitle">X-axis Title:</label>
@@ -49,12 +49,16 @@
       <label for="yTitle">Y-axis Title:</label>
       <input type="text" id="yTitle" name="yTitle" placeholder="Title for y axis"><br>
       <label for="scaleMax">Maximum for Scale:</label>
-      <input type="text" id="scaleMax" name="scaleMax" placeholder="Max value for x axis"><br>
+      <input type="text" id="scaleMax" name="scaleMax" placeholder="Max value for y axis"><br>
       <label for="scaleMin">Minimum for Scale:</label>
-      <input type="text" id="scaleMin" name="scaleMin" placeholder="Starting value for x axis"><br><br>
+      <input type="text" id="scaleMin" name="scaleMin" placeholder="Starting value for y axis"><br>
+      <label for="scaleMin">Total Sum:</label>
+      <input type="text" id="scaleMin" name="scaleMin" placeholder="Starting value for y axis"><br><br>
       <label for="rules">Rules:</label>
       <input type="text" id="rules" name="rules" placeholder="x > y"><br><br>
-    </form> 
+      <input type="button" onclick=generateGraph()>
+      
+    
 
     <table id="POITable" border="1">
       <tr>
