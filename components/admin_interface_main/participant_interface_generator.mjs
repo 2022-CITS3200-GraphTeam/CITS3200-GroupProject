@@ -1,5 +1,5 @@
 import { writeText } from "../js_helper_funcs/clipboard.mjs";
-import { getInjectionTemplate } from "../qualtrics/injection.mjs";
+import { injectionLoader } from "../qualtrics/injection.mjs";
 
 const copyFlagStart = `/** ------------------------ START OF BLOCK TO COPY ------------------------ **/`;
 const copyFlagEnd =   `/** ------------------------- END OF BLOCK TO COPY ------------------------- **/`;
@@ -16,15 +16,12 @@ function generateFailText(code) {
  * Generates an injection for Qualtrics as a string.
  * 
  * TODO: accept actual graph data inputs and set the graph data for the participant interface
- * ! current method for setting the iframe MUST be changed at some point
- * 
- * TODO: convert to using jsdelivr
+ * @param {*} graphObj TODO
  * 
  * @returns {Promise<string>} the injection as a string
  */
-export async function generateCode() {
-  let websiteStr = `\n${await fetch("./participant_interface.html").then((response) => response.text())}`;
-  return `(${getInjectionTemplate().toString().replace("${srcdoc}", websiteStr)})();`; // ! *very* jank - MUST be changed at some point
+export async function generateCode(graphObj) {
+  return `eval(${JSON.stringify(`(${injectionLoader.toString()})("${JSON.stringify(graphObj ?? null)}");`)});`;
 }
 
 /**
