@@ -17,6 +17,12 @@ export async function injectionLoader(graphObjJSON) {
   // add qualtrics event handlers
   Qualtrics.SurveyEngine.addOnload(async function() { (await modulePromise).onLoad(this, JSON.parse(graphObj)); });
   Qualtrics.SurveyEngine.addOnReady(async function() { (await modulePromise).onReady(this, JSON.parse(graphObj)); });
+  
+  // report module loading success/failure
+  modulePromise.then(
+    () => { console.info("Loaded graph injection module."); },
+    () => { console.error("Failed to load graph injection module."); alert("Failed to load graph."); }
+  );
 }
 
 
