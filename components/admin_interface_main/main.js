@@ -4,8 +4,7 @@ function deleteRow(row,dd) {
     document.getElementById(dd).deleteRow(i);
   }
   
-  function insRow(dd) {
-    console.log('hi');
+  function addRow(dd) {
     var x = document.getElementById(dd);
     var new_row = x.rows[1].cloneNode(true);
     var len = x.rows.length;
@@ -19,12 +18,34 @@ function deleteRow(row,dd) {
     inp2.value = '';
     x.appendChild(new_row);
   }
+  function getColNames(){
+    var numberOfRows = document.getElementById("colTable").rows.length;
+    var list = [];
+    for(let i = 1; i < numberOfRows; i++) {
+      var x = document.getElementById("colTable").rows[i].cells[1].children[0].value;
+      list.push(x);
+    }
+    console.log(list);
+    return list;
+  }
+
+  function getColValues(){
+    var list =[];
+    var numberOfRows = document.getElementById("colTable").rows.length;
+    for(let i = 1; i < numberOfRows; i++) {
+      var y = document.getElementById("colTable").rows[i].cells[2].children[0].value;
+      list.push(y);
+    }
+    console.log(list);
+    return list;
+  }
+  
   function generateGraph(){
   const data = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    labels: getColNames(),
     datasets: [{
       label: 'Weekly Sales',
-      data: [18, 12, 6, 9, 12, 3, 9],
+      data: getColValues(),
       backgroundColor: [
         'rgba(255, 26, 104, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -73,4 +94,4 @@ function deleteRow(row,dd) {
     document.getElementById('myChart'),
     config
   );
-  }
+}

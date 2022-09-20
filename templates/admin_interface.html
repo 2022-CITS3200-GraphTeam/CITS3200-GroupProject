@@ -24,7 +24,7 @@
 
 <body
     <div>
-      <body onload="generateGraph()">
+      <body>
         <div class="chartMenu">
         </div>
         <div class="chartCard">
@@ -39,7 +39,7 @@
     </div>
     <br>
     <center>
-        <table id="POITable" border="1">
+        <table id="colTable" border="1">
             <tr>
               <td>Column Number</td>
               <td>Name</td>
@@ -49,25 +49,27 @@
             </tr>
             <tr>
               <td>1</td>
-              <td><input value="" size=20 type="text" id="latbox" /></td>
-              <td><input value="" size=20 type="text" id="lngbox"/></td>
-              <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'POITable')" /></td>
+              <td ><input value="col1" size=20 type="text" id="latbox"></td>
+              <td class="col"><input value="1" size=20 type="text" id="lngbox"></td>
+              <td><input type="button" id="delColButton" value="Delete" onclick="deleteRow(this,'colTable')"></td>
             </tr>
             <tr>
               <td>2</td>
-              <td><input value="" size=20 type="text" id="latbox" /></td>
-              <td><input value="" size=20 type="text" id="lngbox"/></td>
-              <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'POITable')" /></td>
+              <td class="col"><input value="col2" size=20 type="text" id="latbox"></td>
+              <td><input value="2" size=20 type="text" id="lngbox"></td>
+              <td><input type="button" id="delColButton" value="Delete" onclick="deleteRow(this,'colTable')"></td>
             </tr>
             <tr>
               <td>3</td>
-              <td><input value="" size=20 type="text" id="latbox" /></td>
-              <td><input value="" size=20 type="text" id="lngbox" /></td>
-              <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'POITable')" /></td>
+              <td class="col"><input value="col3" size=20 type="text" id="latbox"></td>
+              <td><input value="3" size=20 type="text" id="lngbox"></td>
+              <td><input type="button" id="delColButton" value="Delete" onclick="deleteRow(this,'colTable')"></td>
             </tr>
           </table>
-          <input type="button" id="addmorePOIbutton" value="Add Column" onclick="insRow('POITable')" />
+          <input type="button" id="addColButton" value="Add Column" onclick="addRow('colTable')">
     </center>
+    <input type="button" id="button2" value="Generate Graph" onclick="generateGraph()">
+    <p id="t">Test</p>
       <br>
       <div>
         <center><button id="submitButton">Submit</button></center>
