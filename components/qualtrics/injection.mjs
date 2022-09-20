@@ -41,8 +41,9 @@ export async function onReady(questionDataObj, graphObj) {
 
   // add iframe
   let graph = document.createElement("iframe");
-  let htmlStr = await fetch(`${baseURL}/templates/participant_interface.html`).then(resp => resp.text()); // fetch html src (string)
-  htmlStr = htmlStr.replace("<head>", `<head><base href="${baseURL}" />`); // set base URL for iframe
+  let htmlURL = `${baseURL}/templates/participant_interface.html`;
+  let htmlStr = await fetch(htmlURL).then(resp => resp.text()); // fetch html src (string)
+  htmlStr = htmlStr.replace("<head>", `<head><base href="${htmlURL}" />`); // set base URL for iframe
   graph.srcdoc = htmlStr;
   graph.style = "width: 100%; height: 450px;"; // ! TEMP
   getAnswerContainer(questionDataObj).appendChild(graph);
