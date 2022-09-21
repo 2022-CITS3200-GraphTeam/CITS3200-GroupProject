@@ -7,6 +7,8 @@ var btn = document.getElementById("helpButton");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
+let graphData, myChart;
+
 // When the user clicks the button, open the modal 
 btn.onclick = function() {
   modal.style.display = "block";
@@ -41,11 +43,13 @@ function closeNav() {
 }
 function updateSection(){
 //On update click > Grab integer value from input box > update data value in graph
-const sectionValue = document.getElementById("sectionName").value;
-const sectionName = document.getElementById("integerValue").value;
-console.log(myChart.data.labels[1]);
-const sectionIndex = data.labels.indexOf(sectionName);
-data.datasets.data[sectionIndex] = sectionValue;
+const sectionValue = document.getElementById("integerValue").value;
+const sectionName = document.getElementById("sectionName").value;
+//console.log(myChart.data.labels[1]);
+const sectionIndex = myChart.data.labels.indexOf(sectionName);
+console.log(sectionIndex);
+myChart.data.datasets[0].data[sectionIndex] = sectionValue;
+myChart.update();
 }
 
 //Initial attempt at understanding how to update values - high level idea experimenting
@@ -53,7 +57,7 @@ data.datasets.data[sectionIndex] = sectionValue;
 //myChart.data.datasets[datasetIndex].data[index] =  sectionValue;
 
 function generateGraph() {
-  const data = {
+  graphData = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     datasets: [{
       label: 'Weekly Sales',
@@ -84,7 +88,7 @@ function generateGraph() {
   // config 
   const config = {
     type: 'bar',
-    data,
+    data: graphData,
     options: {
       plugins: {
         dragData: {
@@ -104,7 +108,7 @@ function generateGraph() {
   //pintpointing the chart, so that the click understands the canvs tag
   const ctx = document.getElementById('myChart');
   // render init block
-  const myChart = new Chart(
+  myChart = new Chart(
     document.getElementById('myChart'),
     config
   );
@@ -120,7 +124,7 @@ function generateGraph() {
               data[firstPoint.index];
           const name = myChart.data.labels[firstPoint.index];
 
-          console.log(data.labels)
+          //console.log(data.labels)
           document.getElementById("sectionName").value = name;
           document.getElementById("integerValue").value = value;
       }

@@ -8,7 +8,6 @@
     integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 
   <link href="../components/participant_interface_main/participant_interface.css" rel="stylesheet">
-  <script src="../components/participant_interface_main/participant_interface.js"></script>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +15,7 @@
   <title>Participant Interface</title>
 </head>
 
-<body>
+<body onload="generateGraph()">
   <!-- Trigger/Open The Modal -->
   <div class="helpBar">
     <button id="helpButton" button type="button" class="btn btn-light">Help <img src="../components/participant_interface_main/Icons/icon_help.png" height="10%"; width="10%"></button>
@@ -51,7 +50,6 @@
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
       <script
         src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
-      <script>generateGraph()</script>
   </div>
   <br>
 
@@ -61,10 +59,7 @@
   <input type="text" id="sectionName" class="form-control"> 
 
   <label for="integerValue">Integer Value</label>
-  <input type="number" min="0" id="integerValue" class="form-control"> <br /> <br>
-
-  <label for="updateButton">Update</label>
-  <input type="button" id="updateButton" onclick="updateSection()">
+  <input type="number" min="0" id="integerValue" class="form-control" oninput="updateSection()"> <br /> <br>
   </div>
 
   <!--Graph submit button-->
@@ -72,6 +67,6 @@
     <button id="submitButton" button type="button" class="btn btn-light">Submit</button>
   </div>
 </div>
-</body>
 <script src="../components/participant_interface_main/participant_interface.js"></script>
+</body>
 </html>
