@@ -92,8 +92,8 @@ function generateGraph() {
     options: {
       plugins: {
         dragData: {
-          onDragStart: (event) => {
-            console.log(event)
+          onDrag: (event, datasetIndex, index, value) => {
+            dragHandler(datasetIndex, index, value)
           }
         }
       },
@@ -130,6 +130,15 @@ function generateGraph() {
       }
   }
   ctx.onclick = clickHandler;
+
+  //Function that understands the clicking event - testing how to properly use this
+  function dragHandler(datasetIndex, index, value){
+      const name = myChart.data.labels[index];
+
+      //console.log(data.labels)
+      document.getElementById("sectionName").value = name;
+      document.getElementById("integerValue").value = value;
+    }
 }
 
 
