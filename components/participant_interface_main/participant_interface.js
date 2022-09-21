@@ -39,8 +39,11 @@ function closeNav() {
   document.getElementById("mainSidebar").style.marginLeft= "0";
 
 }
+function updateSection(){
+//On update click > Grab integer value from input box > update data value in graph
+//
+}
 
-  
 function generateGraph() {
   const data = {
     labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
