@@ -43,11 +43,14 @@ function updateSection(){
 //On update click > Grab integer value from input box > update data value in graph
 const sectionValue = document.getElementById("sectionName").value;
 const sectionName = document.getElementById("integerValue").value;
+console.log(myChart.data.labels[1]);
+const sectionIndex = data.labels.indexOf(sectionName);
+data.datasets.data[sectionIndex] = sectionValue;
+}
 
 //Initial attempt at understanding how to update values - high level idea experimenting
 //myChart.data.labels[index] =  sectionName;
 //myChart.data.datasets[datasetIndex].data[index] =  sectionValue;
-}
 
 function generateGraph() {
   const data = {
@@ -116,7 +119,8 @@ function generateGraph() {
           const value = myChart.data.datasets[firstPoint.datasetIndex].
               data[firstPoint.index];
           const name = myChart.data.labels[firstPoint.index];
-          
+
+          console.log(data.labels)
           document.getElementById("sectionName").value = name;
           document.getElementById("integerValue").value = value;
       }
