@@ -102,17 +102,15 @@ function generateGraph() {
   function clickHandler(click){
       const points = myChart.getElementsAtEventForMode(click, 'nearest', 
           { intersect: true }, true);
+
       if (points.length){
           const firstPoint = points[0];
-          //console.log(firstPoint);
           const value = myChart.data.datasets[firstPoint.datasetIndex].
               data[firstPoint.index];
-          document.getElementById("integerValue").value = value
-          console.log(value);
-
-          //Still to add correct reference to bar data structure - gotta think about 
-          //location.href = dataStructureReference;
-          //window.open(dataStructureReference);
+          const name = myChart.data.labels[firstPoint.index];
+          
+          document.getElementById("sectionName").value = name;
+          document.getElementById("integerValue").value = value;
       }
   }
   ctx.onclick = clickHandler;
