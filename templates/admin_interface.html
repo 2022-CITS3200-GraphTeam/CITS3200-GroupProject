@@ -35,7 +35,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
-    <script>generateGraph()</script>
+    <!--<script>generateGraph()</script>-->
   </div>
   <br>
 
@@ -52,11 +52,13 @@
       <input type="text" id="scaleMax" name="scaleMax" placeholder="Max value for y axis"><br>
       <label for="scaleMin">Minimum for Scale:</label>
       <input type="text" id="scaleMin" name="scaleMin" placeholder="Starting value for y axis"><br>
-      <label for="scaleMin">Total Sum:</label>
-      <input type="text" id="scaleMin" name="scaleMin" placeholder="Starting value for y axis"><br><br>
+      <label for="scaleIncrement">Scale Increment:</label>
+      <input type="text" id="scaleIncrement" name="scaleIncrement" placeholder="step by 5"><br>
+      <label for="totalSum">Total Sum:</label>
+      <input type="text" id="totalSum" name="totalSum" placeholder="80"><br>
       <label for="rules">Rules:</label>
       <input type="text" id="rules" name="rules" placeholder="x > y"><br><br>
-      <input type="button" onclick=generateGraph()>
+      <input type="button" onclick="generateGraph()">
       
     
 

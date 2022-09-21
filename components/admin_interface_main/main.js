@@ -21,10 +21,24 @@ function insRow(dd) {
 }
 function getTitle() {
   var testTitle = document.getElementById("title").value;
-  //document.getElementById("title").innerHTML = testTitle;
   return testTitle;
 }
-//const button = document.getElementById("generateGraph");
+function getYTitle() {
+  var testYTitle = document.getElementById("yTitle").value;
+  return testYTitle;
+}
+function getXTitle() {
+  var testXTitle = document.getElementById("xTitle").value;
+  return testXTitle;
+}
+function getScaleMin() {
+  var testScaleMin = document.getElementById("scaleMin").value;
+  return testScaleMin;
+}
+function getScaleMax() {
+  var testScaleMax = document.getElementById("scaleMax").value;
+  return testScaleMax;
+}
 
 function generateGraph() {
   const data = {
@@ -64,6 +78,9 @@ function generateGraph() {
           display: true,
           text: getTitle(),
         },
+        legend: {
+          display: false,
+        },
         dragData: {
           onDragStart: (event) => {
             console.log(event)
@@ -72,7 +89,18 @@ function generateGraph() {
       },
       scales: {
         y: {
-          beginAtZero: true
+          title: {
+            display: true,
+            text: getYTitle()
+          },
+          min: getScaleMin(),
+          max: getScaleMax()
+          },
+        x: {
+          display: true,
+          text: getXTitle()
+          }
+          }
         }
       }
     }
