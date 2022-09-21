@@ -1,47 +1,55 @@
-function deleteRow(row,dd) {
-    var i = row.parentNode.parentNode.rowIndex;
-    console.log(dd)
-    document.getElementById(dd).deleteRow(i);
-  }
-  
-  function addRow(dd) {
-    var x = document.getElementById(dd);
-    var new_row = x.rows[1].cloneNode(true);
-    var len = x.rows.length;
-    new_row.cells[0].innerHTML = len;
-  
-    var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-    inp1.id += len;
-    inp1.value = '';
-    var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
-    inp2.id += len;
-    inp2.value = '';
-    x.appendChild(new_row);
-  }
-  function getColNames(){
-    var numberOfRows = document.getElementById("colTable").rows.length;
-    var list = [];
-    for(let i = 1; i < numberOfRows; i++) {
-      var x = document.getElementById("colTable").rows[i].cells[1].children[0].value;
-      list.push(x);
-    }
-    console.log(list);
-    return list;
-  }
+function makeRowHTML(n) {
+  return `
+<td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
+<td><input class="valueInput" oninput="updateGraph()" value="${n}" size=10 type="number"></td>
+<td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable')"></td>
+`;
+}
+let graphData, graphConfig, myChart;
 
-  function getColValues(){
-    var list =[];
-    var numberOfRows = document.getElementById("colTable").rows.length;
-    for(let i = 1; i < numberOfRows; i++) {
-      var y = document.getElementById("colTable").rows[i].cells[2].children[0].value;
-      list.push(y);
-    }
-    console.log(list);
-    return list;
-  }
-  
-  function generateGraph(){
-  const data = {
+/**
+ * @returns the chartjs graph obj
+ */
+function getGraphObj() {
+
+}
+
+async function generateGraphObj() {
+  let 
+}
+
+function deleteRow(row, dd) {
+  var i = row.parentNode.parentNode.rowIndex;
+  console.log(dd);
+  document.getElementById(dd).deleteRow(i);
+
+  updateGraph();
+}
+
+function addRow(dd) {
+  let x = document.getElementById(dd);
+
+  let newRow = document.createElement("tr");
+  newRow.innerHTML = makeRowHTML(x.rows.length);
+
+  x.appendChild(newRow);
+}
+
+function getColNames() {
+  let rows = [...document.getElementById("colTable").rows].slice(1); // excluding the header row
+  return rows.map(row => row.querySelector(".nameInput").value); // converts the list of rows to a list of the names
+}
+
+function getColValues() {
+  let rows = [...document.getElementById("colTable").rows].slice(1); // excluding the header row
+  return rows.map(row => row.querySelector(".valueInput").value); // converts the list of rows to a list of the values
+}
+
+function generateGraph() {
+  // start with 3 table columns
+  for (let i = 0; i < 3; i++) addRow("colTable");
+
+  graphData = {
     labels: getColNames(),
     datasets: [{
       label: 'Weekly Sales',
@@ -70,9 +78,9 @@ function deleteRow(row,dd) {
   };
 
   // config 
-  const config = {
+  graphConfig = {
     type: 'bar',
-    data,
+    data: graphData,
     options: {
       plugins: {
         dragData: {
@@ -90,8 +98,14 @@ function deleteRow(row,dd) {
   };
 
   // render init block
-  const myChart = new Chart(
+  myChart = new Chart(
     document.getElementById('myChart'),
-    config
+    graphConfig
   );
+}
+
+function updateGraph() {
+  myChart.data.labels = getColNames();
+  myChart.data.datasets[0].data = getColValues();
+  myChart.update();
 }
