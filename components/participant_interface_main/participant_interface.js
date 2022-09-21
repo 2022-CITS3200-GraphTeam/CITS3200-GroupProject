@@ -41,7 +41,12 @@ function closeNav() {
 }
 function updateSection(){
 //On update click > Grab integer value from input box > update data value in graph
-//
+const sectionValue = document.getElementById("sectionName").value;
+const sectionName = document.getElementById("integerValue").value;
+
+//Initial attempt at understanding how to update values - high level idea experimenting
+//myChart.data.labels[index] =  sectionName;
+//myChart.data.datasets[datasetIndex].data[index] =  sectionValue;
 }
 
 function generateGraph() {
