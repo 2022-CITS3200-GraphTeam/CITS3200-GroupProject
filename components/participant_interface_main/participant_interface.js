@@ -107,6 +107,7 @@ function generateGraph() {
           //console.log(firstPoint);
           const value = myChart.data.datasets[firstPoint.datasetIndex].
               data[firstPoint.index];
+          document.getElementById("integerValue").value = value
           console.log(value);
 
           //Still to add correct reference to bar data structure - gotta think about 
