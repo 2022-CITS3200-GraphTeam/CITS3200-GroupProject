@@ -7,17 +7,6 @@ function makeRowHTML(n) {
 }
 let graphData, graphConfig, myChart;
 
-/**
- * @returns the chartjs graph obj
- */
-function getGraphObj() {
-
-}
-
-async function generateGraphObj() {
-  let 
-}
-
 function deleteRow(row, dd) {
   var i = row.parentNode.parentNode.rowIndex;
   console.log(dd);
