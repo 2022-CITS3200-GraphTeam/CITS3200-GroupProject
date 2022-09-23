@@ -1,56 +1,85 @@
-// ? currently injecting everything that is needed; should some of it be loaded from github pages?
-// advantages of loading: smaller payload, easier to separate out and organise code, less jank
-// disadvantages: - changing the hosted code will break old surveys
-//                - potential security vulnerability, but the user is already copying in the code from the website and other stuff is loaded from CDNs so probably fine?
+import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
+import { BASE_URL, INIT_MESSAGE, READY_MESSAGE } from "./consts.mjs";
 
-// ! TODO change import location to read from somewhere
-export const baseURL = "https://cdn.jsdelivr.net/gh/2022-CITS3200-GraphTeam/CITS3200-GroupProject@23+45-submit-stub";
-
-// * note: graphObj as a (JSON) string
-export async function injectionLoader(graphObjJSON) {
-  let graphObj = JSON.parse(graphObjJSON);
-  
-  // load (this) module
-  // ! TODO change import location to read from somewhere
-  let modulePromise = import("https://cdn.jsdelivr.net/gh/2022-CITS3200-GraphTeam/CITS3200-GroupProject@23+45-submit-stub/components/qualtrics/injection.min.mjs");
-
-  // add qualtrics event handlers
-  Qualtrics.SurveyEngine.addOnload(async function() { (await modulePromise).onLoad(this, JSON.parse(graphObj)); });
-  Qualtrics.SurveyEngine.addOnReady(async function() { (await modulePromise).onReady(this, JSON.parse(graphObj)); });
-  
-  // report module loading success/failure
-  modulePromise.then(
-    () => { console.info("Loaded graph injection module."); },
-    () => { console.error("Failed to load graph injection module."); alert("Failed to load graph."); }
-  );
-}
-
-
+/**
+ * @param {QuestionData} questionDataObj 
+ * @returns {HTMLDivElement}
+ */
 function getAnswerContainer(questionDataObj) { return questionDataObj.getChoiceContainer(); }
+
+/**
+ * @param {QuestionData} questionDataObj 
+ * @returns {HTMLTextAreaElement}
+ */
 function getAnswerElement(questionDataObj) { return getAnswerContainer(questionDataObj).querySelector("textarea"); }
 
+/**
+ * @param {QuestionData} questionDataObj 
+ * @param {string} answerStr 
+ */
 function setAnswer(questionDataObj, answerStr) {
   let el = getAnswerElement(questionDataObj);
   el.value = answerStr;
 }
 
+/**
+ * @param {QuestionData} questionDataObj 
+ */
 function disableSubmit(questionDataObj) { questionDataObj.disableNextButton(); }
+
+/**
+ * @param {QuestionData} questionDataObj 
+ */
 function enableSubmit(questionDataObj) { questionDataObj.enableNextButton(); }
 
+/**
+ * Called by the injection loader when the qualtrics "onload" event fires.
+ * @param {QuestionData} questionDataObj 
+ * @param {GraphDataObject} graphObj 
+ */
 export async function onLoad(questionDataObj, graphObj) {
   // hide answer text box
   getAnswerElement(questionDataObj).style.display = "none";
 };
 
+/**
+ * Called by the injection loader when the qualtrics "onReady" event fires.
+ * @param {QuestionData} questionDataObj 
+ * @param {GraphDataObject} graphObj 
+ */
 export async function onReady(questionDataObj, graphObj) {
   setAnswer(questionDataObj, "temp answer"); // ! TEMP
 
   // add iframe
-  let graph = document.createElement("iframe");
-  let htmlURL = `${baseURL}/templates/participant_interface.html`;
+  let graphIframe = document.createElement("iframe");
+  let htmlURL = `${BASE_URL}/templates/participant_interface.html`;
   let htmlStr = await fetch(htmlURL).then(resp => resp.text()); // fetch html src (string)
   htmlStr = htmlStr.replace("<head>", `<head><base href="${htmlURL}" />`); // set base URL for iframe
-  graph.srcdoc = htmlStr;
-  graph.style = "width: 100%; height: 450px;"; // ! TEMP
-  getAnswerContainer(questionDataObj).appendChild(graph);
+  graphIframe.srcdoc = htmlStr;
+  graphIframe.style = "width: 100%; height: 450px;"; // ! TEMP
+
+  // setup coms with the iframe
+  let channel = new MessageChannel();
+  let port = channel.port1;
+
+  graphIframe.addEventListener("load", () => {
+    // setup channel listener
+    port.onmessage = (e) => {
+      switch (e.data) {
+        case READY_MESSAGE:
+          // send graph object
+          port.postMessage(graphObj);
+          break;
+        
+        default:
+          console.warn(`Ignoring unrecognised message type ("${e.data}")`);
+          break;
+      }
+    };
+
+    // establish communication channel
+    graphIframe.contentWindow.postMessage(INIT_MESSAGE, BASE_URL, [channel.port2]);
+  });
+
+  getAnswerContainer(questionDataObj).appendChild(graphIframe);
 }

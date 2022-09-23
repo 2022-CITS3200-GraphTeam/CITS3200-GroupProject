@@ -1,5 +1,5 @@
 import { writeText } from "../js_helper_funcs/clipboard.mjs";
-import { injectionLoader } from "../qualtrics/injection.mjs";
+import { injectionLoader } from "../qualtrics/injectionLoader.mjs";
 
 const copyFlagStart = `/** ------------------------ START OF BLOCK TO COPY ------------------------ **/`;
 const copyFlagEnd =   `/** ------------------------- END OF BLOCK TO COPY ------------------------- **/`;

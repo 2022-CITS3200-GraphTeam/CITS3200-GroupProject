@@ -1,4 +1,4 @@
-import { GraphRestriction } from './GraphRestriction.js'
+import { GraphRestriction } from './GraphRestriction.mjs'
 
 // Intellisense for Chart.js's `ChartConfiguration` type.
 // Based on https://github.com/chartjs/Chart.js/blob/master/types/index.d.ts
@@ -23,7 +23,6 @@ import { GraphRestriction } from './GraphRestriction.js'
  * Primarily intended for passing graph information from the admin interface
  * to the participant interface.
  *
- * @export
  * @class GraphDataObject
  */
 export class GraphDataObject {
