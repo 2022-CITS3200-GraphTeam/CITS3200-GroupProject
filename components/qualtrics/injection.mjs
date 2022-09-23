@@ -49,8 +49,6 @@ export async function onLoad(questionDataObj, graphObj) {
  * @param {GraphDataObject} graphObj 
  */
 export async function onReady(questionDataObj, graphObj) {
-  setAnswer(questionDataObj, "temp answer"); // ! TEMP
-
   // add iframe
   let graphIframe = document.createElement("iframe");
   let htmlURL = `${BASE_URL}/templates/participant_interface.html`;
@@ -79,9 +77,12 @@ export async function onReady(questionDataObj, graphObj) {
           break;
 
         case MessageType.SET_ANS:
-          // TODO set the answer in qualtrics
-          console.log("set answer request:", message.messageData);
+          let ans = message.messageData;
+          console.info("set answer request:", ans);
+          setAnswer(questionDataObj, ans);
           break;
+
+        // TODO: enable/disable submit button based on graph; more request types?
         
         default:
           console.warn(`Ignoring unrecognised message type ("${e.data}")`);

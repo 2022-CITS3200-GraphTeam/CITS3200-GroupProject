@@ -1,7 +1,7 @@
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
 import { Message, MessageType } from "../qualtrics/Message.mjs";
 
-const hostVerificationRegex = /^http:\/\/(?:(.+)\.)?localhost:5500$/;
+const hostVerificationRegex = /^https:\/\/(?:(.+)\.)?qualtrics.com$/;
 
 /** @type {MessagePort} */
 let port;
