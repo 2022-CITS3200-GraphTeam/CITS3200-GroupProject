@@ -1,5 +1,6 @@
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
-import { BASE_URL, INIT_MESSAGE, READY_MESSAGE } from "./consts.mjs";
+import { BASE_URL } from "./consts.mjs";
+import { Message, MessageType } from "./Message.mjs";
 
 /**
  * @param {QuestionData} questionDataObj 
@@ -65,10 +66,21 @@ export async function onReady(questionDataObj, graphObj) {
   graphIframe.addEventListener("load", () => {
     // setup channel listener
     port.onmessage = (e) => {
-      switch (e.data) {
-        case READY_MESSAGE:
-          // send graph object
+      /** @type {Message} */
+      let message = e.data;
+      switch (message.messageType) {
+        case undefined:
+          console.error("Missing message type in message data structure:", e);
+          break;
+
+        case MessageType.READY:
+          // send graph object to be loaded
           port.postMessage(graphObj);
+          break;
+
+        case MessageType.SET_ANS:
+          // TODO set the answer in qualtrics
+          console.log("set answer request:", message.messageData);
           break;
         
         default:
@@ -79,7 +91,7 @@ export async function onReady(questionDataObj, graphObj) {
 
     // establish communication channel
     // * note: ideally would use `BASE_URL` for the target origin, except we're setting the iframe with `srcdoc`
-    graphIframe.contentWindow.postMessage(INIT_MESSAGE, "*", [channel.port2]);
+    graphIframe.contentWindow.postMessage(new Message(MessageType.INIT), "*", [channel.port2]);
   });
 
   getAnswerContainer(questionDataObj).appendChild(graphIframe);
