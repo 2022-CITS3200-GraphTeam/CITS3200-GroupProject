@@ -78,7 +78,8 @@ export async function onReady(questionDataObj, graphObj) {
     };
 
     // establish communication channel
-    graphIframe.contentWindow.postMessage(INIT_MESSAGE, BASE_URL, [channel.port2]);
+    // * note: ideally would use `BASE_URL` for the target origin, except we're setting the iframe with `srcdoc`
+    graphIframe.contentWindow.postMessage(INIT_MESSAGE, "*", [channel.port2]);
   });
 
   getAnswerContainer(questionDataObj).appendChild(graphIframe);
