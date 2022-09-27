@@ -1,31 +1,48 @@
+function makeRowHTML(n) {
+  return `
+<td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
+<td><input class="valueInput" oninput="updateGraph()" value="${n}" size=10 type="number"></td>
+<td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable')"></td>
+`;
+}
+let graphData, graphConfig, myChart;
+
 function deleteRow(row, dd) {
   var i = row.parentNode.parentNode.rowIndex;
-  console.log(dd)
+  console.log(dd);
   document.getElementById(dd).deleteRow(i);
+
+  updateGraph();
 }
 
-function insRow(dd) {
-  console.log('hi');
-  var x = document.getElementById(dd);
-  var new_row = x.rows[1].cloneNode(true);
-  var len = x.rows.length;
-  new_row.cells[0].innerHTML = len;
+function addRow(dd) {
+  let x = document.getElementById(dd);
 
-  var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-  inp1.id += len;
-  inp1.value = '';
-  var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
-  inp2.id += len;
-  inp2.value = '';
-  x.appendChild(new_row);
+  let newRow = document.createElement("tr");
+  newRow.innerHTML = makeRowHTML(x.rows.length);
+
+  x.appendChild(newRow);
+}
+
+function getColNames() {
+  let rows = [...document.getElementById("colTable").rows].slice(1); // excluding the header row
+  return rows.map(row => row.querySelector(".nameInput").value); // converts the list of rows to a list of the names
+}
+
+function getColValues() {
+  let rows = [...document.getElementById("colTable").rows].slice(1); // excluding the header row
+  return rows.map(row => row.querySelector(".valueInput").value); // converts the list of rows to a list of the values
 }
 
 function generateGraph() {
-  const data = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  // start with 3 table columns
+  for (let i = 0; i < 3; i++) addRow("colTable");
+
+  graphData = {
+    labels: getColNames(),
     datasets: [{
       label: 'Weekly Sales',
-      data: [18, 12, 6, 9, 12, 3, 9],
+      data: getColValues(),
       backgroundColor: [
         'rgba(255, 26, 104, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -50,9 +67,9 @@ function generateGraph() {
   };
 
   // config 
-  const config = {
+  graphConfig = {
     type: 'bar',
-    data,
+    data: graphData,
     options: {
       plugins: {
         dragData: {
@@ -70,8 +87,14 @@ function generateGraph() {
   };
 
   // render init block
-  const myChart = new Chart(
+  myChart = new Chart(
     document.getElementById('myChart'),
-    config
+    graphConfig
   );
+}
+
+function updateGraph() {
+  myChart.data.labels = getColNames();
+  myChart.data.datasets[0].data = getColValues();
+  myChart.update();
 }
