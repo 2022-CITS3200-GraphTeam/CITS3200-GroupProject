@@ -1,5 +1,3 @@
-import { GraphRestriction } from './GraphRestriction.mjs'
-
 // Intellisense for Chart.js's `ChartConfiguration` type.
 // Based on https://github.com/chartjs/Chart.js/blob/master/types/index.d.ts
 
@@ -46,7 +44,7 @@ export class GraphDataObject {
      * An object describing restrictions and/or requirements on the graph
      * for it to be 'valid'. e.g. 'strictly increasing'.
      * 
-     * @type {Array<GraphRestriction>}
+     * @type {Array<string>}
      */
     this.restrictions = restrictions;
   }
