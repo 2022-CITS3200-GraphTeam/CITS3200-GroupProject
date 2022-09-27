@@ -1,0 +1,65 @@
+/* blah */
+#navbar-admin {
+
+    background-color: #CCF4AC;
+
+}
+
+.nav-item.nav-link {
+
+    font-size: 25px;
+
+    padding-left:30px;
+
+    padding-right:30px;
+
+    color: #000000;
+
+}
+
+img {
+
+    height: 1em;
+
+    width: auto;
+
+    display: inline-block;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-weight: bold;
+
+    }
+#columns {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgba(204, 244, 173);
+}
+
+.chartMenu {
+  width: 100vw;
+  height: 40px;
+  background: #1A1A1A;
+  color: rgba(255, 26, 104, 1);
+}
+.chartMenu p {
+  padding: 10px;
+  font-size: 20px;
+}
+.chartCard {
+  width: 100vw;
+  height: calc(100vh - 40px);
+  background: rgba(255, 26, 104, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chartBox {
+  width: 700px;
+  padding: 20px;
+  border-radius: 20px;
+  border: solid 3px rgba(255, 26, 104, 1);
+  background: white;
+}

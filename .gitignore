@@ -1,1 +1,5 @@
-node_modules
+# mac metadata
+**/.DS_Store
+
+# nodejs library files
+node_modules/

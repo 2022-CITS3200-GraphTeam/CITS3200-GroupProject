@@ -1,31 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="../components/admin_interface_main/main.css" rel="stylesheet">
+  <script src="../components/admin_interface_main/main.js"></script>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World Setter</title>
+  <nav class="navbar navbar-expand-sm py-3" id="navbar-admin">
+
+    <ul class="navbar-nav">
+
+      <li><a class="nav-item nav-link"><img src="../components/admin_interface_main/Icons/icon_menu_.png"> </a></li>
+
+      <li><a class="nav-item nav-link">Help <img src="../components/admin_interface_main/Icons/icon_help.png"></a></li>
+
+    </ul>
+
+  </nav>
+  <title>Admin Interface</title>
+
 </head>
-<body>
+
+<body onload="generateGraph()">
   <div>
-    <button id="testButton"></button>
-    <textarea id="testOutput"></textarea>
+    <div class="chartMenu"></div>
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
+  </div>
+  <br>
+  <center>
+    <table id="colTable" border="1">
+      <tr>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Delete</th>
+      </tr>
+    </table>
+    <input type="button" id="addColButton" value="Add Column" onclick="addRow('colTable');updateGraph()">
+  </center>
+  <br>
+  <div>
+    <center><button id="submitButton">Submit</button></center>
   </div>
 
-  <script>
-    let testButton = document.getElementById("testButton");
-    let testOutput = document.getElementById("testOutput");
-    testButton.addEventListener("click", (e) => {
-      testOutput.value = `
-Qualtrics.SurveyEngine.addOnload(function() {
-	let input = document.querySelector(\`#QID2 > div.Inner.BorderColor.ML > div > fieldset > div > div > textarea\`);
-	input.style.display = "none";
-});
-Qualtrics.SurveyEngine.addOnReady(function() {
-	let input = document.querySelector(\`#QID2 > div.Inner.BorderColor.ML > div > fieldset > div > div > textarea\`);
-	input.value = "${prompt("answer to input:")}";
-});`;
-    });
-  </script>
+  <script type="module" src="../components/admin_interface_main/setup.mjs"></script>
 </body>
+
 </html>
