@@ -63,6 +63,11 @@ function handleGraphLoadRequest(e) {
   /** @type {GraphDataObject} */
   let graphObj = e.data;
 
-  // ! TODO call participant interface load graph func
+  if (!graphObj) {
+    console.error("bad graph load request:", graphObj);
+    return;
+  }
+
   console.log("load request for:", graphObj);
+  loadGraph(graphObj); // defined in `participant_interface.js`
 }
