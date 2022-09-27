@@ -50,10 +50,6 @@ function updateSection() {
   graphChart.update();
 }
 
-//Initial attempt at understanding how to update values - high level idea experimenting
-//myChart.data.labels[index] =  sectionName;
-//myChart.data.datasets[datasetIndex].data[index] =  sectionValue;
-
 /**
  * @param {GraphDataObject} graphObj
  * * note: this file is not a js module, so the GraphDataObject type can't be imported

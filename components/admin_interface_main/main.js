@@ -98,3 +98,8 @@ function updateGraph() {
   myChart.data.datasets[0].data = getColValues();
   myChart.update();
 }
+
+// returns the ChartJS graph obj
+function getChartObj() {
+  return myChart.config._config;
+}

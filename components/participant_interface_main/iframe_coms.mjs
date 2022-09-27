@@ -12,7 +12,7 @@ let port;
 export function handleInjectionMessage(e) {
   // check the event is from Qualtrics
   if (!hostVerificationRegex.test(e.origin)) {
-    console.info(`Ignoring request from non-qualtrics origin "${e.origin}"`);
+    console.warn(`Ignoring request from non-qualtrics origin "${e.origin}"`);
     return false;
   }
 
