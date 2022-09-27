@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" 
-    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+    crossorigin="anonymous"></script>
 
   <link href="../components/participant_interface_main/participant_interface.css" rel="stylesheet">
   <meta charset="UTF-8" />
@@ -18,55 +19,57 @@
 <body onload="generateGraphPreset()">
   <!-- Trigger/Open The Modal -->
   <div class="helpBar">
-    <button id="helpButton" button type="button" class="btn btn-light">Help <img src="../components/participant_interface_main/Icons/icon_help.png" height="10%"; width="10%"></button>
+    <button id="helpButton" button type="button" class="btn btn-light">Help <img
+        src="../components/participant_interface_main/Icons/icon_help.png" height="10%" ; width="10%"></button>
   </div>
 
   <!-- The Modal -->
   <div id="myModal" class="modal">
-  
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <strong>Tutorial</strong> <br /><br />
-    To begin click a section of the graph and drag it up or down.<br />
-    You will be restricted to a total size for the graph, the graph can only
-    be submitted when all values reach the total. <br /> <br>
-    Specific values can be entered using the text areas below the graph. <br /> <br/> 
-    <button id="confirmButton" class="btn btn-secondary">Confirm</button>
-  </div>
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <strong>Tutorial</strong> <br /><br />
+      To begin click a section of the graph and drag it up or down.<br />
+      You will be restricted to a total size for the graph, the graph can only
+      be submitted when all values reach the total. <br /> <br>
+      Specific values can be entered using the text areas below the graph. <br /> <br />
+      <button id="confirmButton" class="btn btn-secondary">Confirm</button>
+    </div>
   </div>
 
-    <!--Area where the graph will be placed in
+  <!--Area where the graph will be placed in
     <div class="container graphArea text-center" id="graphArea" >
       Graph Area
     </div>-->
   <div>
     <div class="chartMenu"></div>
-      <div class="chartCard">
-        <div class="chartBox">
-            <canvas id="myChart"></canvas>
-        </div>
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="myChart"></canvas>
       </div>
-      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <script
-        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
   </div>
   <br>
 
-    <!--Section name and Integer Value Input-->
+  <!--Section name and Integer Value Input-->
   <div class="forms">
-  <label for="sectionName">Section Name</label>
-  <input type="text" id="sectionName" class="form-control"> 
+    <label for="sectionName">Section Name</label>
+    <input type="text" id="sectionName" class="form-control">
 
-  <label for="integerValue">Integer Value</label>
-  <input type="number" min="0" id="integerValue" class="form-control" oninput="updateSection()"> <br /> <br>
+    <label for="integerValue">Integer Value</label>
+    <input type="number" min="0" id="integerValue" class="form-control" oninput="updateSection()"> <br /> <br>
   </div>
 
   <!--Graph submit button-->
   <div class="text-center">
     <button id="submitButton" button type="button" class="btn btn-light">Submit</button>
   </div>
-</div>
-<script src="../components/participant_interface_main/participant_interface.js"></script>
+  <script type="module" src="../components/participant_interface_main/setup.mjs"></script>
+  <script src="../components/participant_interface_main/participant_interface.js"></script>
 </body>
+
 </html>

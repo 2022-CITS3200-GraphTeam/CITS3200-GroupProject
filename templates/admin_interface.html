@@ -24,7 +24,7 @@
 
 </head>
 
-<body>
+<body onload="generateGraph()">
   <div>
     <div class="chartMenu"></div>
     <div class="chartCard">
@@ -32,42 +32,21 @@
         <canvas id="myChart"></canvas>
       </div>
     </div>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
     <script
       src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
-    <script>generateGraph()</script>
   </div>
   <br>
-
   <center>
-    <table id="POITable" border="1">
+    <table id="colTable" border="1">
       <tr>
-        <td>Column Number</td>
-        <td>Name</td>
-        <td>Value</td>
-        <td>Delete</td>
-
-      </tr>
-      <tr>
-        <td>1</td>
-        <td><input value="" size=20 type="text" id="latbox" /></td>
-        <td><input value="" size=20 type="text" id="lngbox" /></td>
-        <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'POITable')" /></td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td><input value="" size=20 type="text" id="latbox" /></td>
-        <td><input value="" size=20 type="text" id="lngbox" /></td>
-        <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'POITable')" /></td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td><input value="" size=20 type="text" id="latbox" /></td>
-        <td><input value="" size=20 type="text" id="lngbox" /></td>
-        <td><input type="button" id="delPOIbutton" value="Delete" onclick="deleteRow(this,'POITable')" /></td>
+        <th>Name</th>
+        <th>Value</th>
+        <th>Delete</th>
       </tr>
     </table>
-    <input type="button" id="addmorePOIbutton" value="Add Column" onclick="insRow('POITable')" />
+    <input type="button" id="addColButton" value="Add Column" onclick="addRow('colTable');updateGraph()">
   </center>
   <br>
   <div>
