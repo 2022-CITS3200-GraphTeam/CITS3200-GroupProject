@@ -17,9 +17,6 @@ export function loadGraph(graphObj) {
     return dragHandler(datasetIndex, index, value);
   };
 
-  // ! TEMP
-  graphObj.restrictions = ["[1] > [2]"];
-
   // TODO: process `graphObj.restrictions` (see issue #8, or child issues of it)
   // returns true iff all restrictions are satisfied
   function verifyRestrictions(override) {
