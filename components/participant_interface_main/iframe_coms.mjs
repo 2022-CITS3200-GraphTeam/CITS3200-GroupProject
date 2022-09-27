@@ -1,5 +1,6 @@
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
 import { Message, MessageType } from "../qualtrics/Message.mjs";
+import { loadGraph } from "./graph_handlers.mjs";
 
 const hostVerificationRegex = /^https:\/\/(?:(.+)\.)?qualtrics.com$/;
 
