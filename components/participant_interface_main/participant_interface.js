@@ -45,9 +45,7 @@ function updateSection() {
   //On update click > Grab integer value from input box > update data value in graph
   const sectionValue = document.getElementById("integerValue").value;
   const sectionName = document.getElementById("sectionName").value;
-  //console.log(myChart.data.labels[1]);
   const sectionIndex = graphChart.data.labels.indexOf(sectionName);
-  console.log(sectionIndex);
   graphChart.data.datasets[0].data[sectionIndex] = sectionValue;
   graphChart.update();
 }
@@ -101,10 +99,13 @@ function generateGraphPreset() {
 
 /** */
 function loadGraph(graphObj) {
+  // create the `graphObj.options.plugins.dragData` object,
+  // if it doesn't already exist in the graph settings
+  graphObj.options = graphObj.options ?? {};
+  graphObj.options.plugins = graphObj.options.plugins ?? {};
+  graphObj.options.plugins.dragData = graphObj.options.plugins.dragData ?? {};
+
   // update the input when a drag occurs
-  if (graphObj.options === undefined) graphObj.options = {};
-  if (graphObj.options.plugins === undefined) graphObj.options.plugins = {};
-  if (graphObj.options.plugins.dragData === undefined) graphObj.options.plugins.dragData = {};
   graphObj.options.plugins.dragData.onDrag = (event, datasetIndex, index, value) => {
     dragHandler(datasetIndex, index, value)
   };
