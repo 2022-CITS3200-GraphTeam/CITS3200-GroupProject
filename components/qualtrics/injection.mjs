@@ -78,7 +78,7 @@ export async function onReady(questionDataObj, graphObj) {
 
         case MessageType.SET_ANS:
           let ans = message.messageData;
-          console.info("set answer request:", ans);
+          console.info("set answer request:", JSON.stringify(ans));
           setAnswer(questionDataObj, ans);
           break;
 
