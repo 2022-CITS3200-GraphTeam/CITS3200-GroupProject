@@ -103,8 +103,5 @@ function updateGraph() {
 
 function dragHandler(datasetIndex, index, value) {
     const name = myChart.data.labels[index];
-
-    //console.log(data.labels)
-    document.getElementsByClassName("nameInput")[index].value = name;
     document.getElementsByClassName("valueInput")[index].value = value;
   }
