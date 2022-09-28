@@ -7,7 +7,7 @@ var btn = document.getElementById("helpButton");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-let graphChart;
+let myChart;
 
 // When the user clicks the button, open the modal 
 btn.onclick = function () {
@@ -45,9 +45,9 @@ function updateSection() {
   //On update click > Grab integer value from input box > update data value in graph
   const sectionValue = document.getElementById("integerValue").value;
   const sectionName = document.getElementById("sectionName").value;
-  const sectionIndex = graphChart.data.labels.indexOf(sectionName);
-  graphChart.data.datasets[0].data[sectionIndex] = sectionValue;
-  graphChart.update();
+  const sectionIndex = myChart.data.labels.indexOf(sectionName);
+  myChart.data.datasets[0].data[sectionIndex] = sectionValue;
+  myChart.update();
 }
 
 //Initial attempt at understanding how to update values - high level idea experimenting
@@ -113,21 +113,21 @@ function loadGraph(graphObj) {
   //pintpointing the chart, so that the click understands the canvs tag
   const ctx = document.getElementById('myChart');
   // render init block
-  graphChart = new Chart(
+  myChart = new Chart(
     document.getElementById('myChart'),
     graphObj
   );
 
   //Function that understands the clicking event - testing how to properly use this
   function clickHandler(click) {
-    const points = graphChart.getElementsAtEventForMode(click, 'nearest',
+    const points = myChart.getElementsAtEventForMode(click, 'nearest',
       { intersect: true }, true);
 
     if (points.length) {
       const firstPoint = points[0];
-      const value = graphChart.data.datasets[firstPoint.datasetIndex].
+      const value = myChart.data.datasets[firstPoint.datasetIndex].
         data[firstPoint.index];
-      const name = graphChart.data.labels[firstPoint.index];
+      const name = myChart.data.labels[firstPoint.index];
 
       //console.log(data.labels)
       document.getElementById("sectionName").value = name;
@@ -138,7 +138,7 @@ function loadGraph(graphObj) {
 
   //Function that understands the clicking event - testing how to properly use this
   function dragHandler(datasetIndex, index, value) {
-    const name = graphChart.data.labels[index];
+    const name = myChart.data.labels[index];
 
     //console.log(data.labels)
     document.getElementById("sectionName").value = name;

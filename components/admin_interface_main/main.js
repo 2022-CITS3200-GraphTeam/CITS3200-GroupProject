@@ -73,8 +73,8 @@ function generateGraph() {
     options: {
       plugins: {
         dragData: {
-          onDragStart: (event) => {
-            console.log(event)
+          onDrag: (event, datasetIndex, index, value) => {
+            dragHandler(datasetIndex, index, value)
           }
         }
       },
@@ -91,6 +91,8 @@ function generateGraph() {
     document.getElementById('myChart'),
     graphConfig
   );
+  //calling load graph with myChart
+  loadGraph(myChart);
 }
 
 function updateGraph() {
@@ -98,3 +100,11 @@ function updateGraph() {
   myChart.data.datasets[0].data = getColValues();
   myChart.update();
 }
+
+function dragHandler(datasetIndex, index, value) {
+    const name = myChart.data.labels[index];
+
+    //console.log(data.labels)
+    document.getElementsByClassName("nameInput")[index].value = name;
+    document.getElementsByClassName("valueInput")[index].value = value;
+  }
