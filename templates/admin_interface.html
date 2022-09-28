@@ -39,6 +39,24 @@
   </div>
   <br>
   <center>
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" oninput="updateGraph()" placeholder="Enter Title"><br>
+    <label for="xTitle">X-axis Title:</label>
+    <input type="text" id="xTitle" name="xTitle" oninput="updateGraph()" placeholder="Title for x axis"><br>
+    <label for="yTitle">Y-axis Title:</label>
+    <input type="text" id="yTitle" name="yTitle" oninput="updateGraph()" placeholder="Title for y axis"><br>
+    <label for="scaleMax">Maximum for Scale:</label>
+    <input type="text" id="scaleMax" name="scaleMax" oninput="updateGraph()" value="20"><br>
+    <label for="scaleMin">Minimum for Scale:</label>
+    <input type="text" id="scaleMin" name="scaleMin" oninput="updateGraph()" value="0"><br>
+    <label for="scaleIncrement">Scale Increment:</label>
+    <input type="text" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" placeholder="2"><br>
+    <label for="scaleIncrement">Step size:</label>
+    <input type="text" id="stepSize" name="stepSize" oninput="updateGraph()" placeholder="0.5"><br>
+    <label for="totalSum">Total Sum:</label>
+    <input type="text" id="totalSum" name="totalSum" oninput="updateGraph()" placeholder="50"><br><br>
+
     <table id="colTable" border="1">
       <tr>
         <th>Name</th>
