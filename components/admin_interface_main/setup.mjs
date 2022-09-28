@@ -3,7 +3,7 @@ import { generateCode, outputGeneratedCode } from "./participant_interface_gener
 
 document.getElementById("submitButton").addEventListener("click", async () => {
   let chartObj = getChartObj(); // `getChartObj` defined in `main.js`
-  let graphRestrictions = []; // TODO - see issue #8 (or relevant child issues)
+  let graphRestrictions = getRestrictions(); // `getRestrictions` defined in `main.js`
   let graphObj = new GraphDataObject(chartObj, graphRestrictions);
 
   let codeStr = await generateCode(graphObj);
