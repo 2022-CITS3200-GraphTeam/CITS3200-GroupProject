@@ -146,4 +146,14 @@ function loadGraph(graphObj) {
   }
 }
 
+//Function for dropdown menu have to implement auto-grabbing sectionNames
+document.addEventListener("DOMContentLoaded", popOptions());
+
+function popOptions(){
+  console.log(graphChart.data.labels);
+  
+  var x = document.getElementById("sectionName");
+  var option = new Option("Wed", "Wed");
+  x.appendChild(option);
+ };
 

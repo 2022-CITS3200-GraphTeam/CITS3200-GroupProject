@@ -58,8 +58,12 @@
   <!--Section name and Integer Value Input-->
   <div class="forms">
     <label for="sectionName">Section Name</label>
-    <input type="text" id="sectionName" class="form-control">
-
+    <br>
+    <select name="section" id="sectionName">
+      <option value="Mon"> Mon </option>
+      <option value="Tue"> Tue </option>
+    </select>
+    <br>
     <label for="integerValue">Integer Value</label>
     <input type="number" min="0" id="integerValue" class="form-control" oninput="updateSection()"> <br /> <br>
   </div>
