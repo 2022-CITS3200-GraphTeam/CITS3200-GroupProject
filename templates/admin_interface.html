@@ -47,15 +47,15 @@
     <label for="yTitle">Y-axis Title:</label>
     <input type="text" id="yTitle" name="yTitle" oninput="updateGraph()" placeholder="Title for y axis"><br>
     <label for="scaleMax">Maximum for Scale:</label>
-    <input type="text" id="scaleMax" name="scaleMax" oninput="updateGraph()" value="20"><br>
+    <input type="number" id="scaleMax" name="scaleMax" oninput="updateGraph()" placeholder="20" step="0.5"><br>
     <label for="scaleMin">Minimum for Scale:</label>
-    <input type="text" id="scaleMin" name="scaleMin" oninput="updateGraph()" value="0"><br>
+    <input type="number" id="scaleMin" name="scaleMin" oninput="updateGraph()" placeholder="0" step="0.5"><br>
     <label for="scaleIncrement">Scale Increment:</label>
-    <input type="text" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" placeholder="2"><br>
-    <label for="scaleIncrement">Step size:</label>
-    <input type="text" id="stepSize" name="stepSize" oninput="updateGraph()" placeholder="0.5"><br>
+    <input type="number" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" placeholder="2" step="0.1"><br>
+    <label for="stepSize">Step size:</label>
+    <input type="number" id="stepSize" name="stepSize" oninput="updateGraph()" placeholder="0.5" step="0.1"><br>
     <label for="totalSum">Total Sum:</label>
-    <input type="text" id="totalSum" name="totalSum" oninput="updateGraph()" placeholder="50"><br><br>
+    <input type="number" id="totalSum" name="totalSum" oninput="updateGraph()" placeholder="50"><br><br>
 
     <table id="colTable" border="1">
       <tr>

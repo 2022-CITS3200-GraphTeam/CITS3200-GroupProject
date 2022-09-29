@@ -48,15 +48,15 @@ function getXTitle() {
 }
 function getScaleMin() {
   var testScaleMin = document.getElementById("scaleMin").value;
-  return testScaleMin;
+  return Math.round(testScaleMin*100)/100;
 }
 function getScaleMax() {
   var testScaleMax = document.getElementById("scaleMax").value;
-  return testScaleMax;
+  return Math.round(testScaleMax*100)/100;
 }
 function getScaleIncrement() {
-  var testScaleIncrement = document.getElementById("scale").value;
-  return testScaleIncrement;
+  var testScaleIncrement = document.getElementById("scaleIncrement").value;
+  return Math.round(testScaleIncrement*100)/100;
 }
 
 
@@ -146,8 +146,8 @@ function updateGraph() {
   myChart.config._config.options.plugins.title.text = getTitle();
   myChart.config._config.options.scales.y.title.text = getYTitle();
   myChart.config._config.options.scales.x.title.text = getXTitle();
-  //myChart.config._config.options.scales.y.min = getScaleMin();
-  //myChart.config._config.options.scales.y.max = getScaleMax();
-  //myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
+  myChart.config._config.options.scales.y.min = getScaleMin();
+  myChart.config._config.options.scales.y.max = getScaleMax();
+  myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
   myChart.update();
 }
