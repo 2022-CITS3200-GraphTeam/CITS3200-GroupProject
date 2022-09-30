@@ -41,8 +41,9 @@ function closeNav() {
   document.getElementById("mainSidebar").style.marginLeft = "0";
 
 }
+
+//Function that updates graph value based on integer value
 function updateSection() {
-  //On update click > Grab integer value from input box > update data value in graph
   const sectionValue = document.getElementById("integerValue").value;
   const sectionName = document.getElementById("sectionName").value;
   const sectionIndex = graphChart.data.labels.indexOf(sectionName);
@@ -50,9 +51,14 @@ function updateSection() {
   graphChart.update();
 }
 
-//Initial attempt at understanding how to update values - high level idea experimenting
-//myChart.data.labels[index] =  sectionName;
-//myChart.data.datasets[datasetIndex].data[index] =  sectionValue;
+//Function on Section name selection updates the integer value box
+//on Section Name selection > integer value box updates with graph integer value
+function updateInteger() {
+  const select = document.getElementById("sectionName");
+  const sectionOption = select.options[select.selectedIndex].value;
+  const sectionIndex = graphChart.data.labels.indexOf(sectionOption);
+  document.getElementById("integerValue").value = graphChart.data.datasets[0].data[sectionIndex];
+}
 
 // ! TEMP - exists to load the graph for testing; should be removed when the qualtrics injection calls the graph generation
 function generateGraphPreset() {
@@ -117,7 +123,7 @@ function loadGraph(graphObj) {
     document.getElementById('myChart'),
     graphObj
   );
-
+  
   //Function that understands the clicking event - testing how to properly use this
   function clickHandler(click) {
     const points = graphChart.getElementsAtEventForMode(click, 'nearest',
@@ -144,16 +150,17 @@ function loadGraph(graphObj) {
     document.getElementById("sectionName").value = name;
     document.getElementById("integerValue").value = value;
   }
-}
 
-//Function for dropdown menu have to implement auto-grabbing sectionNames
-document.addEventListener("DOMContentLoaded", popOptions());
-
-function popOptions(){
-  console.log(graphChart.data.labels);
-  
-  var x = document.getElementById("sectionName");
-  var option = new Option("Wed", "Wed");
-  x.appendChild(option);
- };
+  //Function that populates the Section Name options with labels from the Graph
+  function popOptions(){
+    graphChart.data.labels.forEach(function(option){
+      var allOptions = document.getElementById("sectionName");
+      var option = new Option(option, option);
+      allOptions.appendChild(option);
+    });
+  };
+  popOptions();
+      
+};
+ 
 
