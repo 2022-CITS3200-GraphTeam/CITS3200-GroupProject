@@ -34,6 +34,32 @@ function getColValues() {
   return rows.map(row => row.querySelector(".valueInput").value); // converts the list of rows to a list of the values
 }
 
+function getTitle() {
+  var testTitle = document.getElementById("title").value;
+  return testTitle;
+}
+function getYTitle() {
+  var testYTitle = document.getElementById("yTitle").value;
+  return testYTitle;
+}
+function getXTitle() {
+  var testXTitle = document.getElementById("xTitle").value;
+  return testXTitle;
+}
+function getScaleMin() {
+  var testScaleMin = document.getElementById("scaleMin").value;
+  return Math.round(testScaleMin*100)/100;
+}
+function getScaleMax() {
+  var testScaleMax = document.getElementById("scaleMax").value;
+  return Math.round(testScaleMax*100)/100;
+}
+function getScaleIncrement() {
+  var testScaleIncrement = document.getElementById("scaleIncrement").value;
+  return Math.round(testScaleIncrement*100)/100;
+}
+
+
 function generateGraph() {
   // start with 3 table columns
   for (let i = 0; i < 3; i++) addRow("colTable");
@@ -72,6 +98,13 @@ function generateGraph() {
     data: graphData,
     options: {
       plugins: {
+        title: {
+          display: true,
+          text: "title"
+        },
+        legend: {
+          display: false
+        },
         dragData: {
           onDragStart: (event) => {
             console.log(event)
@@ -80,7 +113,21 @@ function generateGraph() {
       },
       scales: {
         y: {
-          beginAtZero: true
+          title: {
+            display: true,
+            text: "y"
+          },
+          min: 0,
+          max: 20,
+          ticks: {
+            stepSize: 2
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: "x"
+          }
         }
       }
     }
@@ -96,6 +143,12 @@ function generateGraph() {
 function updateGraph() {
   myChart.data.labels = getColNames();
   myChart.data.datasets[0].data = getColValues();
+  myChart.config._config.options.plugins.title.text = getTitle();
+  myChart.config._config.options.scales.y.title.text = getYTitle();
+  myChart.config._config.options.scales.x.title.text = getXTitle();
+  myChart.config._config.options.scales.y.min = getScaleMin();
+  myChart.config._config.options.scales.y.max = getScaleMax();
+  myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
   myChart.update();
 }
 
@@ -109,4 +162,33 @@ function getRestrictions() {
   let restrictionStr = document.getElementById("restrictionsInput").value;
   let restrictions = restrictionStr.split(",");
   return restrictions.map(v => v.replace(/[ \s\n]/g, "")).filter(v => !!v);
+}
+
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("helpButton");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function () {
+  modal.style.display = "block";
+}
+window.onerror = function (e) {
+  alert(e);
+}
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }
