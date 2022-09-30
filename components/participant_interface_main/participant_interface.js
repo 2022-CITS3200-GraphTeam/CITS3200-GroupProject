@@ -51,6 +51,7 @@ function updateSection() {
   graphChart.update();
 }
 
+
 //Function on Section name selection updates the integer value box
 
 function updateInteger() {
@@ -105,15 +106,21 @@ function generateGraphPreset() {
 }
 
 /** */
+=======
+/**
+ * @param {GraphDataObject} graphObj
+ * * note: this file is not a js module, so the GraphDataObject type can't be imported
+ */
+
 function loadGraph(graphObj) {
-  // create the `graphObj.options.plugins.dragData` object,
+  // create the `graphObj.chartConfig.options.plugins.dragData` object,
   // if it doesn't already exist in the graph settings
-  graphObj.options = graphObj.options ?? {};
-  graphObj.options.plugins = graphObj.options.plugins ?? {};
-  graphObj.options.plugins.dragData = graphObj.options.plugins.dragData ?? {};
+  graphObj.chartConfig.options = graphObj.chartConfig.options ?? {};
+  graphObj.chartConfig.options.plugins = graphObj.chartConfig.options.plugins ?? {};
+  graphObj.chartConfig.options.plugins.dragData = graphObj.chartConfig.options.plugins.dragData ?? {};
 
   // update the input when a drag occurs
-  graphObj.options.plugins.dragData.onDrag = (event, datasetIndex, index, value) => {
+  graphObj.chartConfig.options.plugins.dragData.onDrag = (event, datasetIndex, index, value) => {
     dragHandler(datasetIndex, index, value)
     };
   graphObj.options.plugins.dragData.onDragEnd = (event, datasetIndex, index, value) => {
@@ -122,23 +129,22 @@ function loadGraph(graphObj) {
     graphChart.update();
     };
 
-  //pintpointing the chart, so that the click understands the canvs tag
+  // TODO: process `graphObj.restrictions` (see issue #8, or child issues of it)
+
+  // pintpointing the chart, so that the click understands the canvas tag
   const ctx = document.getElementById('myChart');
-  // render init block
-  graphChart = new Chart(
-    document.getElementById('myChart'),
-    graphObj
-  );
-  
-  //Function that understands the clicking event - testing how to properly use this
+
+
+  // create the (ChartJS) chart object
+  graphChart = new Chart(ctx, graphObj.chartConfig);
+
+  // Function that understands the clicking event - testing how to properly use this
   function clickHandler(click) {
-    const points = graphChart.getElementsAtEventForMode(click, 'nearest',
-      { intersect: true }, true);
+    const points = graphChart.getElementsAtEventForMode(click, 'nearest', { intersect: true }, true);
 
     if (points.length) {
       const firstPoint = points[0];
-      const value = graphChart.data.datasets[firstPoint.datasetIndex].
-        data[firstPoint.index];
+      const value = graphChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
       const name = graphChart.data.labels[firstPoint.index];
 
       document.getElementById("sectionName").value = name;
@@ -147,14 +153,14 @@ function loadGraph(graphObj) {
   }
   ctx.onclick = clickHandler;
 
-  //Function that understands the clicking event - testing how to properly use this
+  // Function that understands the clicking event - testing how to properly use this
   function dragHandler(datasetIndex, index, value) {
     const name = graphChart.data.labels[index];
 
     document.getElementById("sectionName").value = name;
     document.getElementById("integerValue").value = Math.round(value*100)/100;
   }
-
+  
   //Function that populates the Section Name options with labels from the Graph
   function popOptions(){
     graphChart.data.labels.forEach(function(option){
@@ -169,4 +175,27 @@ function loadGraph(graphObj) {
   document.getElementById("integerValue").defaultValue = graphChart.data.datasets[0].data[0];
 };
  
+// currently outputs in a CSV format: firs
+/**
+ * Returns a string representation of the chart output; the answer to give to Qualtrics.
+ * The output is in a CSV format: the first row is the label names, and the second the values.
+ * @returns {string}
+ */
+function getAnswerStr() {
+  // encodes the label to a CSV-compatible value
+  let graphLabels = [...graphChart.data.labels].map(label => {
+    // replace quotes with double quotes
+    label = label.replace(/"/g, `""`);
 
+    // encapsulate with quotes
+    label = `"${label}"`;
+
+    return label;
+  });
+
+  // encodes the (string) values from the graph as floats
+  let graphData = [...graphChart.data.datasets[0].data].map(value => parseFloat(value));
+
+  // returns the labels and values as a CSV
+  return graphLabels.join(",") + "\n" + graphData.join(",");
+}
