@@ -118,7 +118,8 @@ function loadGraph(graphObj) {
     };
   graphObj.options.plugins.dragData.onDragEnd = (event, datasetIndex, index, value) => {
     dragHandler(datasetIndex, index, value);
-    graphChart.data.datasets[0].data[index] = document.getElementById("integerValue").value;
+    graphChart.data.datasets[0].data[index] = Math.round(value*100)/100;
+    graphChart.update();
     };
 
   //pintpointing the chart, so that the click understands the canvs tag
