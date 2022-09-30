@@ -104,9 +104,6 @@ function generateGraphPreset() {
 
   loadGraph(chartjsObj);
 }
-
-/** */
-=======
 /**
  * @param {GraphDataObject} graphObj
  * * note: this file is not a js module, so the GraphDataObject type can't be imported
@@ -123,7 +120,7 @@ function loadGraph(graphObj) {
   graphObj.chartConfig.options.plugins.dragData.onDrag = (event, datasetIndex, index, value) => {
     dragHandler(datasetIndex, index, value)
     };
-  graphObj.options.plugins.dragData.onDragEnd = (event, datasetIndex, index, value) => {
+  graphObj.chartConfig.options.plugins.dragData.onDragEnd = (event, datasetIndex, index, value) => {
     dragHandler(datasetIndex, index, value);
     graphChart.data.datasets[0].data[index] = Math.round(value*100)/100;
     graphChart.update();
