@@ -52,13 +52,14 @@ function updateSection() {
 }
 
 //Function on Section name selection updates the integer value box
-//on Section Name selection > integer value box updates with graph integer value
+
 function updateInteger() {
   const select = document.getElementById("sectionName");
   const sectionOption = select.options[select.selectedIndex].value;
   const sectionIndex = graphChart.data.labels.indexOf(sectionOption);
   document.getElementById("integerValue").value = graphChart.data.datasets[0].data[sectionIndex];
 }
+
 
 // ! TEMP - exists to load the graph for testing; should be removed when the qualtrics injection calls the graph generation
 function generateGraphPreset() {
@@ -114,7 +115,10 @@ function loadGraph(graphObj) {
   // update the input when a drag occurs
   graphObj.options.plugins.dragData.onDrag = (event, datasetIndex, index, value) => {
     dragHandler(datasetIndex, index, value)
-  };
+    };
+  graphObj.options.plugins.dragData.onDragEnd = (event, datasetIndex, index, value) => {
+    dragHandler(datasetIndex, index, value)
+    };
 
   //pintpointing the chart, so that the click understands the canvs tag
   const ctx = document.getElementById('myChart');
@@ -135,7 +139,6 @@ function loadGraph(graphObj) {
         data[firstPoint.index];
       const name = graphChart.data.labels[firstPoint.index];
 
-      //console.log(data.labels)
       document.getElementById("sectionName").value = name;
       document.getElementById("integerValue").value = value;
     }
@@ -146,9 +149,8 @@ function loadGraph(graphObj) {
   function dragHandler(datasetIndex, index, value) {
     const name = graphChart.data.labels[index];
 
-    //console.log(data.labels)
     document.getElementById("sectionName").value = name;
-    document.getElementById("integerValue").value = value;
+    document.getElementById("integerValue").value = Math.round(value*100)/100;
   }
 
   //Function that populates the Section Name options with labels from the Graph
@@ -160,7 +162,9 @@ function loadGraph(graphObj) {
     });
   };
   popOptions();
-      
+
+  //Set the Default integer value to the first Data value
+  document.getElementById("integerValue").defaultValue = graphChart.data.datasets[0].data[0];
 };
  
 
