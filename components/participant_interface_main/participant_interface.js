@@ -42,10 +42,8 @@ function closeNav() {
 }
 
 
-// Function on Section name selection updates the integer value box
+// Function that updates the integer value box based on the section name
 function updateInteger() {
   const select = document.getElementById("sectionName");
-  const sectionOption = select.options[select.selectedIndex].value;
-  const sectionIndex = graphChart.data.labels.indexOf(sectionOption);
-  document.getElementById("integerValue").value = graphChart.data.datasets[0].data[sectionIndex];
+  document.getElementById("integerValue").value = graphChart.data.datasets[0].data[select.value];
 }

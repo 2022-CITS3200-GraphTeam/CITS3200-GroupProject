@@ -2,7 +2,7 @@ import { isValid } from "../constraints/processing.mjs";
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
 
 /**
- * TODO: set return value to the chartjs graph object
+ * TODO: set return value to the ChartJS graph object
  * @param {GraphDataObject} graphObj
  */
 export function loadGraph(graphObj) {
@@ -23,6 +23,7 @@ export function loadGraph(graphObj) {
     dragHandler(datasetIndex, index, value);
 
     // update the graph, based on the (rounded) input box
+    graphChart.data.datasets[0].data[index] = document.getElementById("integerValue").value;
     graphChart.update();
   };
 
@@ -47,10 +48,10 @@ export function loadGraph(graphObj) {
 
     if (points.length) {
       const firstPoint = points[0];
+      const index = firstPoint.index;
       const value = graphChart.data.datasets[firstPoint.datasetIndex].data[firstPoint.index];
-      const name = graphChart.data.labels[firstPoint.index];
 
-      document.getElementById("sectionName").value = name;
+      document.getElementById("sectionName").value = index;
       document.getElementById("integerValue").value = value;
     }
   }
@@ -58,27 +59,22 @@ export function loadGraph(graphObj) {
 
   // update the inputs when a column is dragged
   function dragHandler(datasetIndex, index, value) {
-    let roundedValue = Math.round(value * 100) / 100;
+    const roundedValue = Math.round(value * 100) / 100;
 
     // cancel interaction if it violates a restriction
     if (!verifyRestrictions({ [index]: roundedValue })) {
       return false;
     }
 
-    const name = graphChart.data.labels[index];
-
-    document.getElementById("sectionName").value = name;
+    document.getElementById("sectionName").value = index;
     document.getElementById("integerValue").value = roundedValue;
   }
 
   // update the graph when the column input value is changed
   document.getElementById("integerValue").addEventListener("input", () => {
     // get graph section name and new value
-    const sectionName = document.getElementById("sectionName").value;
+    const sectionIndex = document.getElementById("sectionName").value;
     const sectionValue = document.getElementById("integerValue").value;
-
-    // get the index of the appropriate section
-    const sectionIndex = graphChart.data.labels.indexOf(sectionName);
 
     // * only one value can be changed at a time with this UI, so only one value being changed is a valid assumption
     // cancel interaction if it violates a restriction
@@ -94,10 +90,10 @@ export function loadGraph(graphObj) {
   });
 
   // Populate the Section Name options with labels from the Graph
-  graphChart.data.labels.forEach(function (option) {
-    var allOptions = document.getElementById("sectionName");
-    var option = new Option(option, option);
-    allOptions.appendChild(option);
+  let selectElement = document.getElementById("sectionName");
+  graphChart.data.labels.forEach((option, i) => {
+    let optionElement = new Option(option, i);
+    selectElement.appendChild(optionElement);
   });
 
   // Set the Default integer value to the first Data value
