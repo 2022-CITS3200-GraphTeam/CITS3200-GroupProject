@@ -40,3 +40,12 @@ function closeNav() {
   document.getElementById("mySidebar").style.padding = "0px 0px 0px 0px";
   document.getElementById("mainSidebar").style.marginLeft = "0";
 }
+
+
+// Function on Section name selection updates the integer value box
+function updateInteger() {
+  const select = document.getElementById("sectionName");
+  const sectionOption = select.options[select.selectedIndex].value;
+  const sectionIndex = graphChart.data.labels.indexOf(sectionOption);
+  document.getElementById("integerValue").value = graphChart.data.datasets[0].data[sectionIndex];
+}

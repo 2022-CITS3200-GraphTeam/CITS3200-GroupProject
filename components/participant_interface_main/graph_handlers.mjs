@@ -17,6 +17,15 @@ export function loadGraph(graphObj) {
     return dragHandler(datasetIndex, index, value);
   };
 
+  // round the value after drag is complete
+  graphObj.chartConfig.options.plugins.dragData.onDragEnd = (event, datasetIndex, index, value) => {
+    // update the input box, based on (rounded) graph values
+    dragHandler(datasetIndex, index, value);
+
+    // update the graph, based on the (rounded) input box
+    graphChart.update();
+  };
+
   // TODO: process `graphObj.restrictions` (see issue #8, or child issues of it)
   // returns true iff all restrictions are satisfied
   function verifyRestrictions(override) {
@@ -49,15 +58,17 @@ export function loadGraph(graphObj) {
 
   // update the inputs when a column is dragged
   function dragHandler(datasetIndex, index, value) {
+    let roundedValue = Math.round(value * 100) / 100;
+
     // cancel interaction if it violates a restriction
-    if (!verifyRestrictions({ [index]: value })) {
+    if (!verifyRestrictions({ [index]: roundedValue })) {
       return false;
     }
 
     const name = graphChart.data.labels[index];
 
     document.getElementById("sectionName").value = name;
-    document.getElementById("integerValue").value = value;
+    document.getElementById("integerValue").value = roundedValue;
   }
 
   // update the graph when the column input value is changed
@@ -81,6 +92,16 @@ export function loadGraph(graphObj) {
     // update the graph display
     graphChart.update();
   });
+
+  // Populate the Section Name options with labels from the Graph
+  graphChart.data.labels.forEach(function (option) {
+    var allOptions = document.getElementById("sectionName");
+    var option = new Option(option, option);
+    allOptions.appendChild(option);
+  });
+
+  // Set the Default integer value to the first Data value
+  updateInteger(); // ! updateInteger is defined in `participant_interface.js`
 }
 
 /**
