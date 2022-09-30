@@ -47,6 +47,7 @@ export function loadGraph(graphObj) {
   }
   ctx.onclick = clickHandler;
 
+  // update the inputs when a column is dragged
   function dragHandler(datasetIndex, index, value) {
     // cancel interaction if it violates a restriction
     if (!verifyRestrictions({ [index]: value })) {
@@ -58,6 +59,28 @@ export function loadGraph(graphObj) {
     document.getElementById("sectionName").value = name;
     document.getElementById("integerValue").value = value;
   }
+
+  // update the graph when the column input value is changed
+  document.getElementById("integerValue").addEventListener("input", () => {
+    // get graph section name and new value
+    const sectionName = document.getElementById("sectionName").value;
+    const sectionValue = document.getElementById("integerValue").value;
+
+    // get the index of the appropriate section
+    const sectionIndex = graphChart.data.labels.indexOf(sectionName);
+
+    // * only one value can be changed at a time with this UI, so only one value being changed is a valid assumption
+    // cancel interaction if it violates a restriction
+    if (!verifyRestrictions({ [sectionIndex]: sectionValue })) {
+      return false;
+    }
+
+    // update the graph data with the new value
+    graphChart.data.datasets[0].data[sectionIndex] = sectionValue;
+
+    // update the graph display
+    graphChart.update();
+  });
 }
 
 /**

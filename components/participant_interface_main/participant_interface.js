@@ -28,7 +28,7 @@ window.onclick = function (event) {
   }
 }
 
-/*Side Bar Scripts */
+/* Side Bar Scripts */
 function openNav() {
   document.getElementById("mySidebar").style.width = "250px";
   document.getElementById("mySidebar").style.padding = "8px 8px 8px 32px";
@@ -39,13 +39,4 @@ function closeNav() {
   document.getElementById("mySidebar").style.width = "0";
   document.getElementById("mySidebar").style.padding = "0px 0px 0px 0px";
   document.getElementById("mainSidebar").style.marginLeft = "0";
-
-}
-function updateSection() {
-  //On update click > Grab integer value from input box > update data value in graph
-  const sectionValue = document.getElementById("integerValue").value;
-  const sectionName = document.getElementById("sectionName").value;
-  const sectionIndex = graphChart.data.labels.indexOf(sectionName);
-  graphChart.data.datasets[0].data[sectionIndex] = sectionValue;
-  graphChart.update();
 }

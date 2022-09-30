@@ -160,8 +160,8 @@ function getChartObj() {
 // returns an array of strings (each one a single restriction)
 function getRestrictions() {
   let restrictionStr = document.getElementById("restrictionsInput").value;
-  let restrictions = restrictionStr.split(",");
-  return restrictions.map(v => v.replace(/[ \s\n]/g, "")).filter(v => !!v);
+  let restrictions = restrictionStr.split(","); // TODO replace with `\n` or something (to allow support for funcs)
+  return restrictions.filter(v => !!v);
 }
 
 
