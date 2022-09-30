@@ -16,7 +16,7 @@
   <title>Participant Interface</title>
 </head>
 
-<body onload="generateGraphPreset()">
+<body>
   <!-- Trigger/Open The Modal -->
   <div class="helpBar">
     <button id="helpButton" button type="button" class="btn btn-light">Help <img
@@ -55,7 +55,7 @@
   </div>
   <br>
 
-  <!--Section name and Integer Value Input-->
+  <!-- Section name and Integer Value Input -->
   <div class="forms">
     <label for="sectionName">Section Name</label>
     <input type="text" id="sectionName" class="form-control">
@@ -64,12 +64,14 @@
     <input type="number" min="0" id="integerValue" class="form-control" oninput="updateSection()"> <br /> <br>
   </div>
 
-  <!--Graph submit button-->
+  <!-- Graph submit button -->
   <div class="text-center">
     <button id="submitButton" button type="button" class="btn btn-light">Submit</button>
   </div>
-  <script type="module" src="../components/participant_interface_main/setup.mjs"></script>
+
+  <!-- Scripts -->
   <script src="../components/participant_interface_main/participant_interface.js"></script>
+  <script type="module" src="../components/participant_interface_main/setup.mjs"></script>
 </body>
 
 </html>

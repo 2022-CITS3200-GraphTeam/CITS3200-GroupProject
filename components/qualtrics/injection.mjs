@@ -55,7 +55,7 @@ export async function onReady(questionDataObj, graphObj) {
   let htmlStr = await fetch(htmlURL).then(resp => resp.text()); // fetch html src (string)
   htmlStr = htmlStr.replace("<head>", `<head><base href="${htmlURL}" />`); // set base URL for iframe
   graphIframe.srcdoc = htmlStr;
-  graphIframe.style = "width: 100%; height: 450px;"; // ! TEMP
+  graphIframe.style = "width: 100%; height: 650px;"; // ! TEMP
 
   // setup coms with the iframe
   let channel = new MessageChannel();
@@ -78,7 +78,7 @@ export async function onReady(questionDataObj, graphObj) {
 
         case MessageType.SET_ANS:
           let ans = message.messageData;
-          console.info("set answer request:", ans);
+          console.info("set answer request:", JSON.stringify(ans));
           setAnswer(questionDataObj, ans);
           break;
 
