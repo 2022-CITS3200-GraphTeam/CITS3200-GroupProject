@@ -1,4 +1,3 @@
-import { isValid } from "../constraints/processing.mjs";
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
 
 /**
@@ -32,7 +31,7 @@ export function loadGraph(graphObj) {
   function verifyRestrictions(override) {
     let graphValues = getGraphValues();
     for (let [i, v] of Object.entries(override)) graphValues[i] = v; // override updated values, if required
-    return graphObj.restrictions.every(restriction => isValid(restriction, graphValues));
+    return graphObj.restrictions.every(restriction => restriction.isValid(graphValues));
   }
 
   // pintpointing the chart, so that the click understands the canvas tag

@@ -61,8 +61,7 @@ function handlePortInitRequest(e) {
  * @param {MessageEvent} e 
  */
 function handleGraphLoadRequest(e) {
-  /** @type {GraphDataObject} */
-  let graphObj = e.data;
+  let graphObj = GraphDataObject.fromObject(e.data);
 
   if (!graphObj) {
     console.error("bad graph load request:", graphObj);
