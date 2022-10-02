@@ -5,6 +5,13 @@ function makeRowHTML(n) {
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable')"></td>
 `;
 }
+function basicMakeRowHTML(n) {
+  return `
+<td><input class="ruleInput" oninput="updateGraph()" value="" size=20 type="text"></td>
+<td><input class="errorInput" oninput="updateGraph()" value="" size=30 type="text"></td>
+<td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'rulesInput')"></td>
+  `;
+}
 let graphData, graphConfig, myChart;
 
 function deleteRow(row, dd) {
@@ -20,6 +27,15 @@ function addRow(dd) {
 
   let newRow = document.createElement("tr");
   newRow.innerHTML = makeRowHTML(x.rows.length);
+
+  x.appendChild(newRow);
+}
+
+function basicAddRow(dd) {
+  let x = document.getElementById(dd);
+
+  let newRow = document.createElement("tr");
+  newRow.innerHTML = basicMakeRowHTML(x.rows.length);
 
   x.appendChild(newRow);
 }
