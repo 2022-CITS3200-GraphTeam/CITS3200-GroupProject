@@ -84,6 +84,22 @@
       </tr>
     </table>
     <input type="button" id="addColButton" value="Add Column" onclick="addRow('colTable');updateGraph()">
+
+    <br><br>
+
+    <table id="rulesInput" border="1">
+      <tr>
+        <th>Rule</th>
+        <th>Error Message</th>
+        <th>Delete</th>
+      </tr>
+      <tr>
+        <td><input class="ruleInput" oninput="updateGraph()" value="" size=20 type="text"></td>
+        <td><input class="errorInput" oninput="updateGraph()" value="" size=30 type="text"></td>
+        <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'rulesInput')"></td>
+      </tr>
+    </table>
+    <input type="button" id="addRuleButton" value="Add Rule" onclick="basicAddRow('rulesInput');updateGraph()">
   </center>
   <br>
   <div>
