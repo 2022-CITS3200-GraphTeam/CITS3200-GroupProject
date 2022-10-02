@@ -43,15 +43,20 @@ export class GraphRestriction {
   }
 
   /**
+   * use capture group 1 to get the column number
+   */
+  static getColumnRegex() { return /\[(\d+)\]/g; }
+
+  /**
    * Evaluates the constraint with the given graph data.
    * @param {Array<number>} graphValueArr
    * @returns {boolean} true iff the constraint is respected (not violated)
    */
   isValid(graphValueArr) {
     // replace columns (of the form "[COLUMN_NUMBER]") with their values
-    let expStr = this.rule.replace(/\[(\d+)\]/g, (_, columnNumber) => {
+    let expStr = this.rule.replace(GraphRestriction.getColumnRegex(), (_, columnNumber) => {
       let columnIndex = columnNumber - 1;
-      if (columnIndex >= graphValueArr.length) throw new Error(`Column Number (${columnNumber}) out of range (expected between 0 and ${graphValueArr.length - 1})`);
+      if (columnIndex >= graphValueArr.length) throw new Error(`Column Number (${columnNumber}) out of range (expected between 1 and ${graphValueArr.length})`);
       return graphValueArr[columnIndex] ?? NaN;
     });
 
