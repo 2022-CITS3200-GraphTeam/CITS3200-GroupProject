@@ -62,7 +62,7 @@ export function loadGraph(graphObj) {
 
     let changedValues = { [index]: roundedValue };
 
-    if (graphObj.totalSum !== undefined) {
+    if (graphObj.maintainSum) {
       // handle totalSum i.e. reduce other columns by the required amount
       let currentValues = getGraphValues();
       let mod = -(roundedValue - currentValues[index]) / (currentValues.length - 1);
@@ -77,7 +77,7 @@ export function loadGraph(graphObj) {
       return false;
     }
 
-    if (graphObj.totalSum !== undefined) {
+    if (graphObj.maintainSum) {
       // update other columns
       for (let i in changedValues) {
         if (i === index) continue;

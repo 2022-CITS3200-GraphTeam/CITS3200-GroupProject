@@ -47,20 +47,15 @@ export function getRestrictions() {
   };
 }
 
-function getTotalSum() {
-  let raw = document.getElementById("totalSum").value;
-
-  // handle total sum being not set
-  if (raw === "") return undefined;
-
-  return parseFloat(raw);
+function getMaintainSum() {
+  return document.getElementById("maintainSum").checked;
 }
 
 document.getElementById("submitButton").addEventListener("click", async () => {
   let chartObj = getChartObj(); // `getChartObj` defined in `main.js`
   let graphRestrictions = getRestrictions();
-  let graphTotalSum = getTotalSum();
-  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphTotalSum);
+  let graphMaintainSum = getMaintainSum();
+  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphMaintainSum);
 
   let nInvalid = graphRestrictions.invalid.length;
   if (nInvalid > 0) {
