@@ -106,26 +106,11 @@ export function getGraphValues() {
   return [...graphChart.data.datasets[0].data].map(value => parseFloat(value));
 }
 
-// currently outputs in a CSV format: firs
 /**
  * Returns a string representation of the chart output; the answer to give to Qualtrics.
- * The output is in a CSV format: the first row is the label names, and the second the values.
+ * Outputs the graph values as a single-row CSV (delimited by commas)
  * @returns {string}
  */
 export function getAnswerStr() {
-  // encodes the label to a CSV-compatible value
-  let graphLabels = [...graphChart.data.labels].map(label => {
-    // replace quotes with double quotes
-    label = label.replace(/"/g, `""`);
-
-    // encapsulate with quotes
-    label = `"${label}"`;
-
-    return label;
-  });
-
-  let graphData = getGraphValues();
-
-  // returns the labels and values as a CSV
-  return graphLabels.join(",") + "\n" + graphData.join(",");
+  return getGraphValues().join(",");
 }
