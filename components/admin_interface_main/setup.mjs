@@ -5,11 +5,12 @@ import { generateCode, outputGeneratedCode } from "./participant_interface_gener
 /**
  * @returns {{ valid: Array<GraphRestriction>, invalid: Array<{ rule: string, errorMessage: string }> }}
  */
-function getRestrictions() {
+export function getRestrictions() {
   let restrictionRows = [...document.getElementById("rulesInput").rows].slice(1); // excluding the header row
-  
-  // used for checking rule validity
-  let nColumns = getColValues().length; // `getColValues` defined in `main.js`
+
+  // used to test if a restriction uses out of range columns
+  // `getChartObj` defined in `main.js`
+  let colValues = getChartObj().data.datasets[0].data.map(v => parseFloat(v));
 
   let validRestrictions = [], invalidRestrictions = [];
   restrictionRows.forEach(row => {
@@ -23,17 +24,20 @@ function getRestrictions() {
       return;
     }
 
-    // exclude the rule if it uses out-of-range columns
-    let columnIndices = [...rule.matchAll(GraphRestriction.getColumnRegex())].map(arr => parseInt(arr[1]));
-    let maxColumnIndex = columnIndices.reduce((r, v) => v > r ? v : r, -1);
-    if (maxColumnIndex > nColumns) {
-      console.error(`Invalid rule being excluded (index ${maxColumnIndex} out of range - expected between 1 and ${nColumns}):`, rule);
+    let restriction = new GraphRestriction(rule, errorMessage);
+
+    let restrictionResult;
+    try {
+      restrictionResult = restriction.isValid(colValues);
+    } catch (err) {
+      // exclude the rule if it errors
+      console.error("Invalid rule being excluded; errored with:\n", err);
       invalidRestrictions.push({ rule, errorMessage });
       return;
     }
-    // ? should `maxColumnIndex === -1` (i.e. no columns specified in the rule) be checked
 
-    validRestrictions.push(new GraphRestriction(rule, errorMessage));
+    if (!restrictionResult) console.warn(`Restriction is not currently satisfied:`, restriction);
+    validRestrictions.push(restriction);
     return;
   });
   
