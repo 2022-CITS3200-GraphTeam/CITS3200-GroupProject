@@ -32,9 +32,10 @@ export class GraphDataObject {
    * 
    * @param {ChartConfig} chartConfig the config object passed to [Chart.js](https://www.chartjs.org/docs/latest/) to construct the graph.
    * @param {Array<GraphRestriction>=} restrictions an array of validity restrictions on the graph. An empty array means there are no restrictions.
+   * @param {number | undefined} totalSum the total sum value to restrict user input to (or undefined if not restricted)
    * @memberof GraphDataObject
    */
-  constructor(chartConfig, restrictions = []) {
+  constructor(chartConfig, restrictions, totalSum) {
     /**
      * A Chart.js [ChartConfiguration](https://www.chartjs.org/docs/latest/api/interfaces/ChartConfiguration.html)
      * object. For examples and more details see the [Chart.js docs](https://www.chartjs.org/docs/latest/).
@@ -50,12 +51,18 @@ export class GraphDataObject {
      * @type {Array<GraphRestriction>}
      */
     this.restrictions = restrictions;
+
+    /**
+     * @type {number | undefined}
+     */
+    this.totalSum = totalSum;
   }
 
   /**
    * @param {object} obj 
    * @param {ChartConfig} obj.chartConfig 
    * @param {Array<GraphRestriction>} obj.restrictions 
+   * @param {number | undefined} obj.totalSum 
    */
    static fromObject(obj) {
     if (obj === undefined || obj === null) return undefined;
@@ -70,7 +77,8 @@ export class GraphDataObject {
         }
 
         return [restrictionObj];
-      })
+      }),
+      Number.isFinite(parseFloat(obj.totalSum)) ? parseFloat(obj.totalSum) : undefined
     );
   }
 }

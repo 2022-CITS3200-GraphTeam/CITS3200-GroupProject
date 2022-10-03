@@ -118,7 +118,7 @@ function generateGraph() {
       plugins: {
         title: {
           display: true,
-          text: "title"
+          text: ""
         },
         legend: {
           display: false
