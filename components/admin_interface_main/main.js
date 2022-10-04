@@ -2,6 +2,7 @@ function makeRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
 <td><input class="valueInput" oninput="updateGraph()" value="${n}" size=10 type="number"></td>
+<td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#ff0000"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable')"></td>
 `;
 }
@@ -22,6 +23,11 @@ function addRow(dd) {
   newRow.innerHTML = makeRowHTML(x.rows.length);
 
   x.appendChild(newRow);
+}
+
+function getColour(){
+  let rows = [...document.getElementById("colTable").rows].slice(1);
+  return rows.map(row => row.querySelector(".colourInput").value);
 }
 
 function getColNames() {
@@ -69,23 +75,23 @@ function generateGraph() {
     datasets: [{
       label: 'Weekly Sales',
       data: getColValues(),
-      backgroundColor: [
-        'rgba(255, 26, 104, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-        'rgba(0, 0, 0, 0.2)'
+      backgroundColor: [ color = getColour(),
+        //'rgba(255, 26, 104, 0.2)',
+        //'rgba(54, 162, 235, 0.2)',
+        //'rgba(255, 206, 86, 0.2)',
+        //'rgba(75, 192, 192, 0.2)',
+        //'rgba(153, 102, 255, 0.2)',
+        //'rgba(255, 159, 64, 0.2)',
+        //'rgba(0, 0, 0, 0.2)'
       ],
-      borderColor: [
-        'rgba(255, 26, 104, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-        'rgba(0, 0, 0, 1)'
+      borderColor: [ color = getColour(),
+        //'rgba(255, 26, 104, 1)',
+        //'rgba(54, 162, 235, 1)',
+        //'rgba(255, 206, 86, 1)',
+        //'rgba(75, 192, 192, 1)',
+        //'rgba(153, 102, 255, 1)',
+        //'rgba(255, 159, 64, 1)',
+        //'rgba(0, 0, 0, 1)'
       ],
       borderWidth: 1,
       dragData: true,
@@ -149,6 +155,7 @@ function updateGraph() {
   myChart.config._config.options.scales.y.min = getScaleMin();
   myChart.config._config.options.scales.y.max = getScaleMax();
   myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
+  myChart.data.datasets.backgroundColor.color = getColour();
   myChart.update();
 }
 
