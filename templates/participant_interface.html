@@ -48,28 +48,27 @@
       <div class="chartBox">
         <canvas id="myChart"></canvas>
       </div>
+        <!-- Section name and Integer Value Input -->
+        <div class="forms">
+          <label for="sectionName">Section name</label>
+          <br>
+          <select name="section" id="sectionName" onchange="updateInteger()">
+          </select>
+          <br>
+          <label for="integerValue">Integer value</label>
+          <input type="number" min="0" id="integerValue" class="form-control" oninput="updateSection()"> <br /> <br>
+        </div>
+
+        <!-- Graph submit button  commented the following out as I think we mentioned we didn't want submit button anymore? (to be checked)
+        <div class="text-center">
+          <button id="submitButton" button type="button" class="btn btn-light">Submit</button>
+        </div>-->
     </div>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
   </div>
   <br>
-
-  <!-- Section name and Integer Value Input -->
-  <div class="forms">
-    <label for="sectionName">Section Name</label>
-    <br>
-    <select name="section" id="sectionName" onchange="updateInteger()">
-    </select>
-    <br>
-    <label for="integerValue">Integer Value</label>
-    <input type="number" min="0" id="integerValue" class="form-control" oninput="updateSection()"> <br /> <br>
-  </div>
-
-  <!-- Graph submit button -->
-  <div class="text-center">
-    <button id="submitButton" button type="button" class="btn btn-light">Submit</button>
-  </div>
 
   <!-- Scripts -->
   <script src="../components/participant_interface_main/participant_interface.js"></script>
