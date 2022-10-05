@@ -73,12 +73,6 @@ function getScaleIncrement() {
   var testScaleIncrement = document.getElementById("scaleIncrement").value;
   return Math.round(testScaleIncrement * 100) / 100;
 }
-/*function getIncrement() {
-  var num = getScaleIncrement()
-  if(num%2==0){
-    return
-  }
-}*/
 
 function generateGraph() {
   // start with 3 table columns
@@ -192,6 +186,9 @@ function getChartObj() {
   return myChart.config._config;
 }
 
+function returnTutorial(){
+  return document.getElementById('saveTutorial');
+}
 
 // Get the modal
 var modal = document.getElementById("myModal");
@@ -200,7 +197,7 @@ var modal = document.getElementById("myModal");
 var btn = document.getElementById("helpButton");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+/*var span = document.getElementsByClassName("close")[0];*/
 
 var parModal = document.getElementById("participantModal");
 var parModalbtn = document.getElementById("parModalButton");
