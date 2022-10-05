@@ -1,37 +1,102 @@
-// ? currently injecting everything that is needed; should some of it be loaded from github pages?
-// advantages of loading: smaller payload, easier to separate out and organise code, less jank
-// disadvantages: - changing the hosted code will break old surveys
-//                - potential security vulnerability, but the user is already copying in the code from the website and other stuff is loaded from CDNs so probably fine?
+import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
+import { BASE_URL } from "./consts.mjs";
+import { Message, MessageType } from "./Message.mjs";
 
+/**
+ * @param {QuestionData} questionDataObj 
+ * @returns {HTMLDivElement}
+ */
+function getAnswerContainer(questionDataObj) { return questionDataObj.getChoiceContainer(); }
 
-export function getInjectionTemplate() {
-  return (() => {
-    function getAnswerContainer(questionDataObj) { return questionDataObj.getChoiceContainer(); }
-    function getAnswerElement(questionDataObj) { return getAnswerContainer(questionDataObj).querySelector("textarea"); }
+/**
+ * @param {QuestionData} questionDataObj 
+ * @returns {HTMLTextAreaElement}
+ */
+function getAnswerElement(questionDataObj) { return getAnswerContainer(questionDataObj).querySelector("textarea"); }
 
-    function setAnswer(questionDataObj, answerStr) {
-      let el = getAnswerElement(questionDataObj);
-      el.value = answerStr;
-    }
+/**
+ * @param {QuestionData} questionDataObj 
+ * @param {string} answerStr 
+ */
+function setAnswer(questionDataObj, answerStr) {
+  let el = getAnswerElement(questionDataObj);
+  el.value = answerStr;
+}
 
-    function disableSubmit(questionDataObj) { questionDataObj.disableNextButton(); }
-    function enableSubmit(questionDataObj) { questionDataObj.enableNextButton(); }
+/**
+ * @param {QuestionData} questionDataObj 
+ */
+function disableSubmit(questionDataObj) { questionDataObj.disableNextButton(); }
 
+/**
+ * @param {QuestionData} questionDataObj 
+ */
+function enableSubmit(questionDataObj) { questionDataObj.enableNextButton(); }
 
-    // hide answer text box
-    Qualtrics.SurveyEngine.addOnload(function() {
-      getAnswerElement(this).style.display = "none";
-    });
+/**
+ * Called by the injection loader when the qualtrics "onload" event fires.
+ * @param {QuestionData} questionDataObj 
+ * @param {object} rawGraphObj a {@link GraphDataObject}-like object
+ */
+export async function onLoad(questionDataObj, rawGraphObj) {
+  // hide answer text box
+  getAnswerElement(questionDataObj).style.display = "none";
+};
 
-    Qualtrics.SurveyEngine.addOnReady(function() {
-      setAnswer(this, alert("Question answer:")); // ! TEMP
+/**
+ * Called by the injection loader when the qualtrics "onReady" event fires.
+ * @param {QuestionData} questionDataObj 
+ * @param {object} rawGraphObj a {@link GraphDataObject}-like object
+ */
+export async function onReady(questionDataObj, rawGraphObj) {
+  // process into a `GraphDataObject`
+  let graphObj = GraphDataObject.fromObject(rawGraphObj);
 
-      // add iframe
-      let graph = document.createElement("iframe");
-      graph.srcdoc = `${srcdoc}`;
-      graph.style = "width: 100%; height: 450px;"; // ! TEMP
+  // add iframe
+  let graphIframe = document.createElement("iframe");
+  let htmlURL = `${BASE_URL}/templates/participant_interface.html`;
+  let htmlStr = await fetch(htmlURL).then(resp => resp.text()); // fetch html src (string)
+  htmlStr = htmlStr.replace("<head>", `<head><base href="${htmlURL}" />`); // set base URL for iframe
+  graphIframe.srcdoc = htmlStr;
+  graphIframe.style = "width: 100%; height: 650px;"; // ! TEMP
 
-      getAnswerContainer(this).appendChild(graph);
-    });
+  // setup coms with the iframe
+  let channel = new MessageChannel();
+  let port = channel.port1;
+
+  graphIframe.addEventListener("load", () => {
+    // setup channel listener
+    port.onmessage = (e) => {
+      /** @type {Message} */
+      let message = e.data;
+      switch (message.messageType) {
+        case undefined:
+          console.error("Missing message type in message data structure:", e);
+          break;
+
+        case MessageType.READY:
+          // send graph object to be loaded
+          port.postMessage(graphObj);
+          break;
+
+        case MessageType.SET_ANS:
+          let ans = message.messageData;
+          console.info("set answer request:", JSON.stringify(ans));
+          setAnswer(questionDataObj, ans);
+          break;
+
+        // TODO: enable/disable submit button based on graph; more request types?
+        
+        default:
+          console.warn(`Ignoring unrecognised message type ("${e.data}")`);
+          break;
+      }
+    };
+
+    // establish communication channel
+    // * note: ideally would use `BASE_URL` for the target origin, except we're setting the iframe with `srcdoc`
+    graphIframe.contentWindow.postMessage(new Message(MessageType.INIT), "*", [channel.port2]);
   });
+
+  getAnswerContainer(questionDataObj).appendChild(graphIframe);
 }

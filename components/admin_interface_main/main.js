@@ -1,31 +1,92 @@
+function makeColRowHTML(n) {
+  return `
+<td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
+<td><input class="valueInput" oninput="updateGraph()" value="${n}" size=10 type="number"></td>
+<td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
+`;
+}
+
+function makeRuleRowHTML(n) {
+  return `
+<td><input class="ruleInput" value="" size=20 type="text"></td>
+<td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'rulesInput')"></td>
+`;
+}
+// <td><input class="errorInput" value="" size=30 type="text"></td>
+
+let graphData, graphConfig, myChart;
+
 function deleteRow(row, dd) {
   var i = row.parentNode.parentNode.rowIndex;
-  console.log(dd)
   document.getElementById(dd).deleteRow(i);
 }
 
-function insRow(dd) {
-  console.log('hi');
-  var x = document.getElementById(dd);
-  var new_row = x.rows[1].cloneNode(true);
-  var len = x.rows.length;
-  new_row.cells[0].innerHTML = len;
+function addColRow(dd) {
+  let x = document.getElementById(dd);
 
-  var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
-  inp1.id += len;
-  inp1.value = '';
-  var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
-  inp2.id += len;
-  inp2.value = '';
-  x.appendChild(new_row);
+  let newRow = document.createElement("tr");
+  newRow.innerHTML = makeColRowHTML(x.rows.length);
+
+  x.appendChild(newRow);
 }
 
+function addRuleRow(dd) {
+  let x = document.getElementById(dd);
+
+  let newRow = document.createElement("tr");
+  newRow.innerHTML = makeRuleRowHTML(x.rows.length);
+
+  x.appendChild(newRow);
+}
+
+function getColNames() {
+  let rows = [...document.getElementById("colTable").rows].slice(1); // excluding the header row
+  return rows.map(row => row.querySelector(".nameInput").value); // converts the list of rows to a list of the names
+}
+
+function getColValues() {
+  let rows = [...document.getElementById("colTable").rows].slice(1); // excluding the header row
+  return rows.map(row => row.querySelector(".valueInput").value); // converts the list of rows to a list of the values
+}
+
+function getTitle() {
+  var testTitle = document.getElementById("title").value;
+  return testTitle;
+}
+function getYTitle() {
+  var testYTitle = document.getElementById("yTitle").value;
+  return testYTitle;
+}
+function getXTitle() {
+  var testXTitle = document.getElementById("xTitle").value;
+  return testXTitle;
+}
+function getScaleMin() {
+  var testScaleMin = document.getElementById("scaleMin").value;
+  return Math.round(testScaleMin * 100) / 100;
+}
+function getScaleMax() {
+  var testScaleMax = document.getElementById("scaleMax").value;
+  return Math.round(testScaleMax * 100) / 100;
+}
+function getScaleIncrement() {
+  var testScaleIncrement = document.getElementById("scaleIncrement").value;
+  return Math.round(testScaleIncrement * 100) / 100;
+}
+
+
 function generateGraph() {
-  const data = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+  // start with 3 table columns
+  for (let i = 0; i < 3; i++) addColRow("colTable");
+
+  // start with 1 (empty) rule
+  addRuleRow('rulesInput');
+
+  graphData = {
+    labels: getColNames(),
     datasets: [{
       label: 'Weekly Sales',
-      data: [18, 12, 6, 9, 12, 3, 9],
+      data: getColValues(),
       backgroundColor: [
         'rgba(255, 26, 104, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -50,28 +111,104 @@ function generateGraph() {
   };
 
   // config 
-  const config = {
+  graphConfig = {
     type: 'bar',
-    data,
+    data: graphData,
     options: {
       plugins: {
+        title: {
+          display: true,
+          text: ""
+        },
+        legend: {
+          display: false
+        },
         dragData: {
-          onDragStart: (event) => {
-            console.log(event)
+          onDrag: (event, datasetIndex, index, value) => {
+            dragHandler(datasetIndex, index, value)
           }
         }
       },
       scales: {
         y: {
-          beginAtZero: true
+          title: {
+            display: true,
+            text: "y"
+          },
+          min: 0,
+          max: 20,
+          ticks: {
+            stepSize: 2
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: "x"
+          }
         }
       }
     }
   };
 
   // render init block
-  const myChart = new Chart(
+  myChart = new Chart(
     document.getElementById('myChart'),
-    config
+    graphConfig
   );
+}
+
+function updateGraph() {
+  myChart.data.labels = getColNames();
+  myChart.data.datasets[0].data = getColValues();
+
+  myChart.config._config.options.plugins.title.text = getTitle();
+  myChart.config._config.options.scales.y.title.text = getYTitle();
+  myChart.config._config.options.scales.x.title.text = getXTitle();
+  myChart.config._config.options.scales.y.min = getScaleMin();
+  myChart.config._config.options.scales.y.max = getScaleMax();
+  myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
+
+  let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
+  document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
+  myChart.update();
+}
+
+function dragHandler(datasetIndex, index, value) {
+  const name = myChart.data.labels[index];
+  document.getElementsByClassName("valueInput")[index].value = value;
+}
+
+// returns the ChartJS graph obj
+function getChartObj() {
+  return myChart.config._config;
+}
+
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("helpButton");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function () {
+  modal.style.display = "block";
+}
+window.onerror = function (e) {
+  alert(e);
+}
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }
