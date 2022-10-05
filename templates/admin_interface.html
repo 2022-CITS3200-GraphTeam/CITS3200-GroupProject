@@ -97,11 +97,22 @@
         <th>Delete</th>
       </tr>
     </table>
-    <input type="button" id="addColButton" value="Add Column" onclick="addRow('colTable');updateGraph()">
+    <input type="button" id="addColButton" value="Add Column" onclick="addColRow('colTable');updateGraph()">
+
+    <br><br>
+
+    <table id="rulesInput" border="1">
+      <tr>
+        <th>Rule</th>
+        <!-- <th>Error Message</th> -->
+        <th>Delete</th>
+      </tr>
+    </table>
+    <input type="button" id="addRuleButton" value="Add Rule" onclick="addRuleRow('rulesInput');">
   </center>
   <br>
   <div>
-    <center><button id="submitButton">Submit</button></center>
+    <center><button id="submitButton">Generate Question Javascript</button></center>
   </div>
 
   <script type="module" src="../components/admin_interface_main/setup.mjs"></script>

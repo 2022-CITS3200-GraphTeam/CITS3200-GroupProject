@@ -36,9 +36,9 @@ function enableSubmit(questionDataObj) { questionDataObj.enableNextButton(); }
 /**
  * Called by the injection loader when the qualtrics "onload" event fires.
  * @param {QuestionData} questionDataObj 
- * @param {GraphDataObject} graphObj 
+ * @param {object} rawGraphObj a {@link GraphDataObject}-like object
  */
-export async function onLoad(questionDataObj, graphObj) {
+export async function onLoad(questionDataObj, rawGraphObj) {
   // hide answer text box
   getAnswerElement(questionDataObj).style.display = "none";
 };
@@ -46,9 +46,12 @@ export async function onLoad(questionDataObj, graphObj) {
 /**
  * Called by the injection loader when the qualtrics "onReady" event fires.
  * @param {QuestionData} questionDataObj 
- * @param {GraphDataObject} graphObj 
+ * @param {object} rawGraphObj a {@link GraphDataObject}-like object
  */
-export async function onReady(questionDataObj, graphObj) {
+export async function onReady(questionDataObj, rawGraphObj) {
+  // process into a `GraphDataObject`
+  let graphObj = GraphDataObject.fromObject(rawGraphObj);
+
   // add iframe
   let graphIframe = document.createElement("iframe");
   let htmlURL = `${BASE_URL}/templates/participant_interface.html`;

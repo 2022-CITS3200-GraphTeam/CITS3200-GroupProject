@@ -3,8 +3,8 @@ import { writeText } from "../js_helper_funcs/clipboard.mjs";
 import { encodeObject } from "../js_helper_funcs/encoding.mjs";
 import { injectionLoader } from "../qualtrics/injectionLoader.mjs";
 
-const copyFlagStart = `/** ------------------------ START OF BLOCK TO COPY ------------------------ **/`;
-const copyFlagEnd =   `/** ------------------------- END OF BLOCK TO COPY ------------------------- **/`;
+const copyFlagStart = `/** ----------------------- START OF BLOCK TO COPY ----------------------- **/`;
+const copyFlagEnd =   `/** ------------------------ END OF BLOCK TO COPY ------------------------ **/`;
 
 function formatCodeForCopy(code) {
   return `${copyFlagStart}\n\n\n${code}\n\n\n${copyFlagEnd}`;

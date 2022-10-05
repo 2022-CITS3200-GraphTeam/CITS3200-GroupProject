@@ -1,4 +1,5 @@
-import { GraphRestriction } from './GraphRestriction.mjs'
+import { GraphRestriction } from "./GraphRestriction.mjs";
+
 
 // Intellisense for Chart.js's `ChartConfiguration` type.
 // Based on https://github.com/chartjs/Chart.js/blob/master/types/index.d.ts
@@ -50,4 +51,26 @@ export class GraphDataObject {
      */
     this.restrictions = restrictions;
   }
-};
+
+  /**
+   * @param {object} obj 
+   * @param {ChartConfig} obj.chartConfig 
+   * @param {Array<GraphRestriction>} obj.restrictions 
+   */
+   static fromObject(obj) {
+    if (obj === undefined || obj === null) return undefined;
+    return new GraphDataObject(
+      obj.chartConfig,
+      (obj.restrictions ?? []).flatMap(restriction => {
+        let restrictionObj = GraphRestriction.fromObject(restriction);
+
+        if (restrictionObj === undefined) {
+          console.error("Invalid restriction being excluded:", restriction);
+          return [];
+        }
+
+        return [restrictionObj];
+      })
+    );
+  }
+}
