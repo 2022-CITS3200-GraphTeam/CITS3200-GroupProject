@@ -156,8 +156,6 @@ function generateGraph() {
     document.getElementById('myChart'),
     graphConfig
   );
-  //calling load graph with myChart
-  loadGraph(myChart);
 }
 
 function updateGraph() {
