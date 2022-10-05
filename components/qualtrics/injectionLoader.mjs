@@ -16,6 +16,6 @@ export async function injectionLoader(graphObjStr) {
   // report module loading success/failure
   modulePromise.then(
     () => { console.info("Loaded graph injection module."); },
-    () => { console.error("Failed to load graph injection module."); alert("Failed to load graph."); }
+    (err) => { console.error("Failed to load graph injection module.", err); alert("Failed to load graph."); }
   );
 }
