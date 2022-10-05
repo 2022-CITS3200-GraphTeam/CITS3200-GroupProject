@@ -65,6 +65,7 @@ export function loadGraph(graphObj) {
     if (graphObj.maintainSum) {
       // handle totalSum i.e. reduce other columns by the required amount
       let currentValues = getGraphValues();
+      // TODO: deal with rounded value not being 0.01
       let mod = -(roundedValue - currentValues[index]) / (currentValues.length - 1);
       for (let i = 0; i < currentValues.length; i++) {
         if (i === index) continue;
