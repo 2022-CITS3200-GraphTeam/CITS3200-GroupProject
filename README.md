@@ -1,7 +1,9 @@
 # CITS3200-GroupProject
 
 ## Links
+
 [Admin Interface](./templates/admin_interface.html)
 
-## Documents
-Sprint 1 Document: https://uniwa-my.sharepoint.com/:w:/g/personal/22970882_student_uwa_edu_au/EU0E_ttj1xhCheVQunrtN3wBXgGrDd2lQWfJUbWQl5Fdag
+## Updating
+
+To update the version on github pages, update the tag number in [consts.mjs](./components/qualtrics/consts.mjs) and [injectionLoader.mjs](./components/qualtrics/injectionLoader.mjs), tag that commit with the same version number, and then push to the `main` branch. Pushing to the `main` branch alone *will* update github pages, however qualtrics will not fetch the latest update without updating the tag versions in those two files.
