@@ -79,7 +79,7 @@ export function loadGraph(graphObj) {
       let mod = -(roundedValue - currentValues[index]) / (currentValues.length - 1);
       for (let i = 0; i < currentValues.length; i++) {
         if (i === index) continue;
-        changedValues[i] = currentValues[i] + mod;
+        changedValues[i] = Math.round((currentValues[i] + mod) * 100) / 100;
       }
     }
 
