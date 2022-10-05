@@ -1,26 +1,41 @@
-function makeRowHTML(n) {
+function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
 <td><input class="valueInput" oninput="updateGraph()" value="${n}" size=10 type="number"></td>
 <td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#ff0000"></td>
-<td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable')"></td>
+<td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
 }
+
+function makeRuleRowHTML(n) {
+  return `
+<td><input class="ruleInput" value="" size=20 type="text"></td>
+<td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'rulesInput')"></td>
+`;
+}
+// <td><input class="errorInput" value="" size=30 type="text"></td>
+
 let graphData, graphConfig, myChart;
 
 function deleteRow(row, dd) {
   var i = row.parentNode.parentNode.rowIndex;
-  console.log(dd);
   document.getElementById(dd).deleteRow(i);
-
-  updateGraph();
 }
 
-function addRow(dd) {
+function addColRow(dd) {
   let x = document.getElementById(dd);
 
   let newRow = document.createElement("tr");
-  newRow.innerHTML = makeRowHTML(x.rows.length);
+  newRow.innerHTML = makeColRowHTML(x.rows.length);
+
+  x.appendChild(newRow);
+}
+
+function addRuleRow(dd) {
+  let x = document.getElementById(dd);
+
+  let newRow = document.createElement("tr");
+  newRow.innerHTML = makeRuleRowHTML(x.rows.length);
 
   x.appendChild(newRow);
 }
@@ -54,21 +69,24 @@ function getXTitle() {
 }
 function getScaleMin() {
   var testScaleMin = document.getElementById("scaleMin").value;
-  return Math.round(testScaleMin*100)/100;
+  return Math.round(testScaleMin * 100) / 100;
 }
 function getScaleMax() {
   var testScaleMax = document.getElementById("scaleMax").value;
-  return Math.round(testScaleMax*100)/100;
+  return Math.round(testScaleMax * 100) / 100;
 }
 function getScaleIncrement() {
   var testScaleIncrement = document.getElementById("scaleIncrement").value;
-  return Math.round(testScaleIncrement*100)/100;
+  return Math.round(testScaleIncrement * 100) / 100;
 }
 
 
 function generateGraph() {
   // start with 3 table columns
-  for (let i = 0; i < 3; i++) addRow("colTable");
+  for (let i = 0; i < 3; i++) addColRow("colTable");
+
+  // start with 1 (empty) rule
+  addRuleRow('rulesInput');
 
   graphData = {
     labels: getColNames(),
@@ -106,14 +124,14 @@ function generateGraph() {
       plugins: {
         title: {
           display: true,
-          text: "title"
+          text: ""
         },
         legend: {
           display: false
         },
         dragData: {
-          onDragStart: (event) => {
-            console.log(event)
+          onDrag: (event, datasetIndex, index, value) => {
+            dragHandler(datasetIndex, index, value)
           }
         }
       },
@@ -149,6 +167,7 @@ function generateGraph() {
 function updateGraph() {
   myChart.data.labels = getColNames();
   myChart.data.datasets[0].data = getColValues();
+
   myChart.config._config.options.plugins.title.text = getTitle();
   myChart.config._config.options.scales.y.title.text = getYTitle();
   myChart.config._config.options.scales.x.title.text = getXTitle();
@@ -156,13 +175,22 @@ function updateGraph() {
   myChart.config._config.options.scales.y.max = getScaleMax();
   myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
   myChart.data.datasets.backgroundColor.color = getColour();
+
+  let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
+  document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
   myChart.update();
+}
+
+function dragHandler(datasetIndex, index, value) {
+  const name = myChart.data.labels[index];
+  document.getElementsByClassName("valueInput")[index].value = value;
 }
 
 // returns the ChartJS graph obj
 function getChartObj() {
   return myChart.config._config;
 }
+
 
 // Get the modal
 var modal = document.getElementById("myModal");

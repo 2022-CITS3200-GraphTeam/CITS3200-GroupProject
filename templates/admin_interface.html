@@ -60,7 +60,7 @@
   <center>
 
     <label for="title">Title:</label>
-    <input type="text" id="title" name="title" oninput="updateGraph()" value="Title"><br>
+    <input type="text" id="title" name="title" oninput="updateGraph()" value=""><br>
     <label for="xTitle">X-axis Title:</label>
     <input type="text" id="xTitle" name="xTitle" oninput="updateGraph()" value="x axis"><br>
     <label for="yTitle">Y-axis Title:</label>
@@ -73,8 +73,8 @@
     <input type="number" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" value="2" step="0.1"><br>
     <label for="stepSize">Step size:</label>
     <input type="number" id="stepSize" name="stepSize" oninput="updateGraph()" value="0.5" step="0.1"><br>
-    <label for="totalSum">Total Sum:</label>
-    <input type="number" id="totalSum" name="totalSum" oninput="updateGraph()" value="50"><br><br>
+    <label for="maintainSum">Maintain Sum (<span id="currentSum">NaN</span>):</label>
+    <input type="checkbox" id="maintainSum" name="maintainSum"><br><br>
 
     <table id="colTable" border="1">
       <tr>
@@ -84,11 +84,22 @@
         <th>Delete</th>
       </tr>
     </table>
-    <input type="button" id="addColButton" value="Add Column" onclick="addRow('colTable');updateGraph()">
+    <input type="button" id="addColButton" value="Add Column" onclick="addColRow('colTable');updateGraph()">
+
+    <br><br>
+
+    <table id="rulesInput" border="1">
+      <tr>
+        <th>Rule</th>
+        <!-- <th>Error Message</th> -->
+        <th>Delete</th>
+      </tr>
+    </table>
+    <input type="button" id="addRuleButton" value="Add Rule" onclick="addRuleRow('rulesInput');">
   </center>
   <br>
   <div>
-    <center><button id="submitButton">Submit</button></center>
+    <center><button id="submitButton">Generate Question Javascript</button></center>
   </div>
 
   <script type="module" src="../components/admin_interface_main/setup.mjs"></script>

@@ -1,4 +1,5 @@
-import { GraphRestriction } from './GraphRestriction.mjs'
+import { GraphRestriction } from "./GraphRestriction.mjs";
+
 
 // Intellisense for Chart.js's `ChartConfiguration` type.
 // Based on https://github.com/chartjs/Chart.js/blob/master/types/index.d.ts
@@ -31,9 +32,10 @@ export class GraphDataObject {
    * 
    * @param {ChartConfig} chartConfig the config object passed to [Chart.js](https://www.chartjs.org/docs/latest/) to construct the graph.
    * @param {Array<GraphRestriction>=} restrictions an array of validity restrictions on the graph. An empty array means there are no restrictions.
+   * @param {boolean} maintainSum if the current sum should be maintained (as a restriction)
    * @memberof GraphDataObject
    */
-  constructor(chartConfig, restrictions = []) {
+  constructor(chartConfig, restrictions, maintainSum) {
     /**
      * A Chart.js [ChartConfiguration](https://www.chartjs.org/docs/latest/api/interfaces/ChartConfiguration.html)
      * object. For examples and more details see the [Chart.js docs](https://www.chartjs.org/docs/latest/).
@@ -49,5 +51,34 @@ export class GraphDataObject {
      * @type {Array<GraphRestriction>}
      */
     this.restrictions = restrictions;
+
+    /**
+     * @type {number | undefined}
+     */
+    this.maintainSum = maintainSum;
   }
-};
+
+  /**
+   * @param {object} obj 
+   * @param {ChartConfig} obj.chartConfig 
+   * @param {Array<GraphRestriction>} obj.restrictions 
+   * @param {boolean} obj.maintainSum 
+   */
+   static fromObject(obj) {
+    if (obj === undefined || obj === null) return undefined;
+    return new GraphDataObject(
+      obj.chartConfig,
+      (obj.restrictions ?? []).flatMap(restriction => {
+        let restrictionObj = GraphRestriction.fromObject(restriction);
+
+        if (restrictionObj === undefined) {
+          console.error("Invalid restriction being excluded:", restriction);
+          return [];
+        }
+
+        return [restrictionObj];
+      }),
+      Boolean(obj.maintainSum)
+    );
+  }
+}
