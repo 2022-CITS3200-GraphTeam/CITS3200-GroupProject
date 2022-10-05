@@ -16,11 +16,13 @@
       <li><a class="nav-item nav-link"><img src="../components/admin_interface_main/Icons/icon_menu_.png"> </a></li>
 
       <!-- Open The Modal -->
+      <li>
       <div class="helpBar">
       <button id="helpButton" button type="button" class="btn btn-light">Help 
         <img src="../components/participant_interface_main/Icons/icon_help.png"></button>
       </div>
-
+      </li>
+      <li><button id="parModalButton" type="button" class="btn btn-light"> Edit Help Message </button> </li>
     </ul>
 
   </nav>
@@ -43,6 +45,18 @@
       
     </div>
   </div>
+<div id="participantModal" class="modal">
+  <div class="modal-content">
+  <span class="close">&times;</span>
+  <strong>Tutorial</strong> <br /><br />
+  To begin click a section of the graph and drag it up or down.<br />
+  You will be restricted to a total size for the graph, the graph can only
+  be submitted when all values reach the total. <br /> <br>
+  Specific values can be entered using the text areas below the graph. <br /> <br />
+  </div>
+  </div>
+</div>
+
 
   <div>
     <div class="chartMenu"></div>

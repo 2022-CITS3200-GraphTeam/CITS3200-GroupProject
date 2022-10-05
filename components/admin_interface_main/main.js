@@ -184,3 +184,9 @@ window.onclick = function (event) {
     modal.style.display = "none";
   }
 }
+var parModal = document.getElementById("participantModal");
+var parModalbtn = document.getElementById("parModalButton");
+
+parModalbtn.onclick = function () { 
+  parModal.style.diplay = "block";
+}

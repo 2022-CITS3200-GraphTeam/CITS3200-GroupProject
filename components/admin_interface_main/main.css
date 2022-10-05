@@ -92,6 +92,11 @@ img {
   text-align: center;
 }
 
+/*Participant Modal */
+
+#participantModal {
+  display: none;
+}
 /* The Close Button */
 .close {
   color: #aaaaaa;
