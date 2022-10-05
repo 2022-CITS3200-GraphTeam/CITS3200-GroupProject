@@ -117,6 +117,9 @@ export function loadGraph(graphObj) {
     selectElement.appendChild(optionElement);
   });
 
+  // TODO @lachy
+  graphObj.modalValue;
+
   // Set the Default integer value to the first Data value
   updateInteger(); // ! updateInteger is defined in `participant_interface.js`
 }

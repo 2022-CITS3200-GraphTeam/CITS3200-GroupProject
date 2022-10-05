@@ -51,11 +51,17 @@ function getMaintainSum() {
   return document.getElementById("maintainSum").checked;
 }
 
+function getParModal() {
+  // something like `document.getElementById("maintainSum").value`
+  return "";
+}
+
 document.getElementById("submitButton").addEventListener("click", async () => {
   let chartObj = getChartObj(); // `getChartObj` defined in `main.js`
   let graphRestrictions = getRestrictions();
   let graphMaintainSum = getMaintainSum();
-  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphMaintainSum);
+  let parModal = getParModal();
+  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphMaintainSum, parModal);
 
   let nInvalid = graphRestrictions.invalid.length;
   if (nInvalid > 0) {

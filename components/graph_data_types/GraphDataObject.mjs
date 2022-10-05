@@ -35,7 +35,7 @@ export class GraphDataObject {
    * @param {boolean} maintainSum if the current sum should be maintained (as a restriction)
    * @memberof GraphDataObject
    */
-  constructor(chartConfig, restrictions, maintainSum) {
+  constructor(chartConfig, restrictions, maintainSum, modalValue) {
     /**
      * A Chart.js [ChartConfiguration](https://www.chartjs.org/docs/latest/api/interfaces/ChartConfiguration.html)
      * object. For examples and more details see the [Chart.js docs](https://www.chartjs.org/docs/latest/).
@@ -56,6 +56,11 @@ export class GraphDataObject {
      * @type {number | undefined}
      */
     this.maintainSum = maintainSum;
+
+    /**
+     * @type {string}
+     */
+    this.modalValue = modalValue;
   }
 
   /**
@@ -63,6 +68,7 @@ export class GraphDataObject {
    * @param {ChartConfig} obj.chartConfig 
    * @param {Array<GraphRestriction>} obj.restrictions 
    * @param {boolean} obj.maintainSum 
+   * @param {string} obj.modalValue 
    */
    static fromObject(obj) {
     if (obj === undefined || obj === null) return undefined;
@@ -78,7 +84,8 @@ export class GraphDataObject {
 
         return [restrictionObj];
       }),
-      Boolean(obj.maintainSum)
+      Boolean(obj.maintainSum),
+      String(obj.modalValue)
     );
   }
 }
