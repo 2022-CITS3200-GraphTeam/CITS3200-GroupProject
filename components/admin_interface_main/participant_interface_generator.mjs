@@ -1,8 +1,10 @@
+import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
 import { writeText } from "../js_helper_funcs/clipboard.mjs";
+import { encodeObject } from "../js_helper_funcs/encoding.mjs";
 import { injectionLoader } from "../qualtrics/injectionLoader.mjs";
 
-const copyFlagStart = `/** ------------------------ START OF BLOCK TO COPY ------------------------ **/`;
-const copyFlagEnd =   `/** ------------------------- END OF BLOCK TO COPY ------------------------- **/`;
+const copyFlagStart = `/** ----------------------- START OF BLOCK TO COPY ----------------------- **/`;
+const copyFlagEnd =   `/** ------------------------ END OF BLOCK TO COPY ------------------------ **/`;
 
 function formatCodeForCopy(code) {
   return `${copyFlagStart}\n\n\n${code}\n\n\n${copyFlagEnd}`;
@@ -15,13 +17,15 @@ function generateFailText(code) {
 /**
  * Generates an injection for Qualtrics as a string.
  * 
- * TODO: accept actual graph data inputs and set the graph data for the participant interface
- * @param {*} graphObj TODO
+ * @param {GraphDataObject} graphObj 
  * 
  * @returns {Promise<string>} the injection as a string
  */
 export async function generateCode(graphObj) {
-  return `eval(${JSON.stringify(`(${injectionLoader.toString()})("${JSON.stringify(graphObj ?? null)}");`)});`;
+  let encodedObjStr = encodeObject(graphObj ?? null);
+  let injectionFuncStr = injectionLoader.toString();
+
+  return `eval(${JSON.stringify(`(${injectionFuncStr})("${encodedObjStr}");`)});`;
 }
 
 /**

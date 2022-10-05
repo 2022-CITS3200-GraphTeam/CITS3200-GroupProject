@@ -1,5 +1,6 @@
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
 import { Message, MessageType } from "../qualtrics/Message.mjs";
+import { loadGraph } from "./graph_handlers.mjs";
 
 const hostVerificationRegex = /^https:\/\/(?:(.+)\.)?qualtrics.com$/;
 
@@ -12,7 +13,7 @@ let port;
 export function handleInjectionMessage(e) {
   // check the event is from Qualtrics
   if (!hostVerificationRegex.test(e.origin)) {
-    console.info(`Ignoring request from non-qualtrics origin "${e.origin}"`);
+    console.warn(`Ignoring request from non-qualtrics origin "${e.origin}"`);
     return false;
   }
 
@@ -60,9 +61,13 @@ function handlePortInitRequest(e) {
  * @param {MessageEvent} e 
  */
 function handleGraphLoadRequest(e) {
-  /** @type {GraphDataObject} */
-  let graphObj = e.data;
+  let graphObj = GraphDataObject.fromObject(e.data);
 
-  // ! TODO call participant interface load graph func
+  if (!graphObj) {
+    console.error("bad graph load request:", graphObj);
+    return;
+  }
+
   console.log("load request for:", graphObj);
+  loadGraph(graphObj); // defined in `participant_interface.js`
 }

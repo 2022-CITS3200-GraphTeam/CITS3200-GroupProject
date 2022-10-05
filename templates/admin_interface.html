@@ -5,7 +5,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link href="../components/admin_interface_main/main.css" rel="stylesheet">
-  <script src="../components/admin_interface_main/main.js"></script>
+
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,11 @@
 
       <li><a class="nav-item nav-link"><img src="../components/admin_interface_main/Icons/icon_menu_.png"> </a></li>
 
-      <li><a class="nav-item nav-link">Help <img src="../components/admin_interface_main/Icons/icon_help.png"></a></li>
+      <!-- Open The Modal -->
+      <div class="helpBar">
+      <button id="helpButton" button type="button" class="btn btn-light">Help 
+        <img src="../components/participant_interface_main/Icons/icon_help.png"></button>
+      </div>
 
     </ul>
 
@@ -25,6 +29,21 @@
 </head>
 
 <body onload="generateGraph()">
+
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <strong>Tutorial</strong> <br>
+      You can click Add Column to add column, or click Delete to delete column.<br />
+      To generate a graph enter the graph name, column names, values, axis names.<br />
+      When ready to generate click submit.
+      
+    </div>
+  </div>
+
   <div>
     <div class="chartMenu"></div>
     <div class="chartCard">
@@ -39,6 +58,24 @@
   </div>
   <br>
   <center>
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" oninput="updateGraph()" value="Title"><br>
+    <label for="xTitle">X-axis Title:</label>
+    <input type="text" id="xTitle" name="xTitle" oninput="updateGraph()" value="x axis"><br>
+    <label for="yTitle">Y-axis Title:</label>
+    <input type="text" id="yTitle" name="yTitle" oninput="updateGraph()" value="y axis"><br>
+    <label for="scaleMax">Maximum for Scale:</label>
+    <input type="number" id="scaleMax" name="scaleMax" oninput="updateGraph()" value="20" step="0.5"><br>
+    <label for="scaleMin">Minimum for Scale:</label>
+    <input type="number" id="scaleMin" name="scaleMin" oninput="updateGraph()" value="0" step="0.5"><br>
+    <label for="scaleIncrement">Scale Increment:</label>
+    <input type="number" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" value="2" step="0.1"><br>
+    <label for="stepSize">Step size:</label>
+    <input type="number" id="stepSize" name="stepSize" oninput="updateGraph()" value="0.5" step="0.1"><br>
+    <label for="totalSum">Total Sum:</label>
+    <input type="number" id="totalSum" name="totalSum" oninput="updateGraph()" value="50"><br><br>
+
     <table id="colTable" border="1">
       <tr>
         <th>Name</th>
@@ -46,14 +83,26 @@
         <th>Delete</th>
       </tr>
     </table>
-    <input type="button" id="addColButton" value="Add Column" onclick="addRow('colTable');updateGraph()">
+    <input type="button" id="addColButton" value="Add Column" onclick="addColRow('colTable');updateGraph()">
+
+    <br><br>
+
+    <table id="rulesInput" border="1">
+      <tr>
+        <th>Rule</th>
+        <!-- <th>Error Message</th> -->
+        <th>Delete</th>
+      </tr>
+    </table>
+    <input type="button" id="addRuleButton" value="Add Rule" onclick="addRuleRow('rulesInput');">
   </center>
   <br>
   <div>
-    <center><button id="submitButton">Submit</button></center>
+    <center><button id="submitButton">Generate Question Javascript</button></center>
   </div>
 
   <script type="module" src="../components/admin_interface_main/setup.mjs"></script>
+  <script src="../components/admin_interface_main/main.js"></script>
 </body>
 
 </html>

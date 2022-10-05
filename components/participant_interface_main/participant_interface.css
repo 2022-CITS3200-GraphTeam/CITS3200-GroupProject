@@ -15,6 +15,20 @@ body {
 .forms {
   margin: auto;
   width: 10%;
+  display: block;
+}
+
+select {
+  appearance: none;
+  outline: 0;
+  background-image: none;
+  padding-left: 10px;
+  width: 100%;
+  height: 100%;
+  color: black;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 3px;
 }
 #submitButton {
   margin: auto;
