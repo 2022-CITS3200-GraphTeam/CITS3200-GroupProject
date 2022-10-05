@@ -71,7 +71,6 @@ img {
 
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
@@ -87,9 +86,18 @@ img {
 /* Modal Content */
 .modal-content {
   background-color: rgb(255, 255, 255);
-  padding: 20px;
-  width: 30%;
+  /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+  width:inherit;
+  max-width:inherit; /* For Bootstrap 4 - to avoid the modal window stretching full width */
+  height:inherit;
+  /* To center horizontally */
+  margin: 0 auto;
+  pointer-events: all;
   text-align: center;
+}
+
+#myModal {
+  display: none; 
 }
 
 /*Participant Modal */
@@ -97,6 +105,7 @@ img {
 #participantModal {
   display: none;
 }
+
 /* The Close Button */
 .close {
   color: #aaaaaa;
@@ -112,4 +121,8 @@ img {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+textarea {
+  text-align: center;
 }

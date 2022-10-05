@@ -73,7 +73,12 @@ function getScaleIncrement() {
   var testScaleIncrement = document.getElementById("scaleIncrement").value;
   return Math.round(testScaleIncrement * 100) / 100;
 }
-
+/*function getIncrement() {
+  var num = getScaleIncrement()
+  if(num%2==0){
+    return
+  }
+}*/
 
 function generateGraph() {
   // start with 3 table columns
@@ -124,8 +129,11 @@ function generateGraph() {
           display: false
         },
         dragData: {
+          round: 0,
           onDrag: (event, datasetIndex, index, value) => {
-            dragHandler(datasetIndex, index, value)
+              dragHandler(datasetIndex, index, value);
+            
+            
           }
         }
       },
@@ -161,13 +169,13 @@ function generateGraph() {
 function updateGraph() {
   myChart.data.labels = getColNames();
   myChart.data.datasets[0].data = getColValues();
-
   myChart.config._config.options.plugins.title.text = getTitle();
   myChart.config._config.options.scales.y.title.text = getYTitle();
   myChart.config._config.options.scales.x.title.text = getXTitle();
   myChart.config._config.options.scales.y.min = getScaleMin();
   myChart.config._config.options.scales.y.max = getScaleMax();
   myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
+  myChart.options.plugins.dragData.round = Math.log10(1/getScaleIncrement());
 
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
   document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
@@ -194,16 +202,14 @@ var btn = document.getElementById("helpButton");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
+var parModal = document.getElementById("participantModal");
+var parModalbtn = document.getElementById("parModalButton");
 // When the user clicks the button, open the modal 
-btn.onclick = function () {
+/*btn.onclick = function () {
   modal.style.display = "block";
-}
+}*/
 window.onerror = function (e) {
   alert(e);
-}
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-  modal.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modal, close it
@@ -211,10 +217,17 @@ window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
+  else if (event.target == parModal){
+    parModal.style.display = "none"
+  }
 }
-var parModal = document.getElementById("participantModal");
-var parModalbtn = document.getElementById("parModalButton");
 
-parModalbtn.onclick = function () { 
-  parModal.style.diplay = "block";
+function openModal(modalName){
+  var modal = document.getElementById(modalName)
+  modal.style.display = "block";
+}
+
+function closeModal(modalName){
+  var modal = document.getElementById(modalName)
+  modal.style.display = "none";
 }
