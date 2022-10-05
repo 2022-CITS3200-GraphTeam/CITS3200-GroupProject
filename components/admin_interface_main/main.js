@@ -2,7 +2,7 @@ function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
 <td><input class="valueInput" oninput="updateGraph()" value="${n}" size=10 type="number"></td>
-<td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#ff0000"></td>
+<td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
 }
