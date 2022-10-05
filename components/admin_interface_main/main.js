@@ -124,8 +124,8 @@ function generateGraph() {
           display: false
         },
         dragData: {
-          onDragStart: (event) => {
-            console.log(event)
+          onDrag: (event, datasetIndex, index, value) => {
+            dragHandler(datasetIndex, index, value)
           }
         }
       },
@@ -168,6 +168,11 @@ function updateGraph() {
   myChart.config._config.options.scales.y.max = getScaleMax();
   myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
   myChart.update();
+}
+
+function dragHandler(datasetIndex, index, value) {
+  const name = myChart.data.labels[index];
+  document.getElementsByClassName("valueInput")[index].value = value;
 }
 
 // returns the ChartJS graph obj
