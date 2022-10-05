@@ -73,7 +73,10 @@ function getScaleIncrement() {
   var testScaleIncrement = document.getElementById("scaleIncrement").value;
   return Math.round(testScaleIncrement * 100) / 100;
 }
-
+function getStepSize(){
+  var stepSize = document.getElementById('stepSize').value;
+  return stepSize;
+}
 function generateGraph() {
   // start with 3 table columns
   for (let i = 0; i < 3; i++) addColRow("colTable");
@@ -169,7 +172,7 @@ function updateGraph() {
   myChart.config._config.options.scales.y.min = getScaleMin();
   myChart.config._config.options.scales.y.max = getScaleMax();
   myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
-  myChart.options.plugins.dragData.round = Math.log10(1/getScaleIncrement());
+  myChart.options.plugins.dragData.round = Math.log10(1/getStepSize());
 
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
   document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
