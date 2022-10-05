@@ -43,26 +43,37 @@ export class GraphRestriction {
   }
 
   /**
-   * use capture group 1 to get the column number
-   */
-  static getColumnRegex() { return /\[(\d+)\]/g; }
-
-  /**
    * Evaluates the constraint with the given graph data.
    * @param {Array<number>} graphValueArr
    * @returns {boolean} true iff the constraint is respected (not violated)
    */
   isValid(graphValueArr) {
-    // replace columns (of the form "[COLUMN_NUMBER]") with their values
-    let expStr = this.rule.replace(GraphRestriction.getColumnRegex(), (_, columnNumber) => {
+    /**
+     * Used by restrictions; returns the array of column values
+     * @returns {Array<number>}
+     */
+    function colArr() { return [...graphValueArr]; }
+
+    /**
+     * Used by restrictions; fetches the value for a given column
+     * @param {number} n 
+     */
+    function col(n) {
+      let columnNumber = parseInt(n);
+      if (!Number.isInteger(columnNumber)) {
+        throw new Error(`Column Number (${n}) is not a valid number (processed to: ${columnNumber})`);
+      }
+
       let columnIndex = columnNumber - 1;
-      if (columnIndex >= graphValueArr.length) throw new Error(`Column Number (${columnNumber}) out of range (expected between 1 and ${graphValueArr.length})`);
+      if (columnIndex >= colArr().length) {
+        throw new Error(`Column Number (${columnNumber}) out of range (expected between 1 and ${colArr().length})`);
+      }
+
       return graphValueArr[columnIndex] ?? NaN;
-    });
+    }
 
     // evaluate the expression (=> its validity)
-    // ! `Function` (eval) should be replaced with maths expression evaluation
-    let validity = Boolean(Function(`return (${expStr})`)());
+    let validity = Boolean(eval(this.rule));
     return validity;
   }
 }
