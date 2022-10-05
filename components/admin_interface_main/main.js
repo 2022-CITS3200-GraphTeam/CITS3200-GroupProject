@@ -93,24 +93,8 @@ function generateGraph() {
     datasets: [{
       label: 'Weekly Sales',
       data: getColValues(),
-      backgroundColor: [ color = getColour(),
-        //'rgba(255, 26, 104, 0.2)',
-        //'rgba(54, 162, 235, 0.2)',
-        //'rgba(255, 206, 86, 0.2)',
-        //'rgba(75, 192, 192, 0.2)',
-        //'rgba(153, 102, 255, 0.2)',
-        //'rgba(255, 159, 64, 0.2)',
-        //'rgba(0, 0, 0, 0.2)'
-      ],
-      borderColor: [ color = getColour(),
-        //'rgba(255, 26, 104, 1)',
-        //'rgba(54, 162, 235, 1)',
-        //'rgba(255, 206, 86, 1)',
-        //'rgba(75, 192, 192, 1)',
-        //'rgba(153, 102, 255, 1)',
-        //'rgba(255, 159, 64, 1)',
-        //'rgba(0, 0, 0, 1)'
-      ],
+      backgroundColor: getColour(),
+      borderColor: getColour(),
       borderWidth: 1,
       dragData: true,
     }]
@@ -174,7 +158,8 @@ function updateGraph() {
   myChart.config._config.options.scales.y.min = getScaleMin();
   myChart.config._config.options.scales.y.max = getScaleMax();
   myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
-  myChart.data.datasets.backgroundColor.color = getColour();
+  myChart.data.datasets[0].backgroundColor = getColour();
+  myChart.data.datasets[0].borderColor = getColour();
 
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
   document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
