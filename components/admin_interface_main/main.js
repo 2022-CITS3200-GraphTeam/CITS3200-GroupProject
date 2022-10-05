@@ -118,14 +118,14 @@ function generateGraph() {
       plugins: {
         title: {
           display: true,
-          text: "title"
+          text: ""
         },
         legend: {
           display: false
         },
         dragData: {
-          onDragStart: (event) => {
-            console.log(event)
+          onDrag: (event, datasetIndex, index, value) => {
+            dragHandler(datasetIndex, index, value)
           }
         }
       },
@@ -161,13 +161,22 @@ function generateGraph() {
 function updateGraph() {
   myChart.data.labels = getColNames();
   myChart.data.datasets[0].data = getColValues();
+
   myChart.config._config.options.plugins.title.text = getTitle();
   myChart.config._config.options.scales.y.title.text = getYTitle();
   myChart.config._config.options.scales.x.title.text = getXTitle();
   myChart.config._config.options.scales.y.min = getScaleMin();
   myChart.config._config.options.scales.y.max = getScaleMax();
   myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
+
+  let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
+  document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
   myChart.update();
+}
+
+function dragHandler(datasetIndex, index, value) {
+  const name = myChart.data.labels[index];
+  document.getElementsByClassName("valueInput")[index].value = value;
 }
 
 // returns the ChartJS graph obj
