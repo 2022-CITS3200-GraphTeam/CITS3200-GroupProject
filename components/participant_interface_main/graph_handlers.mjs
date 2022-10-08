@@ -51,17 +51,26 @@ export function loadGraph(graphObj) {
     // update the graph display
     graphChart.update();
 
+    let answerValid = true;
+
     // * ideally would pull rather than push, but can't prevent qualtrics submitting until the data is pulled
     // send updated answer to qualtrics
 
-    let currentSum = getGraphValues().reduce((r, v) => r + v, 0);
-    document.getElementById("currentSumDisplay").innerText = currentSum;
-    if (currentSum === graphObj.totalSum) { // ? should there be an epsilon
-      document.getElementById("sumDisplayContainer").classList.remove("invalid");
+    if (graphObj.totalSum !== undefined) {
+      let currentSum = getGraphValues().reduce((r, v) => r + v, 0);
+      document.getElementById("currentSumDisplay").innerText = currentSum;
+      if (currentSum !== graphObj.totalSum) { // ? should there be an epsilon
+        answerValid = false;
+        document.getElementById("sumDisplayContainer").classList.add("invalid");
+      } else {
+        document.getElementById("sumDisplayContainer").classList.remove("invalid");
+      }
+    }
+
+    if (answerValid) {
       let answerStr = getAnswerStr();
       setAnswer(answerStr);
     } else {
-      document.getElementById("sumDisplayContainer").classList.add("invalid");
       setAnswerInvalid();
     }
   }
@@ -74,8 +83,8 @@ export function loadGraph(graphObj) {
   graphChart = new Chart(ctx, graphObj.chartConfig);
 
   // Function that understands the clicking event - testing how to properly use this
-  ctx.addEventListener("click", (e) => {
-    const points = graphChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
+  function clickHandler(click) {
+    const points = graphChart.getElementsAtEventForMode(click, 'nearest', { intersect: true }, true);
 
     if (points.length) {
       const firstPoint = points[0];
@@ -86,7 +95,8 @@ export function loadGraph(graphObj) {
       document.getElementById("integerValue").value = value;
       document.getElementById("integerValue").classList.remove("invalid");
     }
-  });
+  }
+  ctx.onclick = clickHandler;
 
   // update the inputs when a column is dragged
   function dragHandler(datasetIndex, index, value) {
@@ -136,8 +146,15 @@ export function loadGraph(graphObj) {
   // set the Default integer value to the first Data value
   updateInteger();
 
-  // populate the sum display
-  document.getElementById("requiredSumDisplay").innerText = graphObj.totalSum;
+  if (graphObj.totalSum !== undefined) {
+    // enabled: populate the sum display
+    document.getElementById("requiredSumDisplay").innerText = graphObj.totalSum;
+  } else {
+    // disabled: hide the sum display
+
+    // "invisible" is a bootstrap class that sets visibility to hidden
+    document.getElementById("sumDisplayContainer").classList.add("invisible");
+  }
 
   // ensure the graph is updated; mostly here to send the current graph answer back to qualtrics
   updateGraph();
