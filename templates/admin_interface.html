@@ -45,7 +45,7 @@
       When ready to generate click submit.
       </p>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+        <button onclick="closeModal('myModal')" type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
     </div>
@@ -55,7 +55,7 @@
   <div class="modal-content">
   <span class="close" onclick="closeModal('participantModal')">&times;</span>
   <header> <Strong> Tutorial</Strong></header>
-  <textarea rows = 12 >
+  <textarea id="tutorialText" rows = 12 >
     To begin click a section of the graph and drag it up or down.
 
     You will be restricted to a total size for the graph, the graph can only
@@ -64,8 +64,7 @@
     Specific values can be entered using the text areas below the graph. 
   </textarea>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary">Save changes</button>
+    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="closeModal('participantModal')">Close</button>
   </div>
 </div>
 

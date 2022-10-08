@@ -52,8 +52,7 @@ function getMaintainSum() {
 }
 
 function getParModal() {
-  // something like `document.getElementById("maintainSum").value`
-  return "";
+  return document.getElementById("tutorialText").value;
 }
 
 document.getElementById("submitButton").addEventListener("click", async () => {
