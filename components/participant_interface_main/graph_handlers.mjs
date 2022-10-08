@@ -1,15 +1,5 @@
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
-import { setAnswer } from "./iframe_coms.mjs";
-
-export function updateGraph() {
-  // update the graph display
-  graphChart.update();
-
-  // ! ideally would pull rather than push, but can't prevent the qualtrics submit button
-  // send updated answer to qualtrics
-  let answerStr = getAnswerStr();
-  setAnswer(answerStr);
-}
+import { setAnswer, setAnswerInvalid } from "./iframe_coms.mjs";
 
 /**
  * TODO: set return value to the ChartJS graph object
@@ -24,7 +14,11 @@ export function loadGraph(graphObj) {
 
   // update the input when a drag occurs
   graphObj.chartConfig.options.plugins.dragData.onDrag = (event, datasetIndex, index, value) => {
-    return dragHandler(datasetIndex, index, value);
+    let result = dragHandler(datasetIndex, index, value);
+
+    updateGraph();
+
+    return result;
   };
 
   // round the value after drag is complete
@@ -37,12 +31,25 @@ export function loadGraph(graphObj) {
     updateGraph();
   };
 
-  // TODO: process `graphObj.restrictions` (see issue #8, or child issues of it)
   // returns true iff all restrictions are satisfied
   function verifyRestrictions(override) {
     let graphValues = getGraphValues();
     for (let [i, v] of Object.entries(override)) graphValues[i] = v; // override updated values, if required
     return graphObj.restrictions.every(restriction => restriction.isValid(graphValues));
+  }
+
+  function updateGraph() {
+    // update the graph display
+    graphChart.update();
+  
+    // * ideally would pull rather than push, but can't prevent qualtrics submitting until the data is pulled
+    // send updated answer to qualtrics
+    if (getGraphValues().reduce((r, v) => r + v, 0) === graphObj.totalSum) { // ? should there be an epsilon
+      let answerStr = getAnswerStr();
+      setAnswer(answerStr);
+    } else {
+      setAnswerInvalid();
+    }
   }
 
   // pintpointing the chart, so that the click understands the canvas tag
