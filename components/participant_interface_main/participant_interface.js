@@ -40,10 +40,3 @@ function closeNav() {
   document.getElementById("mySidebar").style.padding = "0px 0px 0px 0px";
   document.getElementById("mainSidebar").style.marginLeft = "0";
 }
-
-
-// Function that updates the integer value box based on the section name
-function updateInteger() {
-  const select = document.getElementById("sectionName");
-  document.getElementById("integerValue").value = graphChart.data.datasets[0].data[select.value];
-}

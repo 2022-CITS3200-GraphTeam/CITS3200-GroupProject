@@ -2,6 +2,15 @@ import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
 import { setAnswer, setAnswerInvalid } from "./iframe_coms.mjs";
 
 /**
+ * Function that updates the integer value box based on the section name
+ */
+export function updateInteger() {
+  const select = document.getElementById("sectionName");
+  document.getElementById("integerValue").value = graphChart.data.datasets[0].data[select.value];
+  document.getElementById("integerValue").classList.remove("invalid");
+}
+
+/**
  * TODO: set return value to the ChartJS graph object
  * @param {GraphDataObject} graphObj
  */
@@ -60,8 +69,8 @@ export function loadGraph(graphObj) {
   graphChart = new Chart(ctx, graphObj.chartConfig);
 
   // Function that understands the clicking event - testing how to properly use this
-  function clickHandler(click) {
-    const points = graphChart.getElementsAtEventForMode(click, 'nearest', { intersect: true }, true);
+  ctx.addEventListener("click", (e) => {
+    const points = graphChart.getElementsAtEventForMode(e, 'nearest', { intersect: true }, true);
 
     if (points.length) {
       const firstPoint = points[0];
@@ -71,8 +80,7 @@ export function loadGraph(graphObj) {
       document.getElementById("sectionName").value = index;
       document.getElementById("integerValue").value = value;
     }
-  }
-  ctx.onclick = clickHandler;
+  });
 
   // update the inputs when a column is dragged
   function dragHandler(datasetIndex, index, value) {
@@ -98,8 +106,12 @@ export function loadGraph(graphObj) {
     // * only one value can be changed at a time with this UI, so only one value being changed is a valid assumption
     // cancel interaction if it violates a restriction
     if (!verifyRestrictions({ [sectionIndex]: sectionValue })) {
+      document.getElementById("integerValue").classList.add("invalid");
       return false;
     }
+
+    // mark as valid
+    document.getElementById("integerValue").classList.remove("invalid");
 
     // update the graph data with the new value
     graphChart.data.datasets[0].data[sectionIndex] = sectionValue;
@@ -115,7 +127,7 @@ export function loadGraph(graphObj) {
   });
 
   // Set the Default integer value to the first Data value
-  updateInteger(); // ! updateInteger is defined in `participant_interface.js`
+  updateInteger();
 
   // ensure the graph is updated; mostly here to send the current graph answer back to qualtrics
   updateGraph();
