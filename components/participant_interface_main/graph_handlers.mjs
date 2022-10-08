@@ -79,6 +79,7 @@ export function loadGraph(graphObj) {
 
       document.getElementById("sectionName").value = index;
       document.getElementById("integerValue").value = value;
+      document.getElementById("integerValue").classList.remove("invalid");
     }
   });
 
@@ -95,6 +96,7 @@ export function loadGraph(graphObj) {
 
     document.getElementById("sectionName").value = index;
     document.getElementById("integerValue").value = roundedValue;
+    document.getElementById("integerValue").classList.remove("invalid");
   }
 
   // update the graph when the column input value is changed
