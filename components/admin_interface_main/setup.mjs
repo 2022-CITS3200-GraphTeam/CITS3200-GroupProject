@@ -19,7 +19,7 @@ export function getRestrictions() {
 
     // exclude the rule if it's not valid
     if (!GraphRestriction.validateRule(rule)) {
-      console.error(`Invalid rule being excluded:`, rule);
+      (rule === "" ? console.warn : console.error)(`Invalid rule being excluded:`, rule);
       invalidRestrictions.push({ rule, errorMessage });
       return;
     }
