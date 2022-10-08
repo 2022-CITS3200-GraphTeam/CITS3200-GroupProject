@@ -50,13 +50,18 @@ export function loadGraph(graphObj) {
   function updateGraph() {
     // update the graph display
     graphChart.update();
-  
+
     // * ideally would pull rather than push, but can't prevent qualtrics submitting until the data is pulled
     // send updated answer to qualtrics
-    if (getGraphValues().reduce((r, v) => r + v, 0) === graphObj.totalSum) { // ? should there be an epsilon
+
+    let currentSum = getGraphValues().reduce((r, v) => r + v, 0);
+    document.getElementById("currentSumDisplay").innerText = currentSum;
+    if (currentSum === graphObj.totalSum) { // ? should there be an epsilon
+      document.getElementById("sumDisplayContainer").classList.remove("invalid");
       let answerStr = getAnswerStr();
       setAnswer(answerStr);
     } else {
+      document.getElementById("sumDisplayContainer").classList.add("invalid");
       setAnswerInvalid();
     }
   }
@@ -128,8 +133,11 @@ export function loadGraph(graphObj) {
     selectElement.appendChild(optionElement);
   });
 
-  // Set the Default integer value to the first Data value
+  // set the Default integer value to the first Data value
   updateInteger();
+
+  // populate the sum display
+  document.getElementById("requiredSumDisplay").innerText = graphObj.totalSum;
 
   // ensure the graph is updated; mostly here to send the current graph answer back to qualtrics
   updateGraph();
