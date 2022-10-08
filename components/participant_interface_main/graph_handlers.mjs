@@ -61,7 +61,7 @@ export function loadGraph(graphObj) {
     }
   }
 
-  // pintpointing the chart, so that the click understands the canvas tag
+  // pinpointing the chart, so that the click understands the canvas tag
   const ctx = document.getElementById('myChart');
 
   // create the (ChartJS) chart object

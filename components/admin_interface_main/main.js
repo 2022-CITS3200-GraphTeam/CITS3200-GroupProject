@@ -2,7 +2,7 @@ function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
 <td><input class="valueInput" oninput="updateGraph()" value="${n}" size=10 type="number"></td>
-<td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
+<td><input class="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
 }
@@ -15,7 +15,7 @@ function makeRuleRowHTML(n) {
 }
 // <td><input class="errorInput" value="" size=30 type="text"></td>
 
-let graphData, graphConfig, myChart;
+let myChart;
 
 function deleteRow(row, dd) {
   var i = row.parentNode.parentNode.rowIndex;
@@ -40,7 +40,7 @@ function addRuleRow(dd) {
   x.appendChild(newRow);
 }
 
-function getColour(){
+function getColour() {
   let rows = [...document.getElementById("colTable").rows].slice(1);
   return rows.map(row => row.querySelector(".colourInput").value);
 }
@@ -88,7 +88,7 @@ function generateGraph() {
   // start with 1 (empty) rule
   addRuleRow('rulesInput');
 
-  graphData = {
+  let graphData = {
     labels: getColNames(),
     datasets: [{
       label: 'Weekly Sales',
@@ -101,7 +101,7 @@ function generateGraph() {
   };
 
   // config 
-  graphConfig = {
+  let graphConfig = {
     type: 'bar',
     data: graphData,
     options: {
@@ -159,7 +159,7 @@ function updateGraph() {
   myChart.config._config.options.scales.y.min = getScaleMin();
   myChart.config._config.options.scales.y.max = getScaleMax();
   myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
-  
+
   myChart.data.datasets[0].backgroundColor = getColour();
   myChart.data.datasets[0].borderColor = getColour();
 
