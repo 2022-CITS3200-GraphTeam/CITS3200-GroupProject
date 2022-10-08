@@ -32,10 +32,10 @@ export class GraphDataObject {
    * 
    * @param {ChartConfig} chartConfig the config object passed to [Chart.js](https://www.chartjs.org/docs/latest/) to construct the graph.
    * @param {Array<GraphRestriction>=} restrictions an array of validity restrictions on the graph. An empty array means there are no restrictions.
-   * @param {boolean} maintainSum if the current sum should be maintained (as a restriction)
+   * @param {number | undefined} totalSum the required graph total sum value (or undefined if not required)
    * @memberof GraphDataObject
    */
-  constructor(chartConfig, restrictions, maintainSum) {
+  constructor(chartConfig, restrictions, totalSum) {
     /**
      * A Chart.js [ChartConfiguration](https://www.chartjs.org/docs/latest/api/interfaces/ChartConfiguration.html)
      * object. For examples and more details see the [Chart.js docs](https://www.chartjs.org/docs/latest/).
@@ -55,17 +55,20 @@ export class GraphDataObject {
     /**
      * @type {number | undefined}
      */
-    this.maintainSum = maintainSum;
+    this.totalSum = totalSum;
   }
 
   /**
    * @param {object} obj 
    * @param {ChartConfig} obj.chartConfig 
    * @param {Array<GraphRestriction>} obj.restrictions 
-   * @param {boolean} obj.maintainSum 
+   * @param {number | undefined} obj.totalSum 
    */
    static fromObject(obj) {
     if (obj === undefined || obj === null) return undefined;
+
+    let totalSumAsFloat = parseFloat(obj.totalSum);
+
     return new GraphDataObject(
       obj.chartConfig,
       (obj.restrictions ?? []).flatMap(restriction => {
@@ -78,7 +81,7 @@ export class GraphDataObject {
 
         return [restrictionObj];
       }),
-      Boolean(obj.maintainSum)
+      Number.isFinite(totalSumAsFloat) ? totalSumAsFloat : undefined
     );
   }
 }

@@ -159,16 +159,22 @@ function updateGraph() {
   myChart.config._config.options.scales.y.min = getScaleMin();
   myChart.config._config.options.scales.y.max = getScaleMax();
   myChart.config._config.options.scales.y.ticks.stepSize = getScaleIncrement();
+  
   myChart.data.datasets[0].backgroundColor = getColour();
   myChart.data.datasets[0].borderColor = getColour();
 
+  // update sum display
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
-  document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
+  let graphValueSum = graphValues.reduce((r, v) => r + v, 0);
+  document.getElementById("currentSum").innerHTML = graphValueSum;
+
   myChart.update();
 }
 
 function dragHandler(datasetIndex, index, value) {
   document.getElementsByClassName("valueInput")[index].value = value;
+
+  updateGraph();
 }
 
 // returns the ChartJS graph obj

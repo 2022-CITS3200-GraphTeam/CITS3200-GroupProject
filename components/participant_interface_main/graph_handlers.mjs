@@ -73,29 +73,9 @@ export function loadGraph(graphObj) {
 
     let changedValues = { [index]: roundedValue };
 
-    if (graphObj.maintainSum) {
-      // handle totalSum i.e. reduce other columns by the required amount
-      let currentValues = getGraphValues();
-      let mod = -(roundedValue - currentValues[index]) / (currentValues.length - 1);
-      for (let i = 0; i < currentValues.length; i++) {
-        if (i === index) continue;
-        changedValues[i] = Math.round((currentValues[i] + mod) * 100) / 100;
-      }
-    }
-
     // cancel interaction if it violates a restriction
     if (!verifyRestrictions(changedValues)) {
       return false;
-    }
-
-    if (graphObj.maintainSum) {
-      // update other columns
-      for (let i in changedValues) {
-        if (i === index) continue;
-        graphChart.data.datasets[0].data[i] = changedValues[i];
-      }
-
-      graphChart.update();
     }
 
     document.getElementById("sectionName").value = index;
