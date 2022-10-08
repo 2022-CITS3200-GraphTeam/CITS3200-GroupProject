@@ -114,9 +114,8 @@ function generateGraph() {
           display: false
         },
         dragData: {
-          onDrag: (event, datasetIndex, index, value) => {
-            dragHandler(datasetIndex, index, value)
-          }
+          onDrag: (event, datasetIndex, index, value) => dragHandler(datasetIndex, index, value),
+          onDragEnd: (event, datasetIndex, index, value) => dragHandler(datasetIndex, index, value)
         }
       },
       scales: {
@@ -146,6 +145,8 @@ function generateGraph() {
     document.getElementById('myChart'),
     graphConfig
   );
+
+  updateGraph();
 }
 
 function updateGraph() {
@@ -167,7 +168,6 @@ function updateGraph() {
 }
 
 function dragHandler(datasetIndex, index, value) {
-  const name = myChart.data.labels[index];
   document.getElementsByClassName("valueInput")[index].value = value;
 }
 
