@@ -10,9 +10,9 @@ function getAnswerContainer(questionDataObj) { return questionDataObj.getChoiceC
 
 /**
  * @param {QuestionData} questionDataObj 
- * @returns {HTMLTextAreaElement}
+ * @returns {HTMLInputElement}
  */
-function getAnswerElement(questionDataObj) { return getAnswerContainer(questionDataObj).querySelector("textarea"); }
+function getAnswerElement(questionDataObj) { return getAnswerContainer(questionDataObj).querySelector("input"); }
 
 /**
  * @param {QuestionData} questionDataObj 
@@ -21,6 +21,15 @@ function getAnswerElement(questionDataObj) { return getAnswerContainer(questionD
 function setAnswer(questionDataObj, answerStr) {
   let el = getAnswerElement(questionDataObj);
   el.value = answerStr;
+}
+
+/**
+ * @param {QuestionData} questionDataObj 
+ * @returns {string}
+ */
+ function getAnswer(questionDataObj) {
+  let el = getAnswerElement(questionDataObj);
+  return el.value;
 }
 
 /**
