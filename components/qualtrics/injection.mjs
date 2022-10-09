@@ -84,6 +84,28 @@ export async function onReady(questionDataObj, rawGraphObj) {
           break;
 
         case MessageType.READY:
+          // check if an answer is already set
+          let currentAnswer = getAnswer(questionDataObj);
+          let nColumns = graphObj.chartConfig.data.datasets[0].data.length;
+
+          // checks for `n` numbers separated by commas
+          let answerRegex = new RegExp(`^\\s*(?:\\d+(?:\\.\\d+)?)(?:\\s*,\\s*\\d+(?:\\.\\d+)?){${nColumns-1}}\\s*$`);
+          if (answerRegex.test(currentAnswer)) {
+            // current answer is a valid answer; load it into the graph
+            let values = currentAnswer.match(/(?:\d+(?:\.\d+)?)/g).map(v => parseFloat(v));
+            if (values.length === nColumns) {
+              console.info("Found existing Qualtrics answer:", values);
+              graphObj.chartConfig.data.datasets[0].data = values;
+            } else {
+              console.error(
+                "Found existing Qualtrics answer, but failed during parsing.",
+                "Answer:", currentAnswer,
+                "After Parsing:", values
+              );
+              alert("Failed to load user's saved graph values: check the console logs (f12) for more info. Loading the question's original graph values instead.")
+            }
+          }
+
           // send graph object to be loaded
           port.postMessage(graphObj);
           break;
