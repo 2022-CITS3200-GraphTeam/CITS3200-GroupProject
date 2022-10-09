@@ -3,8 +3,8 @@ import { writeText } from "../js_helper_funcs/clipboard.mjs";
 import { encodeObject } from "../js_helper_funcs/encoding.mjs";
 import { injectionLoader } from "../qualtrics/injectionLoader.mjs";
 
-const copyFlagStart = `/** ------------------------ START OF BLOCK TO COPY ------------------------ **/`;
-const copyFlagEnd =   `/** ------------------------- END OF BLOCK TO COPY ------------------------- **/`;
+const copyFlagStart = `/** ----------------------- START OF BLOCK TO COPY ----------------------- **/`;
+const copyFlagEnd =   `/** ------------------------ END OF BLOCK TO COPY ------------------------ **/`;
 
 function formatCodeForCopy(code) {
   return `${copyFlagStart}\n\n\n${code}\n\n\n${copyFlagEnd}`;
@@ -39,7 +39,8 @@ export async function outputGeneratedCode(code) {
 
   await writeText(formattedCode).then(
     () => alert("Copied participant interface code to clipboard."),
-    () => {
+    (err) => {
+      console.error(err);
       console.log(generateFailText(formattedCode));
       alert("Failed to copy to clipboard: check the console logs (f12) for more info and to manually copy the code.")
     }

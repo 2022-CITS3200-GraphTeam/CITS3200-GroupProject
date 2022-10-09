@@ -44,13 +44,6 @@ select {
   border-radius: 3px;
 }
 
-#submitButton {
-  margin: auto;
-  width: 10%;
-  height: 10%;
-  padding: 10px;
-}
-
 /*Help bar*/
 .helpBar {
   background-color: rgb(0, 114, 208);
