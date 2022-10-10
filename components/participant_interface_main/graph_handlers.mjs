@@ -127,7 +127,6 @@ export function loadGraph(graphObj) {
     selectElement.appendChild(optionElement);
   });
 
-  // TODO @lachy
   //Checks if string passed is null
   function checkCharactersNull(textinput){
     textinput = textinput.replaceAll("\n","");
