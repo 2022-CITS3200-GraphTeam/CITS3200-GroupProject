@@ -168,8 +168,6 @@ select {
 input.invalid,
 input.invalid:focus {
   color: red;
-
-  margin: 20px 30px 20px 30px;
 }
 
 #confirmButton {
