@@ -221,4 +221,3 @@ function closeModal(modalName){
   var modal = document.getElementById(modalName)
   modal.style.display = "none";
 }
-git 
