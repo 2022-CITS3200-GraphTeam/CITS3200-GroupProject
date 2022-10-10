@@ -61,7 +61,7 @@ select {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  padding-top: 0 px; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -125,7 +125,7 @@ select {
 
 .chartCard {
   width: 100vw;
-  height: calc(50vh);
+  height: calc(60vh);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,7 +133,7 @@ select {
 }
 
 .chartBox {
-  width: 700px;
+  width: 800px;
   padding: 20px;
   border-radius: 20px;
   border: solid 3px rgb(0, 114, 208);
