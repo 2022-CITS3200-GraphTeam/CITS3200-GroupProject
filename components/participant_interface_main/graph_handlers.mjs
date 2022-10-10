@@ -1,4 +1,15 @@
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
+import { setAnswer } from "./iframe_coms.mjs";
+
+export function updateGraph() {
+  // update the graph display
+  graphChart.update();
+
+  // ! ideally would pull rather than push, but can't prevent the qualtrics submit button
+  // send updated answer to qualtrics
+  let answerStr = getAnswerStr();
+  setAnswer(answerStr);
+}
 
 /**
  * TODO: set return value to the ChartJS graph object
@@ -23,7 +34,7 @@ export function loadGraph(graphObj) {
 
     // update the graph, based on the (rounded) input box
     graphChart.data.datasets[0].data[index] = document.getElementById("integerValue").value;
-    graphChart.update();
+    updateGraph();
   };
 
   // TODO: process `graphObj.restrictions` (see issue #8, or child issues of it)
@@ -68,7 +79,7 @@ export function loadGraph(graphObj) {
       let mod = -(roundedValue - currentValues[index]) / (currentValues.length - 1);
       for (let i = 0; i < currentValues.length; i++) {
         if (i === index) continue;
-        changedValues[i] = currentValues[i] + mod;
+        changedValues[i] = Math.round((currentValues[i] + mod) * 100) / 100;
       }
     }
 
@@ -106,8 +117,7 @@ export function loadGraph(graphObj) {
     // update the graph data with the new value
     graphChart.data.datasets[0].data[sectionIndex] = sectionValue;
 
-    // update the graph display
-    graphChart.update();
+    updateGraph();
   });
 
   // Populate the Section Name options with labels from the Graph
@@ -135,6 +145,9 @@ export function loadGraph(graphObj) {
   }
   // Set the Default integer value to the first Data value
   updateInteger(); // ! updateInteger is defined in `participant_interface.js`
+
+  // ensure the graph is updated; mostly here to send the current graph answer back to qualtrics
+  updateGraph();
 }
 
 /**
