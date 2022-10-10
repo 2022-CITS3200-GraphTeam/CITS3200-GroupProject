@@ -42,7 +42,7 @@ export async function outputGeneratedCode(code) {
     (err) => {
       console.error(err);
       console.log(generateFailText(formattedCode));
-      alert("Failed to copy to clipboard: check the console logs (f12) for more info and to manually copy the code.")
+      alert("Failed to copy to clipboard: check the console logs (f12) for more info and to manually copy the code.");
     }
   );
 }
