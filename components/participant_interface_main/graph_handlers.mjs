@@ -127,6 +127,21 @@ export function loadGraph(graphObj) {
     selectElement.appendChild(optionElement);
   });
 
+  //Checks if string passed is null
+  function checkCharactersNull(textinput){
+    textinput = textinput.replaceAll("\n","");
+    textinput = textinput.replaceAll(" ","");
+    if(textinput == ""){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+  
+  if (checkCharactersNull(graphObj.modalValue) == false){
+    document.getElementById("tutorialTextPar").innerHTML = graphObj.modalValue;
+  }
   // Set the Default integer value to the first Data value
   updateInteger(); // ! updateInteger is defined in `participant_interface.js`
 
