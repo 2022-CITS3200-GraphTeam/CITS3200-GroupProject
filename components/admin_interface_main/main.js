@@ -199,15 +199,9 @@ var modal = document.getElementById("myModal");
 // Get the button that opens the modal
 var btn = document.getElementById("helpButton");
 
-// Get the <span> element that closes the modal
-/*var span = document.getElementsByClassName("close")[0];*/
-
 var parModal = document.getElementById("participantModal");
-var parModalbtn = document.getElementById("parModalButton");
-// When the user clicks the button, open the modal 
-/*btn.onclick = function () {
-  modal.style.display = "block";
-}*/
+var parModalbtn = document.getElementById("parModalButton"); 
+
 window.onerror = function (e) {
   alert(e);
 }
@@ -231,3 +225,4 @@ function closeModal(modalName){
   var modal = document.getElementById(modalName)
   modal.style.display = "none";
 }
+git 
