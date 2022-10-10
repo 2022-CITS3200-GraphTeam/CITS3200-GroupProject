@@ -143,8 +143,6 @@ export function loadGraph(graphObj) {
     selectElement.appendChild(optionElement);
   });
 
-  // set the Default integer value to the first Data value
-  updateInteger();
 
   if (graphObj.totalSum !== undefined) {
     // enabled: populate the sum display
@@ -155,6 +153,24 @@ export function loadGraph(graphObj) {
     // "invisible" is a bootstrap class that sets visibility to hidden
     document.getElementById("sumDisplayContainer").classList.add("invisible");
   }
+  
+  //Checks if string passed is null
+  function checkCharactersNull(textinput) {
+    textinput = textinput.replaceAll("\n", "");
+    textinput = textinput.replaceAll(" ", "");
+    if (textinput == "") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  if (checkCharactersNull(graphObj.modalValue) == false) {
+    document.getElementById("tutorialTextPar").innerHTML = graphObj.modalValue;
+  }
+
+  // Set the Default integer value to the first Data value
+  updateInteger(); // ! updateInteger is defined in `participant_interface.js`
 
   // ensure the graph is updated; mostly here to send the current graph answer back to qualtrics
   updateGraph();

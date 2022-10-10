@@ -56,11 +56,16 @@ function getTotalSum() {
   return parseFloat(raw);
 }
 
+function getParModal() {
+  return document.getElementById("tutorialText").value;
+}
+
 document.getElementById("submitButton").addEventListener("click", async () => {
   let chartObj = getChartObj(); // `getChartObj` defined in `main.js`
   let graphRestrictions = getRestrictions();
   let graphTotalSum = getTotalSum();
-  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphTotalSum);
+  let parModal = getParModal();
+  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphTotalSum, parModal);
 
   let nInvalid = graphRestrictions.invalid.length;
   if (nInvalid > 0) {
