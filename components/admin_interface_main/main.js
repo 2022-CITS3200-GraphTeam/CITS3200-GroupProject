@@ -93,7 +93,6 @@ function generateGraph() {
   graphData = {
     labels: getColNames(),
     datasets: [{
-      label: 'Weekly Sales',
       data: getColValues(),
       backgroundColor: getColour(),
       borderColor: getColour(),
@@ -131,9 +130,9 @@ function generateGraph() {
             text: "y"
           },
           min: 0,
-          max: 20,
+          max: 100,
           ticks: {
-            stepSize: 2
+            stepSize: 10
           }
         },
         x: {
@@ -218,4 +217,3 @@ function closeModal(modalName){
   var modal = document.getElementById(modalName)
   modal.style.display = "none";
 }
-git 
