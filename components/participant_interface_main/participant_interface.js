@@ -7,7 +7,15 @@ var btn = document.getElementById("helpButton");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
+// Get the button element that closes the modal
+var clsbtn = document.getElementById("confirmButton");
+
 let graphChart;
+
+// When the user clicks on OK, close the modal
+clsbtn.onclick = function () {
+  modal.style.display = "none";
+}
 
 // When the user clicks the button, open the modal 
 btn.onclick = function () {
