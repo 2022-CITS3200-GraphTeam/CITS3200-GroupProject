@@ -168,14 +168,13 @@ img {
   right: 0;
 }
 
+
 .scalebox {
-  position: absolute;
   top: 160px;
   right: 120px;
 }
 
 .tablebox {
-  position: absolute;
   top: 580px;
   left: 80px;
   border-style: outset;
@@ -183,7 +182,6 @@ img {
 }
 
 .rulesbox {
-  position: absolute;
   top: 480px;
   right: 230px;
   border-style: outset;
@@ -191,7 +189,6 @@ img {
 }
 
 .genbutton {
-  position: absolute;
   top: 750px;
   right: 200px;
   display: inline-block;
