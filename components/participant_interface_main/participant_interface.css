@@ -124,8 +124,8 @@ select {
 }
 
 .chartCard {
-  width: 97vw;
-  height: calc(65vh);
+  width: 100vw;
+  height: calc(58vh);
   display: flex;
   align-items: center;
   justify-content: center;
