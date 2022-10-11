@@ -29,41 +29,38 @@
     <!-- Modal content -->
     <div class="modal-content">
       <span class="close">&times;</span>
-      <strong>Tutorial</strong> <br /><br />
-      To begin click a section of the graph and drag it up or down.<br />
-      You will be restricted to a total size for the graph, the graph can only
-      be submitted when all values reach the total. <br /> <br>
-      Specific values can be entered using the text areas below the graph. <br /> <br />
+      <strong>Tutorial</strong> 
+      <pre id="tutorialTextPar"> Error Not Loaded</pre>
       <button id="confirmButton" class="btn btn-secondary">Confirm</button>
     </div>
   </div>
-
   <!--Area where the graph will be placed in
     <div class="container graphArea text-center" id="graphArea" >
       Graph Area
     </div>-->
   <div>
-    <div class="chartMenu"></div>
+    <!--<div class="chartMenu"></div> This line was creating an extra div area so unsure if necessary-->
     <div class="chartCard">
       <div class="chartBox">
         <canvas id="myChart"></canvas>
       </div>
     </div>
+
+    <!-- Section name and Integer Value Input -->
+    <div class="forms">
+      <label for="sectionName">Section name</label>
+      <select name="section" id="sectionName" onchange="updateInteger()">
+      </select>
+      <br>
+      <label for="integerValue">Section value</label>
+      <input type="number" min="0" id="integerValue" class="form-control"> <br /> <br>
+    </div>
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
   </div>
   <br>
-
-  <!-- Section name and Integer Value Input -->
-  <div class="forms">
-    <label for="sectionName">Section Name</label>
-    <br>
-    <select name="section" id="sectionName" onchange="updateInteger()"></select>
-    <br>
-    <label for="integerValue">Integer Value</label>
-    <input type="number" min="0" id="integerValue" class="form-control"> <br /> <br>
-  </div>
 
   <!-- Scripts -->
   <script src="../components/participant_interface_main/participant_interface.js"></script>

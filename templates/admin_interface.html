@@ -14,11 +14,13 @@
     <ul class="navbar-nav">
 
       <!-- Open The Modal -->
+      <li>
       <div class="helpBar">
-      <button id="helpButton" button type="button" class="button"><span>Help </span> 
+      <button id="helpButton" button type="button" class="btn btn-light" onclick="openModal('myModal')">Help 
         <img src="../components/participant_interface_main/Icons/icon_help.png"></button>
       </div>
-
+      </li>
+      <li><button id="parModalButton" type="button" class="btn btn-light" onclick="openModal('participantModal')"> Edit Participant Help Message </button> </li>
     </ul>
 
   </nav>
@@ -30,17 +32,43 @@
 
   <!-- The Modal -->
   <div id="myModal" class="modal">
-
     <!-- Modal content -->
+    <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <strong>Tutorial</strong> <br>
+      <span class="close" onclick="closeModal('myModal')">&times;</span>
+      <header><strong>Tutorial</strong></header>
+      <p>
       You can click Add Column to add column, or click Delete to delete column.<br />
       To generate a graph enter the graph name, column names, values, axis names.<br />
       When ready to generate click submit.
-      
+      </p>
+      <div class="modal-footer">
+        <button onclick="closeModal('myModal')" type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
     </div>
   </div>
+<div id="participantModal" class="modal">
+  <div class="modal-dialog modal-lg">
+  <div class="modal-content">
+  <span class="close" onclick="closeModal('participantModal')">&times;</span>
+  <header> <Strong> Tutorial</Strong></header>
+  <textarea id="tutorialText" rows = 12 >
+    To begin click a section of the graph and drag it up or down.
+
+    You will be restricted to a total size for the graph, the graph can only
+    be submitted when all values reach the total. 
+
+    Specific values can be entered using the text areas below the graph. 
+  </textarea>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="closeModal('participantModal')">Close</button>
+  </div>
+</div>
+
+  </div>
+  </div>
+
 
   <div>
     <div class="chartMenu"></div>
