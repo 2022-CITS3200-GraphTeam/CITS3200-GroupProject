@@ -193,8 +193,9 @@ btn.onclick = function () {
 window.onerror = function (e) {
   alert(e);
 }
+
 // When the user clicks on <span> (x), close the modal
-span.onclick = function () {
+.onclick = function () {
   modal.style.display = "none";
 }
 
