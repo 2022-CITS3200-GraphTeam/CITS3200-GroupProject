@@ -1,7 +1,7 @@
 function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
-<td><input class="valueInput" oninput="updateGraph();roundToStepSize(this)" value="${n}" size=10 type="number" step="getStepSize()"></td>
+<td><input class="valueInput" onblur="roundToStepSize(this)" oninput="updateGraph()" value="0" size=10 type="number" step="getStepSize()"></td>
 <td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
@@ -170,7 +170,7 @@ function updateGraph() {
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
   document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
   myChart.update();
-
+  document.getElementsByClassName('valueInput').step = getStepSize();
 }
 
 function dragHandler(datasetIndex, index, value) {
@@ -222,7 +222,17 @@ function closeModal(modalName){
 
 function roundToStepSize(column){
   if(document.getElementById("roundToStepSizeButton").checked){
+    column.step = getStepSize();
+    dp = CountDecimalDigits(getStepSize());
+    column.value = Math.round(column.value, dp);
     column.value = Math.round(column.value / getStepSize()) * getStepSize();
   }
-  
+
+function CountDecimalDigits(number)
+{
+  var char_array = number.toString().split(""); // split every single char
+  var not_decimal = char_array.lastIndexOf(".");
+  return (not_decimal<0)?0:char_array.length - not_decimal;
+}
+
 }
