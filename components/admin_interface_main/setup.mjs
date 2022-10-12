@@ -19,7 +19,7 @@ export function getRestrictions() {
 
     // exclude the rule if it's not valid
     if (!GraphRestriction.validateRule(rule)) {
-      console.error(`Invalid rule being excluded:`, rule);
+      (rule === "" ? console.warn : console.error)(`Invalid rule being excluded:`, rule);
       invalidRestrictions.push({ rule, errorMessage });
       return;
     }
@@ -47,8 +47,13 @@ export function getRestrictions() {
   };
 }
 
-function getMaintainSum() {
-  return document.getElementById("maintainSum").checked;
+function getTotalSum() {
+  let raw = document.getElementById("totalSum").value;
+
+  // handle total sum being not set
+  if (raw === "") return undefined;
+
+  return parseFloat(raw);
 }
 
 function getParModal() {
@@ -58,9 +63,9 @@ function getParModal() {
 document.getElementById("submitButton").addEventListener("click", async () => {
   let chartObj = getChartObj(); // `getChartObj` defined in `main.js`
   let graphRestrictions = getRestrictions();
-  let graphMaintainSum = getMaintainSum();
+  let graphTotalSum = getTotalSum();
   let parModal = getParModal();
-  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphMaintainSum, parModal);
+  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphTotalSum, parModal);
 
   let nInvalid = graphRestrictions.invalid.length;
   if (nInvalid > 0) {

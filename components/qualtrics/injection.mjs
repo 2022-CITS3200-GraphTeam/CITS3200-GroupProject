@@ -1,46 +1,7 @@
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
-import { BASE_URL } from "./consts.mjs";
+import { BASE_URL, MESSAGE_LOGGING } from "./consts.mjs";
+import { disableSubmit, enableSubmit, getAnswer, getAnswerContainer, getAnswerElement, setAnswer } from "./helpers.mjs";
 import { Message, MessageType } from "./Message.mjs";
-
-/**
- * @param {QuestionData} questionDataObj 
- * @returns {HTMLDivElement}
- */
-function getAnswerContainer(questionDataObj) { return questionDataObj.getChoiceContainer(); }
-
-/**
- * @param {QuestionData} questionDataObj 
- * @returns {HTMLInputElement}
- */
-function getAnswerElement(questionDataObj) { return getAnswerContainer(questionDataObj).querySelector("input"); }
-
-/**
- * @param {QuestionData} questionDataObj 
- * @param {string} answerStr 
- */
-function setAnswer(questionDataObj, answerStr) {
-  let el = getAnswerElement(questionDataObj);
-  el.value = answerStr;
-}
-
-/**
- * @param {QuestionData} questionDataObj 
- * @returns {string}
- */
- function getAnswer(questionDataObj) {
-  let el = getAnswerElement(questionDataObj);
-  return el.value;
-}
-
-/**
- * @param {QuestionData} questionDataObj 
- */
-function disableSubmit(questionDataObj) { questionDataObj.disableNextButton(); }
-
-/**
- * @param {QuestionData} questionDataObj 
- */
-function enableSubmit(questionDataObj) { questionDataObj.enableNextButton(); }
 
 /**
  * Called by the injection loader when the qualtrics "onload" event fires.
@@ -73,9 +34,20 @@ export async function onReady(questionDataObj, rawGraphObj) {
   let channel = new MessageChannel();
   let port = channel.port1;
 
+  /**
+   * Wrapper around `port.postMessage`, passing a {@link Message} object.
+   * @param {typeof MessageType} type 
+   * @param {*} [data]
+   */
+  function postMessage(type, data = undefined) {
+    port.postMessage(new Message(type, data));
+  }
+
   graphIframe.addEventListener("load", () => {
     // setup channel listener
     port.onmessage = (e) => {
+      if (MESSAGE_LOGGING) console.info("[Qualtrics Injection] Message Received:", e);
+
       /** @type {Message} */
       let message = e.data;
       switch (message.messageType) {
@@ -107,16 +79,19 @@ export async function onReady(questionDataObj, rawGraphObj) {
           }
 
           // send graph object to be loaded
-          port.postMessage(graphObj);
+          postMessage(MessageType.SET_GRAPH, graphObj);
           break;
 
         case MessageType.SET_ANS:
           let ans = message.messageData;
-          console.info("set answer request:", JSON.stringify(ans));
           setAnswer(questionDataObj, ans);
+          enableSubmit(questionDataObj);
           break;
 
-        // TODO: enable/disable submit button based on graph; more request types?
+        case MessageType.SET_INVALID:
+          // bad graph state; disable submission
+          disableSubmit(questionDataObj);
+          break;
         
         default:
           console.warn(`Ignoring unrecognised message type ("${e.data}")`);
