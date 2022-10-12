@@ -168,6 +168,9 @@ img {
   right: 0;
 }
 
+#submitButton{
+  text-align: center;
+}
 
 .scalebox {
   top: 160px;
@@ -176,7 +179,6 @@ img {
 
 .tablebox {
   top: 580px;
-  left: 80px;
   border-style: outset;
   border-width: 5px;
 }
@@ -184,6 +186,8 @@ img {
 .rulesbox {
   top: 480px;
   right: 230px;
+  margin-left: auto;
+  margin-right: auto;
   border-style: outset;
   border-width: 5px;
 }
