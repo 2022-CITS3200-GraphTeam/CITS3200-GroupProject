@@ -1,11 +1,7 @@
 function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
-<<<<<<< HEAD
 <td><input class="valueInput" oninput="updateGraph()" onclick="roundToStepSize(this)" onblur="roundToStepSize(this)" value="0" size=10 type="number" step="0.5"></td>
-=======
-<td><input class="valueInput" onchange="roundToStepSize(this)" oninput="updateGraph()" value="0" min="0" size=10 type="number" step="getStepSize()"></td>
->>>>>>> f97fb470b9c65bc7c67ad7e28690c6d9035c4a5e
 <td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
@@ -175,8 +171,6 @@ function updateGraph() {
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
   document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
   myChart.update();
-<<<<<<< HEAD
-=======
   document.getElementsByClassName('valueInput').step = getStepSize();
   var values = document.getElementsByClassName('valueInput');
   for(var x in values){
@@ -186,7 +180,6 @@ function updateGraph() {
     values[x].min = getScaleMin();
   }
   
->>>>>>> f97fb470b9c65bc7c67ad7e28690c6d9035c4a5e
 }
 
 function dragHandler(datasetIndex, index, value) {
@@ -238,10 +231,7 @@ function closeModal(modalName){
 
 function roundToStepSize(column){
   if(document.getElementById("roundToStepSizeButton").checked){
-<<<<<<< HEAD
     column.step = getStepSize();
-=======
->>>>>>> f97fb470b9c65bc7c67ad7e28690c6d9035c4a5e
     column.value = Math.round(column.value / getStepSize()) * getStepSize();
   }
 
