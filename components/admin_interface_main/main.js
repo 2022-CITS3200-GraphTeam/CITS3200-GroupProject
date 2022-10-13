@@ -127,7 +127,7 @@ function generateGraph() {
         y: {
           title: {
             display: true,
-            text: "y"
+            text: ""
           },
           min: 0,
           max: 100,
@@ -138,7 +138,7 @@ function generateGraph() {
         x: {
           title: {
             display: true,
-            text: "x"
+            text: ""
           }
         }
       }
