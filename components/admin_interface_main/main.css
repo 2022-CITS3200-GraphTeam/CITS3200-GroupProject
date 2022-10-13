@@ -168,8 +168,9 @@ img {
   right: 0;
 }
 
-#submitButton{
+#submitButtonContainer{
   text-align: center;
+  padding-bottom: 5%;
 }
 
 .scalebox {
@@ -224,4 +225,3 @@ img {
 #tutorialText {
   text-align: center;
 }
-
