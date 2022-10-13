@@ -7,6 +7,7 @@ jest.setTimeout(60000)
 
 describe('Basic authentication e2e tests', () => {
   let settings;
+  let generateJS;
   beforeAll( async () => {
   // Set a definite size for the page viewport so view is consistent across browsers
     await page.setViewport( {
@@ -15,7 +16,7 @@ describe('Basic authentication e2e tests', () => {
       deviceScaleFactor: 1
     } );	
 
-    settings = graphSetting('Set');
+    settings = graphSetting();
     generateJS = await generateJS(page);
 
     } );

@@ -36,10 +36,11 @@ class generateJS{
             await this.page.waitFor(1000);
             **/
             await this.page.click(this.submitButton);
+            await this.page.waitFor(1000);
     
-            const generatedJS = await navigator.clipboard.readText();
+            const scriptJS = await navigator.clipboard.readText();
     
-            return generatedJS;
+            return scriptJS;
     
         } catch (err) {
             console.log(chalk.red('ERROR => ', err));

@@ -1,3 +1,7 @@
 export default {
-  preset: 'jest-puppeteer'
+  preset: 'jest-puppeteer',
+  moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
+    '#(.*)': '<rootDir>/node_modules/$1',
+  }
 };
