@@ -7,7 +7,7 @@ export async function injectionLoader(graphObjStr) {
   
   // load (this) module
   // ! TODO change import location to read from somewhere
-  let modulePromise = import("https://cdn.jsdelivr.net/gh/2022-CITS3200-GraphTeam/CITS3200-GroupProject@v0.2.1/components/qualtrics/injection.min.mjs");
+  let modulePromise = import("http://localhost:5500/components/qualtrics/injection.mjs");
 
   // add qualtrics event handlers
   Qualtrics.SurveyEngine.addOnload(async function() { (await modulePromise).onLoad(this, graphObj); });
