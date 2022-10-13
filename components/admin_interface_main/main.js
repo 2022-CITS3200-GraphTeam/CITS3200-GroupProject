@@ -24,7 +24,7 @@ function makeRuleRowHTML(n) {
 }
 // <td><input class="errorInput" value="" size=30 type="text"></td>
 
-let graphData, graphConfig, myChart;
+let myChart;
 
 function deleteRow(row, dd) {
   var i = row.parentNode.parentNode.rowIndex;
@@ -49,7 +49,7 @@ function addRuleRow(dd) {
   x.appendChild(newRow);
 }
 
-function getColour(){
+function getColour() {
   let rows = [...document.getElementById("colTable").rows].slice(1);
   return rows.map(row => row.querySelector(".colourInput").value);
 }
@@ -99,10 +99,9 @@ function generateGraph() {
   // start with 1 (empty) rule
   addRuleRow('rulesInput');
 
-  graphData = {
+  let graphData = {
     labels: getColNames(),
     datasets: [{
-      label: 'Weekly Sales',
       data: getColValues(),
       backgroundColor: getColour(),
       borderColor: getColour(),
@@ -112,7 +111,7 @@ function generateGraph() {
   };
 
   // config 
-  graphConfig = {
+  let graphConfig = {
     type: 'bar',
     data: graphData,
     options: {
@@ -126,27 +125,26 @@ function generateGraph() {
         },
         dragData: {
           round: 0,
-          onDrag: (event, datasetIndex, index, value) => {
-              dragHandler(datasetIndex, index, value);  
-          }
+          onDrag: (event, datasetIndex, index, value) => dragHandler(datasetIndex, index, value),
+          onDragEnd: (event, datasetIndex, index, value) => dragHandler(datasetIndex, index, value)
         }
       },
       scales: {
         y: {
           title: {
             display: true,
-            text: "y"
+            text: ""
           },
           min: 0,
-          max: 20,
+          max: 100,
           ticks: {
-            stepSize: 2
+            stepSize: 10
           }
         },
         x: {
           title: {
             display: true,
-            text: "x"
+            text: ""
           }
         }
       }
@@ -158,6 +156,8 @@ function generateGraph() {
     document.getElementById('myChart'),
     graphConfig
   );
+
+  updateGraph();
 }
 
 function updateGraph() {
@@ -174,8 +174,11 @@ function updateGraph() {
   myChart.data.datasets[0].backgroundColor = getColour();
   myChart.data.datasets[0].borderColor = getColour();
 
+  // update sum display
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
-  document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
+  let graphValueSum = graphValues.reduce((r, v) => r + v, 0);
+  document.getElementById("currentSum").innerHTML = graphValueSum;
+
   myChart.update();
   var values = document.getElementsByClassName('valueInput'); 
   updateStepSize(values);
@@ -210,6 +213,7 @@ function dragHandler(datasetIndex, index, value) {
     var x = getDecimalPlaces(getStepSize());
   }
   document.getElementsByClassName("valueInput")[index].value = value.toFixed(getDecimalPlaces(getStepSize()));
+  updateGraph();
 }
 
 // returns the ChartJS graph obj
@@ -266,4 +270,3 @@ function getDecimalPlaces(number)
   var not_decimal = char_array.lastIndexOf(".");
   return (not_decimal<0)?0:char_array.length - (not_decimal + 1);
 }
-

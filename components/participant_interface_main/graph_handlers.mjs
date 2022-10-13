@@ -1,14 +1,13 @@
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
-import { setAnswer } from "./iframe_coms.mjs";
+import { setAnswer, setAnswerInvalid } from "./iframe_coms.mjs";
 
-export function updateGraph() {
-  // update the graph display
-  graphChart.update();
-
-  // ! ideally would pull rather than push, but can't prevent the qualtrics submit button
-  // send updated answer to qualtrics
-  let answerStr = getAnswerStr();
-  setAnswer(answerStr);
+/**
+ * Function that updates the integer value box based on the section name
+ */
+export function updateInteger() {
+  const select = document.getElementById("sectionName");
+  document.getElementById("integerValue").value = graphChart.data.datasets[0].data[select.value];
+  document.getElementById("integerValue").classList.remove("invalid");
 }
 
 /**
@@ -24,7 +23,11 @@ export function loadGraph(graphObj) {
 
   // update the input when a drag occurs
   graphObj.chartConfig.options.plugins.dragData.onDrag = (event, datasetIndex, index, value) => {
-    return dragHandler(datasetIndex, index, value);
+    let result = dragHandler(datasetIndex, index, value);
+
+    updateGraph();
+
+    return result;
   };
 
   // round the value after drag is complete
@@ -37,7 +40,6 @@ export function loadGraph(graphObj) {
     updateGraph();
   };
 
-  // TODO: process `graphObj.restrictions` (see issue #8, or child issues of it)
   // returns true iff all restrictions are satisfied
   function verifyRestrictions(override) {
     let graphValues = getGraphValues();
@@ -45,7 +47,35 @@ export function loadGraph(graphObj) {
     return graphObj.restrictions.every(restriction => restriction.isValid(graphValues));
   }
 
-  // pintpointing the chart, so that the click understands the canvas tag
+  function updateGraph() {
+    // update the graph display
+    graphChart.update();
+
+    let answerValid = true;
+
+    // * ideally would pull rather than push, but can't prevent qualtrics submitting until the data is pulled
+    // send updated answer to qualtrics
+
+    if (graphObj.totalSum !== undefined) {
+      let currentSum = getGraphValues().reduce((r, v) => r + v, 0);
+      document.getElementById("currentSumDisplay").innerText = currentSum;
+      if (currentSum !== graphObj.totalSum) { // ? should there be an epsilon
+        answerValid = false;
+        document.getElementById("sumDisplayContainer").classList.add("invalid");
+      } else {
+        document.getElementById("sumDisplayContainer").classList.remove("invalid");
+      }
+    }
+
+    if (answerValid) {
+      let answerStr = getAnswerStr();
+      setAnswer(answerStr);
+    } else {
+      setAnswerInvalid();
+    }
+  }
+
+  // pinpointing the chart, so that the click understands the canvas tag
   const ctx = document.getElementById('myChart');
 
   // create the (ChartJS) chart object
@@ -63,6 +93,7 @@ export function loadGraph(graphObj) {
 
       document.getElementById("sectionName").value = index;
       document.getElementById("integerValue").value = value;
+      document.getElementById("integerValue").classList.remove("invalid");
     }
   }
   ctx.onclick = clickHandler;
@@ -73,33 +104,14 @@ export function loadGraph(graphObj) {
 
     let changedValues = { [index]: roundedValue };
 
-    if (graphObj.maintainSum) {
-      // handle totalSum i.e. reduce other columns by the required amount
-      let currentValues = getGraphValues();
-      let mod = -(roundedValue - currentValues[index]) / (currentValues.length - 1);
-      for (let i = 0; i < currentValues.length; i++) {
-        if (i === index) continue;
-        changedValues[i] = Math.round((currentValues[i] + mod) * 100) / 100;
-      }
-    }
-
     // cancel interaction if it violates a restriction
     if (!verifyRestrictions(changedValues)) {
       return false;
     }
 
-    if (graphObj.maintainSum) {
-      // update other columns
-      for (let i in changedValues) {
-        if (i === index) continue;
-        graphChart.data.datasets[0].data[i] = changedValues[i];
-      }
-
-      graphChart.update();
-    }
-
     document.getElementById("sectionName").value = index;
     document.getElementById("integerValue").value = roundedValue;
+    document.getElementById("integerValue").classList.remove("invalid");
   }
 
   // update the graph when the column input value is changed
@@ -111,8 +123,12 @@ export function loadGraph(graphObj) {
     // * only one value can be changed at a time with this UI, so only one value being changed is a valid assumption
     // cancel interaction if it violates a restriction
     if (!verifyRestrictions({ [sectionIndex]: sectionValue })) {
+      document.getElementById("integerValue").classList.add("invalid");
       return false;
     }
+
+    // mark as valid
+    document.getElementById("integerValue").classList.remove("invalid");
 
     // update the graph data with the new value
     graphChart.data.datasets[0].data[sectionIndex] = sectionValue;
@@ -127,21 +143,32 @@ export function loadGraph(graphObj) {
     selectElement.appendChild(optionElement);
   });
 
+
+  if (graphObj.totalSum !== undefined) {
+    // enabled: populate the sum display
+    document.getElementById("requiredSumDisplay").innerText = graphObj.totalSum;
+  } else {
+    // disabled: hide the sum display
+
+    // "invisible" is a bootstrap class that sets visibility to hidden
+    document.getElementById("sumDisplayContainer").classList.add("invisible");
+  }
+  
   //Checks if string passed is null
-  function checkCharactersNull(textinput){
-    textinput = textinput.replaceAll("\n","");
-    textinput = textinput.replaceAll(" ","");
-    if(textinput == ""){
+  function checkCharactersNull(textinput) {
+    textinput = textinput.replaceAll("\n", "");
+    textinput = textinput.replaceAll(" ", "");
+    if (textinput == "") {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   }
-  
-  if (checkCharactersNull(graphObj.modalValue) == false){
+
+  if (checkCharactersNull(graphObj.modalValue) == false) {
     document.getElementById("tutorialTextPar").innerHTML = graphObj.modalValue;
   }
+
   // Set the Default integer value to the first Data value
   updateInteger(); // ! updateInteger is defined in `participant_interface.js`
 

@@ -88,23 +88,26 @@
   <center>
 
     <label for="title">Title:</label>
-    <input type="text" id="title" name="title" oninput="updateGraph()" value=""><br>
+    <input type="text" id="title" name="title" oninput="updateGraph()" placeholder="Title"><br>
     <label for="xTitle">X-axis Title:</label>
-    <input type="text" id="xTitle" name="xTitle" oninput="updateGraph()" value="x axis"><br>
+    <input type="text" id="xTitle" name="xTitle" oninput="updateGraph()" placeholder="x axis"><br>
     <label for="yTitle">Y-axis Title:</label>
-    <input type="text" id="yTitle" name="yTitle" oninput="updateGraph()" value="y axis"><br>
+    <input type="text" id="yTitle" name="yTitle" oninput="updateGraph()" placeholder="y axis"><br>
     <label for="scaleMax">Maximum for Scale:</label>
-    <input type="number" id="scaleMax" name="scaleMax" oninput="updateGraph()" value="20" step="0.5"><br>
+    <input type="number" id="scaleMax" name="scaleMax" oninput="updateGraph()" value="100" step="0.5"><br>
     <label for="scaleMin">Minimum for Scale:</label>
     <input type="number" id="scaleMin" name="scaleMin" oninput="updateGraph(); minErrorMessage()" value="0" step="0.5">
     <label id="errorText"> Please make this value a multiple of step size </label><br>
     <label for="scaleIncrement">Scale Increment:</label>
-    <input type="number" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" value="2" step="0.1"><br>
-    <label for="stepSize">Step size:</label>
-    <input type="number" id="stepSize" name="stepSize" oninput="updateGraph(); minErrorMessage()" value="1" step="0.1">
+
+    <input type="number" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" value="10" step="0.1"><br>
+    <label for="stepSize">Round to the nearest:</label>
+    <input type="number" id="stepSize" name="stepSize" oninput="updateGraph(); minErrorMessage()" value="1" step="0.1"><br>
     <input type="checkbox" id="roundToStepSizeButton" name="roundToStepSize"><br>
-    <label for="maintainSum">Maintain Sum (<span id="currentSum">NaN</span>):</label>
-    <input type="checkbox" id="maintainSum" name="maintainSum"><br><br>
+    <!-- ! TODO: change sum feedback - different UI or location -->
+    <label for="totalSum">Total Sum (currently <span id="currentSum">NaN</span>):</label>
+    <input type="number" id="totalSum" name="totalSum" oninput="updateGraph()" value="" placeholder="none"><br><br>
+
 
     <table id="colTable" border="1">
       <tr>

@@ -61,7 +61,7 @@ select {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  padding-top: 0px; /* Location of the box */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -125,7 +125,7 @@ select {
 
 .chartCard {
   width: 100vw;
-  height: calc(50vh);
+  height: calc(58vh);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,8 +138,36 @@ select {
   border-radius: 20px;
   border: solid 3px rgb(0, 114, 208);
   background: white;
+}
 
-  margin: 20px 30px 20px 30px;
+
+/* total sum display */
+/* ! PLACEHOLDER ! */
+
+#sumDisplayContainer {
+  position: fixed; 
+  bottom: 0%;
+  right: 0%;
+
+  opacity: 0.7;
+
+  border: solid rgb(0, 114, 208);
+  --border-width: 2px;
+  border-width: var(--border-width) 0 0 var(--border-width); /* top + left */
+  border-top-left-radius: 7px;
+  background-color: white;
+}
+
+#sumDisplayContainer.invalid {
+  color: red;
+}
+
+
+/* integer input validity marking */
+
+input.invalid,
+input.invalid:focus {
+  color: red;
 }
 
 #confirmButton {
