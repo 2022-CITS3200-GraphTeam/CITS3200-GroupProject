@@ -105,6 +105,10 @@ img {
 #participantModal {
   display: none;
 }
+#errorText{
+  display: none; 
+  color:red;
+}
 
 /* The Close Button */
 .close {

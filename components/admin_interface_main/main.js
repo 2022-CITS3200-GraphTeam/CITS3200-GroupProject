@@ -1,10 +1,19 @@
 function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
-<td><input class="valueInput" oninput="updateGraph()" onclick="roundToStepSize(this)" onblur="roundToStepSize(this)" value="0" size=10 type="number" step="0.5"></td>
+<td><input class="valueInput" onchange="roundToStepSize(this)" oninput="updateGraph()" value="0" min="0" size=10 type="number" step="getStepSize()"></td>
 <td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
+}
+
+function minErrorMessage(){
+  if(getScaleMin() % getStepSize() != 0){
+    document.getElementById("errorText").style.display = "block";
+  }
+  else{
+    document.getElementById("errorText").style.display = "none";
+  }
 }
 
 function makeRuleRowHTML(n) {
@@ -118,9 +127,7 @@ function generateGraph() {
         dragData: {
           round: 0,
           onDrag: (event, datasetIndex, index, value) => {
-              dragHandler(datasetIndex, index, value);
-            
-            
+              dragHandler(datasetIndex, index, value);  
           }
         }
       },
@@ -170,11 +177,39 @@ function updateGraph() {
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
   document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
   myChart.update();
+  var values = document.getElementsByClassName('valueInput'); 
+  updateStepSize(values);
+  updateMinValues(values);
+  //for each value automatically updates the values and rounds them if the checkbox is ticked.
+  if(document.getElementById("roundToStepSizeButton").checked && values[x].value % getStepSize()){
+    for(var x in values){
+      roundToStepSize(values[x]);
+    }
+  }
+}
+//Updates the minimum values and changes the value if it is less then the new minimum
+function updateMinValues(values){
+  for(var x in values){
+    if(values[x].value < getScaleMin()){
+      values[x].value = getScaleMin();
+    }
+    }
+    values[x].min = getScaleMin();
+}
+//Updates the step size for all the value boxes so the first click on the up arrow will 
+//use the new correct step size
+function updateStepSize(values){
+  for (var x in values){
+    values[x].step = getStepSize();
+  }
 }
 
 function dragHandler(datasetIndex, index, value) {
   const name = myChart.data.labels[index];
-  document.getElementsByClassName("valueInput")[index].value = value;
+  if(value>3.3){
+    var x = getDecimalPlaces(getStepSize());
+  }
+  document.getElementsByClassName("valueInput")[index].value = value.toFixed(getDecimalPlaces(getStepSize()));
 }
 
 // returns the ChartJS graph obj
@@ -220,16 +255,15 @@ function closeModal(modalName){
 }
 
 function roundToStepSize(column){
+  column.step = getStepSize();
   if(document.getElementById("roundToStepSizeButton").checked){
-    column.step = getStepSize();
     column.value = Math.round(column.value / getStepSize()) * getStepSize();
   }
-
-function CountDecimalDigits(number)
+}
+function getDecimalPlaces(number)
 {
   var char_array = number.toString().split(""); // split every single char
   var not_decimal = char_array.lastIndexOf(".");
-  return (not_decimal<0)?0:char_array.length - not_decimal;
+  return (not_decimal<0)?0:char_array.length - (not_decimal + 1);
 }
 
-}
