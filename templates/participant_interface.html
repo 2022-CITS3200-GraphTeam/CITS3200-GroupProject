@@ -29,9 +29,10 @@
     <!-- Modal content -->
     <div class="modal-content">
       <span class="close">&times;</span>
+
       <strong>Tutorial</strong> 
       <pre id="tutorialTextPar"> Error Not Loaded</pre>
-      <button id="confirmButton" class="btn btn-secondary">Confirm</button>
+      <button id="confirmButton" button type="button" class="btn btn-secondary">OK</button>
     </div>
   </div>
   <!--Area where the graph will be placed in
@@ -49,11 +50,10 @@
     <!-- Section name and Integer Value Input -->
     <div class="forms">
       <label for="sectionName">Section name</label>
-      <select name="section" id="sectionName" onchange="updateInteger()">
-      </select>
+      <select name="section" id="sectionName"></select>
       <br>
       <label for="integerValue">Section value</label>
-      <input type="number" min="0" id="integerValue" class="form-control"> <br /> <br>
+      <input type="number" id="integerValue" class="form-control"> <br /> <br>
     </div>
     
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -61,6 +61,10 @@
       src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.2.3/dist/chartjs-plugin-dragdata.min.js"></script>
   </div>
   <br>
+
+  <div id="sumDisplayContainer">
+    Total Sum: <span id="currentSumDisplay">NaN</span>/<span id="requiredSumDisplay">NaN</span>
+  </div>
 
   <!-- Scripts -->
   <script src="../components/participant_interface_main/participant_interface.js"></script>

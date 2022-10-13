@@ -2,7 +2,7 @@ function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
 <td><input class="valueInput" oninput="updateGraph()" value="${n}" size=10 type="number"></td>
-<td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
+<td><input class="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
 }
@@ -15,7 +15,7 @@ function makeRuleRowHTML(n) {
 }
 // <td><input class="errorInput" value="" size=30 type="text"></td>
 
-let graphData, graphConfig, myChart;
+let myChart;
 
 function deleteRow(row, dd) {
   var i = row.parentNode.parentNode.rowIndex;
@@ -40,7 +40,7 @@ function addRuleRow(dd) {
   x.appendChild(newRow);
 }
 
-function getColour(){
+function getColour() {
   let rows = [...document.getElementById("colTable").rows].slice(1);
   return rows.map(row => row.querySelector(".colourInput").value);
 }
@@ -90,7 +90,7 @@ function generateGraph() {
   // start with 1 (empty) rule
   addRuleRow('rulesInput');
 
-  graphData = {
+  let graphData = {
     labels: getColNames(),
     datasets: [{
       data: getColValues(),
@@ -102,7 +102,7 @@ function generateGraph() {
   };
 
   // config 
-  graphConfig = {
+  let graphConfig = {
     type: 'bar',
     data: graphData,
     options: {
@@ -116,11 +116,8 @@ function generateGraph() {
         },
         dragData: {
           round: 0,
-          onDrag: (event, datasetIndex, index, value) => {
-              dragHandler(datasetIndex, index, value);
-            
-            
-          }
+          onDrag: (event, datasetIndex, index, value) => dragHandler(datasetIndex, index, value),
+          onDragEnd: (event, datasetIndex, index, value) => dragHandler(datasetIndex, index, value)
         }
       },
       scales: {
@@ -150,6 +147,8 @@ function generateGraph() {
     document.getElementById('myChart'),
     graphConfig
   );
+
+  updateGraph();
 }
 
 function updateGraph() {
@@ -166,14 +165,18 @@ function updateGraph() {
   myChart.data.datasets[0].backgroundColor = getColour();
   myChart.data.datasets[0].borderColor = getColour();
 
+  // update sum display
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
-  document.getElementById("currentSum").innerHTML = graphValues.reduce((r, v) => r + v, 0);
+  let graphValueSum = graphValues.reduce((r, v) => r + v, 0);
+  document.getElementById("currentSum").innerHTML = graphValueSum;
+
   myChart.update();
 }
 
 function dragHandler(datasetIndex, index, value) {
-  const name = myChart.data.labels[index];
   document.getElementsByClassName("valueInput")[index].value = value;
+
+  updateGraph();
 }
 
 // returns the ChartJS graph obj
