@@ -258,6 +258,7 @@ function closeModal(modalName){
   modal.style.display = "none";
 }
 
+
 function roundToStepSize(column){
   column.step = getStepSize();
   if(document.getElementById("roundToStepSizeButton").checked){
@@ -270,3 +271,6 @@ function getDecimalPlaces(number)
   var not_decimal = char_array.lastIndexOf(".");
   return (not_decimal<0)?0:char_array.length - (not_decimal + 1);
 }
+
+document.getElementById("addRuleButton").addEventListener("click", () => document.getElementById("submitButton").scrollIntoView());
+document.getElementById("addColButton").addEventListener("click", () => document.getElementById("submitButton").scrollIntoView());
