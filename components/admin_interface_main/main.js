@@ -220,3 +220,6 @@ function closeModal(modalName){
   var modal = document.getElementById(modalName)
   modal.style.display = "none";
 }
+
+document.getElementById("addRuleButton").addEventListener("click", () => document.getElementById("submitButton").scrollIntoView());
+document.getElementById("addColButton").addEventListener("click", () => document.getElementById("submitButton").scrollIntoView());
