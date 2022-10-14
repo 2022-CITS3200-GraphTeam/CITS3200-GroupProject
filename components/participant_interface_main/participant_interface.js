@@ -7,7 +7,15 @@ var btn = document.getElementById("helpButton");
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
+// Get the button element that closes the modal
+var clsbtn = document.getElementById("confirmButton");
+
 let graphChart;
+
+// When the user clicks on OK, close the modal
+clsbtn.onclick = function () {
+  modal.style.display = "none";
+}
 
 // When the user clicks the button, open the modal 
 btn.onclick = function () {
@@ -39,11 +47,4 @@ function closeNav() {
   document.getElementById("mySidebar").style.width = "0";
   document.getElementById("mySidebar").style.padding = "0px 0px 0px 0px";
   document.getElementById("mainSidebar").style.marginLeft = "0";
-}
-
-
-// Function that updates the integer value box based on the section name
-function updateInteger() {
-  const select = document.getElementById("sectionName");
-  document.getElementById("integerValue").value = graphChart.data.datasets[0].data[select.value];
 }
