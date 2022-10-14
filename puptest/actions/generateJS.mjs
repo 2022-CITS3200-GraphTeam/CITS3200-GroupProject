@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 
-class generateJS{
+class generateJS {
     constructor(page) {
         this.url = "http://127.0.0.1:5500/templates/admin_interface.html"
         this.page = page;
@@ -14,14 +14,14 @@ class generateJS{
         this.totalSum = '#totalSum';
         this.submitButton = '#submitButton';
     }
-    async testJS(title, xTitle){//,/yTitle, max, min, scale, step, totalSum,){
-        try{
+    async testJS(newTitle, newXTitle){//,/yTitle, max, min, scale, step, totalSum,){
+        // try{
             await this.page.goto(this.url);
     
-            await this.page.type(this.titleField, title);
-            await this.page.waitFor(1000);
-            await this.page.type(this.xTitleField, xTitle);
-            await this.page.waitFor(1000);
+            await this.page.type(this.title, newTitle);
+            await this.page.waitForTimeout(1000);
+            await this.page.type(this.xTitle, newXTitle);
+            await this.page.waitForTimeout(1000);
             /**await this.page.type(this.yTitleField, yTitle);
             await this.page.waitFor(1000);
             await this.page.type(this.maxField, max);
@@ -36,16 +36,16 @@ class generateJS{
             await this.page.waitFor(1000);
             **/
             await this.page.click(this.submitButton);
-            await this.page.waitFor(1000);
+            await this.page.waitForTimeout(1000);
     
-            const scriptJS = await navigator.clipboard.readText();
+            const scriptJS = await this.page.evaluate(() => navigator.clipboard.readText());
     
             return scriptJS;
     
-        } catch (err) {
-            console.log(chalk.red('ERROR => ', err));
-        }
-    }   
+        // } catch (err) {
+        //     console.log(chalk.red('ERROR => ', err));
+        // }
+    }
 }
 
 export default (page) => new generateJS(page);
