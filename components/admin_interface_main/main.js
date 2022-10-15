@@ -184,7 +184,7 @@ function updateGraph() {
   updateStepSize(values);
   updateMinValues(values);
   //for each value automatically updates the values and rounds them if the checkbox is ticked.
-  if(document.getElementById("roundToStepSizeButton").checked && values[x].value % getStepSize()){
+  if(document.getElementById("roundToStepSizeButton").checked && values[x] % getStepSize()){
     for(var x in values){
       roundToStepSize(values[x]);
     }
