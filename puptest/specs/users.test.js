@@ -8,8 +8,8 @@ import { GraphDataObject } from "../../components/graph_data_types/GraphDataObje
 import { decodeObjectStr } from "../../components/js_helper_funcs/encoding.mjs";
 import { BASE_URL } from "../../components/qualtrics/consts.mjs";
 
-const githubPageRegex =
-  /import\(\\"https:\/\/cdn\.jsdelivr\.net\/gh\/2022-CITS3200-GraphTeam\/CITS3200-GroupProject@v\d+\.\d+\.\d+\/components\/qualtrics\/injection\.min\.mjs\\"\)/;
+const baseUrlRegex =
+  new RegExp(`import\\(\\\\"${BASE_URL.replace(/[\.\/\\\?\[\]\$\*\+]/g, "\\$&")}\\/components\\/qualtrics\\/injection(?:\\.min)?\\.mjs\\\\"\\)`);
 const encodedGraphDataExtractionRegex =
   /\(async\s*function\s*injectionLoader\s*\(\s*graphObjStr\s*\)\s*\{.+\}\)\(\\"(.+)\\"\)/;
 
@@ -54,8 +54,8 @@ describe("Basic authentication e2e tests", () => {
       );
     });
 
-    it("import url should point to github", () => {
-      expect(clipboardOutput).toMatch(githubPageRegex);
+    it("import url should point to base url", () => {
+      expect(clipboardOutput).toMatch(baseUrlRegex);
     });
 
     it("graph data should contain input changes", () => {
