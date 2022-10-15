@@ -68,10 +68,6 @@ class generateJS {
       navigator.clipboard.readText()
     );
     return scriptJS;
-
-    // } catch (err) {
-    //     console.log(chalk.red('ERROR => ', err));
-    // }
   }
 }
 
