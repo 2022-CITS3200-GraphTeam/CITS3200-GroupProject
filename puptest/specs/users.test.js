@@ -6,6 +6,7 @@ import generateJS from "../actions/generateJS.mjs";
 
 import { GraphDataObject } from "../../components/graph_data_types/GraphDataObject.mjs";
 import { decodeObjectStr } from "../../components/js_helper_funcs/encoding.mjs";
+import { BASE_URL } from "../../components/qualtrics/consts.mjs";
 
 const githubPageRegex =
   /import\(\\"https:\/\/cdn\.jsdelivr\.net\/gh\/2022-CITS3200-GraphTeam\/CITS3200-GroupProject@v\d+\.\d+\.\d+\/components\/qualtrics\/injection\.min\.mjs\\"\)/;

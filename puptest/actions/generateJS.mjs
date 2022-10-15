@@ -1,3 +1,5 @@
+import { BASE_URL } from "../../components/qualtrics/consts.mjs";
+
 class generateJS {
   constructor(page) {
     this.url = `${BASE_URL}/templates/admin_interface.html`;
