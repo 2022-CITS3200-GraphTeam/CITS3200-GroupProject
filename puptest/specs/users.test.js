@@ -22,7 +22,7 @@ describe("Basic authentication e2e tests", () => {
     page = await browser.newPage();
     const client = await page.target().createCDPSession();
     await client.send("Browser.grantPermissions", {
-      origin: "http://127.0.0.1:5500",
+      origin: BASE_URL,
       permissions: ["clipboardReadWrite", "clipboardSanitizedWrite"],
     });
 

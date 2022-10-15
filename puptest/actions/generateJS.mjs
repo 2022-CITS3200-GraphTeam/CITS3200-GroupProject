@@ -1,6 +1,6 @@
 class generateJS {
   constructor(page) {
-    this.url = "http://127.0.0.1:5500/templates/admin_interface.html";
+    this.url = `${BASE_URL}/templates/admin_interface.html`;
     this.page = page;
     this.title = "#title";
     this.xTitle = "#xTitle";
