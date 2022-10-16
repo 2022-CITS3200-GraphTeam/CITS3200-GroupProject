@@ -6,7 +6,13 @@
 
 ## Local Development
 
-To make qualtrics fetch from your local files, instead of github, modify the urls in [consts.mjs](./components/qualtrics/consts.mjs) and [injectionLoader.mjs](./components/qualtrics/injectionLoader.mjs) to point to `"http://localhost:5500"` and `"http://localhost:5500/components/qualtrics/injection.mjs"` respectively.
+To make qualtrics fetch from your local files, instead of github, modify the urls in [consts.mjs](./components/qualtrics/consts.mjs) and [injectionLoader.mjs](./components/qualtrics/injectionLoader.mjs) to point to `"http://localhost:5500"` and `"http://localhost:5500/components/qualtrics/injection.mjs"` respectively. **This is also a required for running the end-to-end tests.**
+
+## Running Tests
+
+Jest and Puppeteer are used to do testing. To setup the tests, install and/or use node.js v16 or later (tested on v16.17.1 (lts gallium) and v18.11.0), and run `npm install` in the project root to set up the libraries. Once installed, `npm test` in the project root will run the unit and end-to-end tests. The end-to-end tests expect a local server serving the files at `http://localhost:5500` - see the [Local Development](#local-development) section for details. This can be changed if required by overwriting the `BASE_URL` in [consts.mjs](./components/qualtrics/consts.mjs).
+
+Puppeteer mocks a chromium browser while the tests are being run. By default the browser is run in headless mode; this setting can be changed in [jest-puppeteer.config.mjs](./jest-puppeteer.config.mjs) to make the window appear if e.g. debugging tests.
 
 ## Updating
 
