@@ -92,6 +92,11 @@ function getStepSize(){
   var stepSize = document.getElementById('stepSize').value;
   return stepSize;
 }
+function roundValueToStepSize(value){
+  var decimalPlaces = Decimal(getStepSize()).dp();
+  value = Decimal(value).toDecimalPlaces(decimalPlaces);
+  return value;
+}
 function generateGraph() {
   // start with 3 table columns
   for (let i = 0; i < 3; i++) addColRow("colTable");
@@ -177,7 +182,7 @@ function updateGraph() {
   // update sum display
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
   let graphValueSum = graphValues.reduce((r, v) => r + v, 0);
-  document.getElementById("currentSum").innerHTML = graphValueSum;
+  document.getElementById("currentSum").innerHTML = roundValueToStepSize(graphValueSum);
 
   myChart.update();
   var values = document.getElementsByClassName('valueInput'); 
@@ -261,8 +266,9 @@ function closeModal(modalName){
 
 function roundToStepSize(column){
   column.step = getStepSize();
+  var decimalPlaces = Decimal(getStepSize()).dp();
   if(document.getElementById("roundToStepSizeButton").checked){
-    column.value = Math.round(column.value / getStepSize()) * getStepSize();
+    column.value = roundValueToStepSize(column.value)
   }
 }
 function getDecimalPlaces(number)
