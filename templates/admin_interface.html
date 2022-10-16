@@ -132,7 +132,7 @@
               <label for="scaleMin">Minimum for Scale:</label>
             </div>
             <div class="col">
-              <input type="number" id="scaleMin" name="scaleMin" oninput="updateGraph(); minErrorMessage()" value="0"
+              <input type="number" id="scaleMin" name="scaleMin" oninput="updateMinValues(); roundToStepSize(); updateGraph(); minErrorMessage();" value="0"
                 step="0.5">
             </div>
           </div>
@@ -157,7 +157,7 @@
               <label for="stepSize">Step size:</label>
             </div>
             <div class="col">
-              <input type="number" id="stepSize" name="stepSize" oninput="updateGraph(); minErrorMessage()" value="1"
+              <input type="number" id="stepSize" name="stepSize" oninput="updateGraph(); minErrorMessage(); roundToStepSize();" value="1"
                 step="0.1">
             </div>
           </div>
@@ -166,16 +166,16 @@
               Enforce rounding to increments of step size
             </div>
             <div class="col">
-              <input type="checkbox" id="roundToStepSizeButton" name="roundToStepSize">
+              <input type="checkbox" id="roundToStepSizeButton" name="roundToStepSize" onchange="roundToStepSize()">
             </div>
           </div>
           <br>
           <div class="row">
             <div class="col">
-              <label for="totalSum">Total Sum (currently <span id="currentSum">NaN</span>):</label>
+              <label for="totalSum">(Current sum = <span id="currentSum">NaN</span>) Set total sum:</label>
             </div>
             <div class="col">
-              <input type="number" id="totalSum" name="totalSum" oninput="updateGraph()" value="" placeholder="none">
+              <input type="number" id="totalSum" name="totalSum" oninput="updateGraph()" value="" placeholder="No total sum">
             </div>
           </div>
           <br>

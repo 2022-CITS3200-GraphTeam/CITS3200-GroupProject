@@ -1,7 +1,7 @@
 function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
-<td><input class="valueInput" onchange="roundToStepSize(this)" oninput="updateGraph()" value="${n}" size=10 type="number" step="getStepSize()"></td>
+<td><input class="valueInput" onchange="roundToStepSize(); updateMinValues();" oninput="updateGraph()" value="${n}" min="0" size=10 type="number" step="getStepSize()"></td>
 <td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
@@ -94,8 +94,32 @@ function getStepSize() {
 }
 function roundValueToStepSize(value) {
   var decimalPlaces = Decimal(getStepSize()).dp();
-  value = Decimal(value).toDecimalPlaces(decimalPlaces);
-  return value;
+  var currentDistance = value;
+  var difference = getStepSize() - 1;
+  var min = Decimal(getScaleMin());
+  for (var i = min; i < getScaleMax(); i ++){
+    if (i != min){
+      i = parseFloat(i) + difference
+    }
+    var previousDistance = currentDistance;
+    currentDistance = value - i;
+    if(currentDistance < 0){
+      if((-1 * currentDistance) < previousDistance){
+        value = Decimal(i);
+        value = value.toDecimalPlaces(decimalPlaces);
+        return value;
+      }
+      else {
+        value = Decimal(i - getStepSize());
+        value = value.toDecimalPlaces(decimalPlaces);
+        return value;
+      }
+      
+    }
+  }
+  return getScaleMax();
+  //value = ((Decimal(value/getStepSize())).toDecimalPlaces(decimalPlaces)) * getStepSize();
+  //return value;
 }
 function generateGraph() {
   // start with 3 table columns
@@ -182,27 +206,23 @@ function updateGraph() {
   // update sum display
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
   let graphValueSum = graphValues.reduce((r, v) => r + v, 0);
-  document.getElementById("currentSum").innerHTML = roundValueToStepSize(graphValueSum);
+  var decimals =  Decimal(getStepSize()).dp();
+  document.getElementById("currentSum").innerHTML = Decimal(graphValueSum).toDecimalPlaces(decimals);
 
   myChart.update();
   var values = document.getElementsByClassName('valueInput');
   updateStepSize(values);
-  updateMinValues(values);
   //for each value automatically updates the values and rounds them if the checkbox is ticked.
-  if (document.getElementById("roundToStepSizeButton").checked && values[x] % getStepSize()) {
-    for (var x in values) {
-      roundToStepSize(values[x]);
-    }
-  }
 }
 //Updates the minimum values and changes the value if it is less then the new minimum
-function updateMinValues(values) {
+function updateMinValues() {
+  var values = document.getElementsByClassName('valueInput');
   for (var x in values) {
+    values[x].min = getScaleMin();
     if (values[x].value < getScaleMin()) {
-      values[x].value = getScaleMin();
+      values[x].value = roundValueToStepSize(getScaleMin());
     }
   }
-  values[x].min = getScaleMin();
 }
 //Updates the step size for all the value boxes so the first click on the up arrow will 
 //use the new correct step size
@@ -264,13 +284,20 @@ function closeModal(modalName) {
 }
 
 
-function roundToStepSize(column) {
-  column.step = getStepSize();
-  var decimalPlaces = Decimal(getStepSize()).dp();
-  if (document.getElementById("roundToStepSizeButton").checked) {
-    column.value = roundValueToStepSize(column.value)
+function roundToStepSize() {
+  if(getStepSize() != 0){
+    var values = document.getElementsByClassName('valueInput');
+    length = values.length;
+    for (let step = 0; step < length; step++) {
+      if (document.getElementById("roundToStepSizeButton").checked && Decimal(values[step].value).modulo(Decimal(getStepSize())) != 0) {
+        values[step].value = parseFloat(values[step].value)
+        values[step].value = roundValueToStepSize(values[step].value)
+      }
+  }  
   }
+  
 }
+
 function getDecimalPlaces(number) {
   var char_array = number.toString().split(""); // split every single char
   var not_decimal = char_array.lastIndexOf(".");
