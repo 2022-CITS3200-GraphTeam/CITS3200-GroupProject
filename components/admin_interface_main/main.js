@@ -16,6 +16,15 @@ function minErrorMessage() {
   }
 }
 
+function maxErrorMessage() {
+  if (getStepSize() != 0 && Decimal(getScaleMax()).modulo(getStepSize()) != 0) {
+    document.getElementById("errorTextMax").style.display = "block";
+  }
+  else {
+    document.getElementById("errorTextMax").style.display = "none";
+  }
+}
+
 function makeRuleRowHTML(n) {
   return `
 <td><input class="ruleInput" value="" size=20 type="text"></td>

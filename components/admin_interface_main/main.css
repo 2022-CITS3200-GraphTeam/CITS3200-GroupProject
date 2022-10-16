@@ -109,7 +109,7 @@ img {
 #participantModal {
   display: none;
 }
-#errorText{
+.errorText{
   display: none; 
   color:red;
 }
