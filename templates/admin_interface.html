@@ -18,12 +18,13 @@
 
       <!-- Open The Modal -->
       <li class="nav-item">
-      <div class="helpBar">
-      <button id="helpButton" button type="button" class="btn btn-light" onclick="openModal('myModal')">Help 
-        <img src="../components/participant_interface_main/Icons/icon_help.png"></button>
-      </div>
+        <div class="helpBar">
+          <button id="helpButton" button type="button" class="btn btn-light" onclick="openModal('myModal')">Help
+            <img src="../components/participant_interface_main/Icons/icon_help.png"></button>
+        </div>
       </li>
-      <li class="nav-item"><button id="parModalButton" type="button" class="btn btn-light" onclick="openModal('participantModal')"> Edit Participant Help Message </button> </li>
+      <li class="nav-item"><button id="parModalButton" type="button" class="btn btn-light"
+          onclick="openModal('participantModal')"> Edit Participant Help Message </button> </li>
     </ul>
 
   </nav>
@@ -37,26 +38,27 @@
   <div id="myModal" class="modal">
     <!-- Modal content -->
     <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('myModal')">&times;</span>
-      <header><strong>Tutorial</strong></header>
-      <p>
-      You can click Add Column to add column, or click Delete to delete column.<br />
-      To generate a graph enter the graph name, column names, values, axis names.<br />
-      When ready to generate click submit.
-      </p>
-      <div class="modal-footer">
-        <button onclick="closeModal('myModal')" type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('myModal')">&times;</span>
+        <header><strong>Tutorial</strong></header>
+        <p>
+          You can click Add Column to add column, or click Delete to delete column.<br />
+          To generate a graph enter the graph name, column names, values, axis names.<br />
+          When ready to generate click submit.
+        </p>
+        <div class="modal-footer">
+          <button onclick="closeModal('myModal')" type="button" class="btn btn-primary"
+            data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
-    </div>
   </div>
-<div id="participantModal" class="modal">
-  <div class="modal-dialog modal-lg">
-  <div class="modal-content">
-  <span class="close" onclick="closeModal('participantModal')">&times;</span>
-  <header> <Strong> Tutorial</Strong></header>
-  <textarea id="tutorialText" rows = 12 >
+  <div id="participantModal" class="modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('participantModal')">&times;</span>
+        <header> <Strong> Tutorial</Strong></header>
+        <textarea id="tutorialText" rows=12>
     To begin click a section of the graph and drag it up or down.
 
     You will be restricted to a total size for the graph, the graph can only
@@ -64,16 +66,17 @@
 
     Specific values can be entered using the text areas below the graph. 
   </textarea>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="closeModal('participantModal')">Close</button>
-  </div>
-</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+            onclick="closeModal('participantModal')">Close</button>
+        </div>
+      </div>
 
-  </div>
+    </div>
   </div>
 
   <div class="container">
-      <!-- CHART -->
+    <!-- CHART -->
     <div class="row">
       <div class="col">
         <div>
@@ -86,129 +89,132 @@
       </div>
       <div class="col">
         <!-- INPUTS -->
-      <br>
-      <div class="scalebox">
-        <div class="row">
-          <div class="col">
-            <label for="title">Title:</label>
-          </div>
-          <div class="col">
-            <input type="text" id="title" name="title" oninput="updateGraph()" value="">
-          </div>
-        </div>
         <br>
-        <div class="row">
-          <div class="col">
-            <label for="xTitle">X-axis Title:</label>
+        <div class="scalebox">
+          <div class="row">
+            <div class="col">
+              <label for="title">Title:</label>
+            </div>
+            <div class="col">
+              <input type="text" id="title" name="title" oninput="updateGraph()" value="">
+            </div>
           </div>
-          <div class="col">
-            <input type="text" id="xTitle" name="xTitle" oninput="updateGraph()" value="x axis">
+          <br>
+          <div class="row">
+            <div class="col">
+              <label for="xTitle">X-axis Title:</label>
+            </div>
+            <div class="col">
+              <input type="text" id="xTitle" name="xTitle" oninput="updateGraph()" value="x axis">
+            </div>
           </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <label for="yTitle">Y-axis Title:</label>
+            </div>
+            <div class="col">
+              <input type="text" id="yTitle" name="yTitle" oninput="updateGraph()" value="y axis">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <label for="scaleMax">Maximum for Scale:</label>
+            </div>
+            <div class="col">
+              <input type="number" id="scaleMax" name="scaleMax" oninput="updateGraph()" value="20" step="0.5">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <label for="scaleMin">Minimum for Scale:</label>
+            </div>
+            <div class="col">
+              <input type="number" id="scaleMin" name="scaleMin" oninput="updateGraph(); minErrorMessage()" value="0"
+                step="0.5">
+            </div>
+          </div>
+          <div row>
+            <div class="col">
+              <label id="errorText"> Please make this value a multiple of step size </label>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <label for="scaleIncrement">Scale Increment:</label>
+            </div>
+            <div class="col">
+              <input type="number" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" value="2"
+                step="0.1">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <label for="stepSize">Step size:</label>
+            </div>
+            <div class="col">
+              <input type="number" id="stepSize" name="stepSize" oninput="updateGraph(); minErrorMessage()" value="1"
+                step="0.1">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              Enforce rounding to increments of step size
+            </div>
+            <div class="col">
+              <input type="checkbox" id="roundToStepSizeButton" name="roundToStepSize">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col">
+              <label for="totalSum">Total Sum (currently <span id="currentSum">NaN</span>):</label>
+            </div>
+            <div class="col">
+              <input type="number" id="totalSum" name="totalSum" oninput="updateGraph()" value="" placeholder="none">
+            </div>
+          </div>
+          <br>
         </div>
-        <br>
-        <div class="row">
-          <div class="col">
-            <label for="yTitle">Y-axis Title:</label>
-          </div>
-          <div class="col">
-            <input type="text" id="yTitle" name="yTitle" oninput="updateGraph()" value="y axis">
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col">
-            <label for="scaleMax">Maximum for Scale:</label>
-          </div>
-          <div class="col">
-            <input type="number" id="scaleMax" name="scaleMax" oninput="updateGraph()" value="20" step="0.5">
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col">
-            <label for="scaleMin">Minimum for Scale:</label>
-          </div>
-          <div class="col">
-            <input type="number" id="scaleMin" name="scaleMin" oninput="updateGraph(); minErrorMessage()" value="0" step="0.5">
-          </div>
-        </div>
-        <div row>
-          <div class="col">
-            <label id="errorText"> Please make this value a multiple of step size </label>
-           </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col">
-            <label for="scaleIncrement">Scale Increment:</label>
-          </div>
-          <div class="col">
-            <input type="number" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" value="2" step="0.1">
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col">
-            <label for="stepSize">Step size:</label>
-          </div>
-          <div class="col">
-            <input type="number" id="stepSize" name="stepSize" oninput="updateGraph(); minErrorMessage()" value="1" step="0.1">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            Enforce rounding to increments of step size
-          </div>
-          <div class="col">
-            <input type="checkbox" id="roundToStepSizeButton" name="roundToStepSize">
-          </div>
-        </div>
-        <br>
-        <div class="row">
-          <div class="col">
-            <label for="maintainSum">Maintain Sum (<span id="currentSum">NaN</span>):</label>
-          </div>
-          <div class="col">
-            <input type="checkbox" id="maintainSum" name="maintainSum">
-          </div>
-        </div>
-        <br>
-      </div>
       </div>
     </div>
     <div class="row">
       <div class="col">
         <!--COLUMNS-->
-      <div class="tablebox">
-        <table id="colTable" border="1">
-          <tr>
-            <th>Name</th>
-            <th>Value</th>
-            <th></th>
-            <th>Delete</th>
-          </tr>
-        </table>
-        <input type="button" id="addColButton" value="Add Column" onclick="addColRow('colTable');updateGraph()">
-      </div>
+        <div class="tablebox">
+          <table id="colTable" border="1">
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+              <th></th>
+              <th>Delete</th>
+            </tr>
+          </table>
+          <input type="button" id="addColButton" value="Add Column" onclick="addColRow('colTable');updateGraph()">
+        </div>
       </div>
       <div class="col">
         <!--RULESXSUBMIT-->
-      <div class="rulesbox">
-        <table id="rulesInput" align="center" border="1">
-           <tr>
-             <th>Rule</th>
-             <!-- <th>Error Message</th> -->
-             <th>Delete</th>
-           </tr>
-         </table>
-         <input type="button" id="addRuleButton" value="Add Rule" onclick="addRuleRow('rulesInput');">
-       </div>
+        <div class="rulesbox">
+          <table id="rulesInput" align="center" border="1">
+            <tr>
+              <th>Rule</th>
+              <!-- <th>Error Message</th> -->
+              <th>Delete</th>
+            </tr>
+          </table>
+          <input type="button" id="addRuleButton" value="Add Rule" onclick="addRuleRow('rulesInput');">
+        </div>
       </div>
     </div>
   </div>
   <br>
   <div id="submitButtonContainer">
-    <button class="genbutton"id="submitButton">Generate Question Javascript</button>
+    <button class="genbutton" id="submitButton">Generate Question Javascript</button>
   </div>
   <script type="module" src="../components/admin_interface_main/setup.mjs"></script>
   <script src="../components/admin_interface_main/main.js"></script>
