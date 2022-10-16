@@ -1,7 +1,7 @@
 function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
-<td><input class="valueInput" onchange="roundToStepSize(); updateMinValues();" oninput="updateGraph()" value="${n}" min="0" size=10 type="number" step="getStepSize()"></td>
+<td><input class="valueInput" onchange="roundToStepSize(); updateMinValues(); updateGraph();" oninput="updateGraph()" value="${n}" min="0" size=10 type="number" step="getStepSize()"></td>
 <td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
@@ -198,7 +198,7 @@ function generateGraph() {
   updateGraph();
 }
 
-function updateGraph() {
+function updateGraph(updateChart=true) {
   myChart.data.labels = getColNames();
   myChart.data.datasets[0].data = getColValues();
   myChart.config._config.options.plugins.title.text = getTitle();
@@ -217,8 +217,10 @@ function updateGraph() {
   let graphValueSum = graphValues.reduce((r, v) => r + v, 0);
   var decimals =  Decimal(getStepSize()).dp();
   document.getElementById("currentSum").innerHTML = Decimal(graphValueSum).toDecimalPlaces(decimals);
-
-  myChart.update();
+  
+  if (updateChart){
+    myChart.update();
+  }
   var values = document.getElementsByClassName('valueInput');
   updateStepSize(values);
   //for each value automatically updates the values and rounds them if the checkbox is ticked.
@@ -244,7 +246,7 @@ function updateStepSize(values) {
 function dragHandler(datasetIndex, index, value) {
   const name = myChart.data.labels[index];
   document.getElementsByClassName("valueInput")[index].value = value.toFixed(getDecimalPlaces(getStepSize()));
-  updateGraph();
+  updateGraph(false);
 }
 
 // returns the ChartJS graph obj

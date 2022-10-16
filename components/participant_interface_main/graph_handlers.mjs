@@ -26,7 +26,7 @@ export function loadGraph(graphObj) {
   graphObj.chartConfig.options.plugins.dragData.onDrag = (event, datasetIndex, index, value) => {
     let result = dragHandler(datasetIndex, index, value);
 
-    updateGraph();
+    updateGraph(false);
 
     return result;
   };
@@ -48,9 +48,9 @@ export function loadGraph(graphObj) {
     return graphObj.restrictions.every(restriction => restriction.isValid(graphValues));
   }
 
-  function updateGraph() {
+  function updateGraph(updateChart=true) {
     // update the graph display
-    graphChart.update();
+    if(updateChart)graphChart.update();
 
     let answerValid = true;
 
