@@ -8,7 +8,7 @@ function makeColRowHTML(n) {
 }
 
 function minErrorMessage(){
-  if(getScaleMin() % getStepSize() != 0){
+  if(getStepSize() != 0 && Decimal(getScaleMin()).modulo(getStepSize()) != 0){
     document.getElementById("errorText").style.display = "block";
   }
   else{
