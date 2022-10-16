@@ -93,7 +93,6 @@ function generateGraph() {
   let graphData = {
     labels: getColNames(),
     datasets: [{
-      label: 'Weekly Sales',
       data: getColValues(),
       backgroundColor: getColour(),
       borderColor: getColour(),
@@ -125,18 +124,18 @@ function generateGraph() {
         y: {
           title: {
             display: true,
-            text: "y"
+            text: ""
           },
           min: 0,
-          max: 20,
+          max: 100,
           ticks: {
-            stepSize: 2
+            stepSize: 10
           }
         },
         x: {
           title: {
             display: true,
-            text: "x"
+            text: ""
           }
         }
       }
@@ -221,3 +220,6 @@ function closeModal(modalName){
   var modal = document.getElementById(modalName)
   modal.style.display = "none";
 }
+
+document.getElementById("addRuleButton").addEventListener("click", () => document.getElementById("submitButton").scrollIntoView());
+document.getElementById("addColButton").addEventListener("click", () => document.getElementById("submitButton").scrollIntoView());
