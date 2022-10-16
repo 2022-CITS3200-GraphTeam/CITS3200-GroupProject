@@ -1,11 +1,12 @@
 function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
-<td><input class="valueInput" onchange="roundToStepSize(); updateMinValues(); updateGraph();" oninput="updateGraph()" value="${n}" min="0" size=10 type="number" step="getStepSize()"></td>
+<td><input class="valueInput" onchange="roundToStepSize(); updateMinValues(); updateGraph();" oninput="updateGraph()" value="${(Math.min(Decimal(n).times(getStepSize()).add(getScaleMin()), getScaleMax()))}" min="0" size=10 type="number"></td>
 <td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
 }
+
 
 function minErrorMessage() {
   if (getStepSize() != 0 && Decimal(getScaleMin()).modulo(getStepSize()) != 0) {
