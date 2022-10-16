@@ -234,9 +234,6 @@ function updateStepSize(values) {
 
 function dragHandler(datasetIndex, index, value) {
   const name = myChart.data.labels[index];
-  if (value > 3.3) {
-    var x = getDecimalPlaces(getStepSize());
-  }
   document.getElementsByClassName("valueInput")[index].value = value.toFixed(getDecimalPlaces(getStepSize()));
   updateGraph();
 }

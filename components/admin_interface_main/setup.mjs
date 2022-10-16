@@ -63,9 +63,10 @@ function getParModal() {
 document.getElementById("submitButton").addEventListener("click", async () => {
   let chartObj = getChartObj(); // `getChartObj` defined in `main.js`
   let graphRestrictions = getRestrictions();
+  let graphStepSize = getStepSize(); // `getStepSize` defined in `main.js`
   let graphTotalSum = getTotalSum();
   let parModal = getParModal();
-  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphTotalSum, parModal);
+  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphStepSize, graphTotalSum, parModal);
 
   let nInvalid = graphRestrictions.invalid.length;
   if (nInvalid > 0) {

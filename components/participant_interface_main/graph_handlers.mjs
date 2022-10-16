@@ -1,3 +1,4 @@
+import { Decimal } from "https://cdn.jsdelivr.net/gh/MikeMcl/decimal.js@v10.4.2/decimal.min.mjs";
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
 import { setAnswer, setAnswerInvalid } from "./iframe_coms.mjs";
 
@@ -58,8 +59,10 @@ export function loadGraph(graphObj) {
 
     if (graphObj.totalSum !== undefined) {
       let currentSum = getGraphValues().reduce((r, v) => r + v, 0);
+      var decimalPlaces = Decimal(graphObj.stepSize).dp();
+      currentSum = Decimal(currentSum).toDecimalPlaces(decimalPlaces);
       document.getElementById("currentSumDisplay").innerText = currentSum;
-      if (currentSum !== graphObj.totalSum) { // ? should there be an epsilon
+      if (!currentSum.equals(graphObj.totalSum)) { // ? should there be an epsilon
         answerValid = false;
         document.getElementById("sumDisplayContainer").classList.add("invalid");
       } else {
@@ -143,6 +146,9 @@ export function loadGraph(graphObj) {
     selectElement.appendChild(optionElement);
   });
 
+  document.getElementById("integerValue").step = graphObj.stepSize;
+  document.getElementById("integerValue").min = graphObj.chartConfig.options.scales.y.min;
+  document.getElementById("integerValue").max = graphObj.chartConfig.options.scales.y.max;
 
   if (graphObj.totalSum !== undefined) {
     // enabled: populate the sum display
