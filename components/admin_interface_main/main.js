@@ -1,7 +1,7 @@
 function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
-<td><input class="valueInput" onchange="roundToStepSize(); updateMinValues(); updateGraph();" oninput="updateGraph()" value="${(Math.min(new Decimal(n).times(getStepSize()).add(getScaleMin()), getScaleMax()))}" min="0" size=10 type="number"></td>
+<td><input class="valueInput" onchange="roundToStepSize(); updateMinValues(); updateMaxValues(); updateGraph();" oninput="updateGraph()" value="${(Math.min(new Decimal(n).times(getStepSize()).add(getScaleMin()), getScaleMax()))}" min="${getScaleMin()}" max="${getScaleMax()}" type="number"></td>
 <td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
@@ -226,6 +226,7 @@ function updateGraph(updateChart = true) {
   updateStepSize(values);
   //for each value automatically updates the values and rounds them if the checkbox is ticked.
 }
+
 //Updates the minimum values and changes the value if it is less then the new minimum
 function updateMinValues() {
   var values = document.getElementsByClassName('valueInput');
@@ -236,6 +237,16 @@ function updateMinValues() {
     }
   }
 }
+
+//Updates the maximum values and changes the value if it is more then the new maximum
+function updateMaxValues() {
+  let max = getScaleMax();
+  [...document.getElementsByClassName('valueInput')].forEach(input => {
+    input.max = max;
+    if (input.value > max) input.value = roundValueToStepSize(max);
+  });
+}
+
 //Updates the step size for all the value boxes so the first click on the up arrow will 
 //use the new correct step size
 function updateStepSize(values) {

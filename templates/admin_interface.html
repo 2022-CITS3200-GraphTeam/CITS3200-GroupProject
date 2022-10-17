@@ -123,7 +123,7 @@
               <label for="scaleMax">Maximum for Scale:</label>
             </div>
             <div class="col">
-              <input type="number" id="scaleMax" name="scaleMax" oninput="updateGraph(); maxErrorMessage()" value="20" step="0.5">
+              <input type="number" id="scaleMax" name="scaleMax" oninput="updateMaxValues(); roundToStepSize(); updateGraph(); maxErrorMessage()" value="20" step="0.5">
             </div>
           </div>
           <div row>
