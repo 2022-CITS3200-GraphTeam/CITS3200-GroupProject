@@ -2,7 +2,7 @@ import { Decimal } from "https://cdn.jsdelivr.net/gh/MikeMcl/decimal.js@v10.4.2/
 
 /**
  * Rounds `value` to the nearest multiple of `increment` (offset by `min`), within `min` and `max`.
- * `min` should always be a valid value; returns that if no other value meets these constraints.
+ * `min` and `max` should always be valid values; returns those, if out of bounds.
  * 
  * @param {number} value 
  * @param {number} increment 
@@ -11,31 +11,13 @@ import { Decimal } from "https://cdn.jsdelivr.net/gh/MikeMcl/decimal.js@v10.4.2/
  * @returns {number} 
  */
 export function roundToWithin(value, increment, min, max) {
-  // TODO simplify logic
+  value = new Decimal(value);
 
-  let decimalPlaces = new Decimal(increment).dp();
-  let currentDistance = value;
-  let difference = increment - 1;
-  min = new Decimal(min);
+  // the closest multiple of `increment` to `value`, not necessarily within `min` and `max`
+  let rounded = value.div(increment).round().mul(increment).toNumber();
 
-  for (let i = min; i < max; i++) {
-    if (i != min) i = parseFloat(i) + difference;
+  if (rounded > max) return max;
+  if (rounded < min) return min;
 
-    let previousDistance = currentDistance;
-    currentDistance = value - i;
-    if (currentDistance < 0) {
-      if ((-1 * currentDistance) < previousDistance) {
-        value = new Decimal(i);
-        value = value.toDecimalPlaces(decimalPlaces);
-        return value;
-      } else {
-        value = new Decimal(i - increment);
-        value = value.toDecimalPlaces(decimalPlaces);
-        return value;
-      }
-
-    }
-  }
-
-  return min;
+  return rounded;
 }
