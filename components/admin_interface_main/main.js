@@ -86,51 +86,41 @@ function getXTitle() {
 }
 function getScaleMin() {
   var testScaleMin = document.getElementById("scaleMin").value;
-  return Math.round(testScaleMin * 100) / 100;
+  if (testScaleMin === "") testScaleMin = document.getElementById("scaleMin").placeholder;
+  return toStepSizeDP(testScaleMin);
 }
 function getScaleMax() {
   var testScaleMax = document.getElementById("scaleMax").value;
-  return Math.round(testScaleMax * 100) / 100;
+  if (testScaleMax === "") testScaleMax = document.getElementById("scaleMax").placeholder;
+  return toStepSizeDP(testScaleMax);
 }
 function getScaleIncrement() {
   var testScaleIncrement = document.getElementById("scaleIncrement").value;
-  return Math.round(testScaleIncrement * 100) / 100;
+  if (testScaleIncrement === "") return undefined;
+  return toStepSizeDP(testScaleIncrement);
 }
 function getEnforceStepSize() {
   return document.getElementById("roundToStepSizeButton").checked;
 }
 function getStepSize() {
   var stepSize = document.getElementById('stepSize').value;
+  if (stepSize === "") stepSize = document.getElementById('stepSize').placeholder;
   return stepSize;
 }
+function toStepSizeDP(value) {
+  return new Decimal(value).toDecimalPlaces(new Decimal(getStepSize()).dp()).toNumber();
+}
 function roundValueToStepSize(value) {
-  var decimalPlaces = new Decimal(getStepSize()).dp();
-  var currentDistance = value;
-  var difference = getStepSize() - 1;
-  var min = new Decimal(getScaleMin());
-  for (var i = min; i < getScaleMax(); i++) {
-    if (i != min) {
-      i = parseFloat(i) + difference
-    }
-    var previousDistance = currentDistance;
-    currentDistance = value - i;
-    if (currentDistance < 0) {
-      if ((-1 * currentDistance) < previousDistance) {
-        value = new Decimal(i);
-        value = value.toDecimalPlaces(decimalPlaces);
-        return value;
-      }
-      else {
-        value = new Decimal(i - getStepSize());
-        value = value.toDecimalPlaces(decimalPlaces);
-        return value;
-      }
+  value = new Decimal(value);
+  let increment = getStepSize();
 
-    }
-  }
-  return getScaleMax();
-  //value = ((new Decimal(value/getStepSize())).toDecimalPlaces(decimalPlaces)) * getStepSize();
-  //return value;
+  // the closest multiple of `increment` to `value`, not necessarily within `min` and `max`
+  let rounded = toStepSizeDP(value.div(increment).round().mul(increment));
+
+  if (rounded > getScaleMax()) return getScaleMax();
+  if (rounded < getScaleMin()) return getScaleMin();
+
+  return rounded;
 }
 function generateGraph() {
   // start with 3 table columns
@@ -147,6 +137,7 @@ function generateGraph() {
       borderColor: getColour(),
       borderWidth: 1,
       dragData: true,
+      minBarLength: 4
     }]
   };
 
