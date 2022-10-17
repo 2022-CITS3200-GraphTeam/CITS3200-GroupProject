@@ -101,6 +101,7 @@ function getEnforceStepSize() {
 }
 function getStepSize() {
   var stepSize = document.getElementById('stepSize').value;
+  if (stepSize === "") return 1;
   return stepSize;
 }
 function roundValueToStepSize(value) {
