@@ -111,33 +111,16 @@ function toStepSizeDP(value) {
   return new Decimal(value).toDecimalPlaces(new Decimal(getStepSize()).dp()).toNumber();
 }
 function roundValueToStepSize(value) {
-  var decimalPlaces = new Decimal(getStepSize()).dp();
-  var currentDistance = value;
-  var difference = getStepSize() - 1;
-  var min = new Decimal(getScaleMin());
-  for (var i = min; i < getScaleMax(); i++) {
-    if (i != min) {
-      i = parseFloat(i) + difference
-    }
-    var previousDistance = currentDistance;
-    currentDistance = value - i;
-    if (currentDistance < 0) {
-      if ((-1 * currentDistance) < previousDistance) {
-        value = new Decimal(i);
-        value = value.toDecimalPlaces(decimalPlaces);
-        return value;
-      }
-      else {
-        value = new Decimal(i - getStepSize());
-        value = value.toDecimalPlaces(decimalPlaces);
-        return value;
-      }
+  value = new Decimal(value);
+  let increment = getStepSize();
 
-    }
-  }
-  return getScaleMax();
-  //value = ((new Decimal(value/getStepSize())).toDecimalPlaces(decimalPlaces)) * getStepSize();
-  //return value;
+  // the closest multiple of `increment` to `value`, not necessarily within `min` and `max`
+  let rounded = toStepSizeDP(value.div(increment).round().mul(increment));
+
+  if (rounded > getScaleMax()) return getScaleMax();
+  if (rounded < getScaleMin()) return getScaleMin();
+
+  return rounded;
 }
 function generateGraph() {
   // start with 3 table columns
