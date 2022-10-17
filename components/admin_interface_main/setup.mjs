@@ -40,7 +40,7 @@ export function getRestrictions() {
     validRestrictions.push(restriction);
     return;
   });
-  
+
   return {
     valid: validRestrictions,
     invalid: invalidRestrictions

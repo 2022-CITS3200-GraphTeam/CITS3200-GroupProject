@@ -59,8 +59,8 @@ export function loadGraph(graphObj) {
 
     if (graphObj.totalSum !== undefined) {
       let currentSum = getGraphValues().reduce((r, v) => r + v, 0);
-      var decimalPlaces = Decimal(graphObj.stepSize).dp();
-      currentSum = Decimal(currentSum).toDecimalPlaces(decimalPlaces);
+      var decimalPlaces = new Decimal(graphObj.stepSize).dp();
+      currentSum = new Decimal(currentSum).toDecimalPlaces(decimalPlaces);
       document.getElementById("currentSumDisplay").innerText = currentSum;
       if (!currentSum.equals(graphObj.totalSum)) { // ? should there be an epsilon
         answerValid = false;

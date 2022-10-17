@@ -1,7 +1,7 @@
 function makeColRowHTML(n) {
   return `
 <td><input class="nameInput" oninput="updateGraph()" value="Column ${n}" size=20 type="text"></td>
-<td><input class="valueInput" onchange="roundToStepSize(); updateMinValues(); updateGraph();" oninput="updateGraph()" value="${(Math.min(Decimal(n).times(getStepSize()).add(getScaleMin()), getScaleMax()))}" min="0" size=10 type="number"></td>
+<td><input class="valueInput" onchange="roundToStepSize(); updateMinValues(); updateGraph();" oninput="updateGraph()" value="${(Math.min(new Decimal(n).times(getStepSize()).add(getScaleMin()), getScaleMax()))}" min="0" size=10 type="number"></td>
 <td><input class="colourInput" id="colourInput" type="color" oninput="updateGraph()" value="#0072D0"></td>
 <td><input class="deleteButton" type="button" value="Delete" onclick="deleteRow(this, 'colTable');updateGraph()"></td>
 `;
@@ -9,7 +9,7 @@ function makeColRowHTML(n) {
 
 
 function minErrorMessage() {
-  if (getStepSize() != 0 && Decimal(getScaleMin()).modulo(getStepSize()) != 0) {
+  if (getStepSize() != 0 && new Decimal(getScaleMin()).modulo(getStepSize()) != 0) {
     document.getElementById("errorText").style.display = "block";
   }
   else {
@@ -18,7 +18,7 @@ function minErrorMessage() {
 }
 
 function maxErrorMessage() {
-  if (getStepSize() != 0 && Decimal(getScaleMax()).modulo(getStepSize()) != 0) {
+  if (getStepSize() != 0 && new Decimal(getScaleMax()).modulo(getStepSize()) != 0) {
     document.getElementById("errorTextMax").style.display = "block";
   }
   else {
@@ -103,32 +103,32 @@ function getStepSize() {
   return stepSize;
 }
 function roundValueToStepSize(value) {
-  var decimalPlaces = Decimal(getStepSize()).dp();
+  var decimalPlaces = new Decimal(getStepSize()).dp();
   var currentDistance = value;
   var difference = getStepSize() - 1;
-  var min = Decimal(getScaleMin());
-  for (var i = min; i < getScaleMax(); i ++){
-    if (i != min){
+  var min = new Decimal(getScaleMin());
+  for (var i = min; i < getScaleMax(); i++) {
+    if (i != min) {
       i = parseFloat(i) + difference
     }
     var previousDistance = currentDistance;
     currentDistance = value - i;
-    if(currentDistance < 0){
-      if((-1 * currentDistance) < previousDistance){
-        value = Decimal(i);
+    if (currentDistance < 0) {
+      if ((-1 * currentDistance) < previousDistance) {
+        value = new Decimal(i);
         value = value.toDecimalPlaces(decimalPlaces);
         return value;
       }
       else {
-        value = Decimal(i - getStepSize());
+        value = new Decimal(i - getStepSize());
         value = value.toDecimalPlaces(decimalPlaces);
         return value;
       }
-      
+
     }
   }
   return getScaleMax();
-  //value = ((Decimal(value/getStepSize())).toDecimalPlaces(decimalPlaces)) * getStepSize();
+  //value = ((new Decimal(value/getStepSize())).toDecimalPlaces(decimalPlaces)) * getStepSize();
   //return value;
 }
 function generateGraph() {
@@ -199,7 +199,7 @@ function generateGraph() {
   updateGraph();
 }
 
-function updateGraph(updateChart=true) {
+function updateGraph(updateChart = true) {
   myChart.data.labels = getColNames();
   myChart.data.datasets[0].data = getColValues();
   myChart.config._config.options.plugins.title.text = getTitle();
@@ -216,10 +216,10 @@ function updateGraph(updateChart=true) {
   // update sum display
   let graphValues = myChart.data.datasets[0].data.map(v => parseFloat(v));
   let graphValueSum = graphValues.reduce((r, v) => r + v, 0);
-  var decimals =  Decimal(getStepSize()).dp();
-  document.getElementById("currentSum").innerHTML = Decimal(graphValueSum).toDecimalPlaces(decimals);
-  
-  if (updateChart){
+  var decimals = new Decimal(getStepSize()).dp();
+  document.getElementById("currentSum").innerHTML = new Decimal(graphValueSum).toDecimalPlaces(decimals);
+
+  if (updateChart) {
     myChart.update();
   }
   var values = document.getElementsByClassName('valueInput');
@@ -294,17 +294,17 @@ function closeModal(modalName) {
 
 
 function roundToStepSize() {
-  if(getStepSize() != 0){
+  if (getStepSize() != 0) {
     var values = document.getElementsByClassName('valueInput');
     length = values.length;
     for (let step = 0; step < length; step++) {
-      if (document.getElementById("roundToStepSizeButton").checked && Decimal(values[step].value).modulo(Decimal(getStepSize())) != 0) {
+      if (document.getElementById("roundToStepSizeButton").checked && new Decimal(values[step].value).modulo(getStepSize()) != 0) {
         values[step].value = parseFloat(values[step].value)
         values[step].value = roundValueToStepSize(values[step].value)
       }
-  }  
+    }
   }
-  
+
 }
 
 function getDecimalPlaces(number) {
