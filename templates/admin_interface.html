@@ -96,7 +96,7 @@
               <label for="title">Title:</label>
             </div>
             <div class="col">
-              <input type="text" id="title" name="title" oninput="updateGraph()" value="">
+              <input type="text" id="title" name="title" oninput="updateGraph()" placeholder="Title">
             </div>
           </div>
           <br>
@@ -105,7 +105,7 @@
               <label for="xTitle">X-axis Title:</label>
             </div>
             <div class="col">
-              <input type="text" id="xTitle" name="xTitle" oninput="updateGraph()" value="">
+              <input type="text" id="xTitle" name="xTitle" oninput="updateGraph()" placeholder="x title">
             </div>
           </div>
           <br>
@@ -114,7 +114,7 @@
               <label for="yTitle">Y-axis Title:</label>
             </div>
             <div class="col">
-              <input type="text" id="yTitle" name="yTitle" oninput="updateGraph()" value="">
+              <input type="text" id="yTitle" name="yTitle" oninput="updateGraph()" placeholder="y title">
             </div>
           </div>
           <br>
@@ -123,7 +123,7 @@
               <label for="scaleMax">Maximum for Scale:</label>
             </div>
             <div class="col">
-              <input type="number" id="scaleMax" name="scaleMax" oninput="updateMaxValues(); roundToStepSize(); updateGraph(); maxErrorMessage();" min="0" value="20" step="0.5">
+              <input type="number" id="scaleMax" name="scaleMax" oninput="updateMaxValues(); roundToStepSize(); updateGraph(); maxErrorMessage();" min="0" value="100" step="0.5">
             </div>
           </div>
           <div row>
@@ -152,14 +152,14 @@
               <label for="scaleIncrement">Scale Increment:</label>
             </div>
             <div class="col">
-              <input type="number" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" value="2"
+              <input type="number" id="scaleIncrement" name="scaleIncrement" oninput="updateGraph()" value="10"
                 step="0.1">
             </div>
           </div>
           <br>
           <div class="row">
             <div class="col">
-              <label for="stepSize">Step size:</label>
+              <label for="stepSize">Round to the nearest:</label>
             </div>
             <div class="col">
               <input type="number" id="stepSize" name="stepSize" oninput="minErrorMessage(); maxErrorMessage(); roundToStepSize(); updateGraph();" value="1"
