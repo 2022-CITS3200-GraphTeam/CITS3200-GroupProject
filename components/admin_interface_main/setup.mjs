@@ -19,7 +19,7 @@ export function getRestrictions() {
 
     // exclude the rule if it's not valid
     if (!GraphRestriction.validateRule(rule)) {
-      console.error(`Invalid rule being excluded:`, rule);
+      (rule === "" ? console.warn : console.error)(`Invalid rule being excluded:`, rule);
       invalidRestrictions.push({ rule, errorMessage });
       return;
     }
@@ -40,22 +40,41 @@ export function getRestrictions() {
     validRestrictions.push(restriction);
     return;
   });
-  
+
   return {
     valid: validRestrictions,
     invalid: invalidRestrictions
   };
 }
 
-function getMaintainSum() {
-  return document.getElementById("maintainSum").checked;
+function getTotalSum() {
+  let raw = document.getElementById("totalSum").value;
+
+  // handle total sum being not set
+  if (raw === "") return undefined;
+
+  return parseFloat(raw);
+}
+
+function getParModal() {
+  return document.getElementById("tutorialText").value;
 }
 
 document.getElementById("submitButton").addEventListener("click", async () => {
   let chartObj = getChartObj(); // `getChartObj` defined in `main.js`
   let graphRestrictions = getRestrictions();
-  let graphMaintainSum = getMaintainSum();
-  let graphObj = new GraphDataObject(chartObj, graphRestrictions.valid, graphMaintainSum);
+  let graphEnforceStepSize = getEnforceStepSize(); // `getEnforceStepSize` defined in `main.js`
+  let graphStepSize = getStepSize(); // `getStepSize` defined in `main.js`
+  let graphTotalSum = getTotalSum();
+  let parModal = getParModal();
+  
+  let graphObj = new GraphDataObject(
+    chartObj,
+    graphRestrictions.valid,
+    graphEnforceStepSize, graphStepSize,
+    graphTotalSum,
+    parModal
+  );
 
   let nInvalid = graphRestrictions.invalid.length;
   if (nInvalid > 0) {
