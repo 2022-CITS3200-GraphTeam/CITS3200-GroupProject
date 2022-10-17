@@ -8,10 +8,10 @@ export class GraphRestriction {
     // TODO: proper jsdoc for the object properties, rather than just type
     
     /** @type {string} */
-    this.rule = rule;
+    this.rule = rule ?? "";
 
     /** @type {string} */
-    this.errorMessage = errorMessage;
+    this.errorMessage = errorMessage ?? "";
   }
 
   /**
@@ -22,7 +22,8 @@ export class GraphRestriction {
     // check the rule is defined
     if (rule === undefined || rule === null) return false;
 
-    // check the rule isn't empty
+    // check the rule is a string, but not empty
+    if (typeof rule !== "string") return false;
     if (rule === "") return false;
 
     return true;
@@ -61,15 +62,15 @@ export class GraphRestriction {
     function col(n) {
       let columnNumber = parseInt(n);
       if (!Number.isInteger(columnNumber)) {
-        throw new Error(`Column Number (${n}) is not a valid number (processed to: ${columnNumber})`);
+        throw new Error(`Column Number (${JSON.stringify(n)}) is not a valid number (processed to: ${columnNumber})`);
       }
 
       let columnIndex = columnNumber - 1;
-      if (columnIndex >= colArr().length) {
+      if (columnIndex >= colArr().length || columnIndex < 0) {
         throw new Error(`Column Number (${columnNumber}) out of range (expected between 1 and ${colArr().length})`);
       }
 
-      return graphValueArr[columnIndex] ?? NaN;
+      return colArr()[columnIndex] ?? NaN;
     }
 
     // evaluate the expression (=> its validity)
