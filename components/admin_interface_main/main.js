@@ -154,6 +154,7 @@ function generateGraph() {
       borderColor: getColour(),
       borderWidth: 1,
       dragData: true,
+      minBarLength: 4
     }]
   };
 

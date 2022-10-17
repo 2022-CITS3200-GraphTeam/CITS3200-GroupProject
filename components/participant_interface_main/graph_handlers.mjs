@@ -17,6 +17,14 @@ export function updateInteger() {
  * @param {GraphDataObject} graphObj
  */
 export function loadGraph(graphObj) {
+  // create the `graphObj.chartConfig.data.datasets[0]` obj
+  graphObj.chartConfig.data = graphObj.chartConfig.data ?? {};
+  graphObj.chartConfig.data.datasets = graphObj.chartConfig.data.datasets ?? [];
+  graphObj.chartConfig.data.datasets[0] = graphObj.chartConfig.data.datasets[0] ?? {};
+
+  // set minimum bar height for display
+  graphObj.chartConfig.data.datasets[0].minBarLength = 4;
+
   // create the `graphObj.chartConfig.options.plugins.dragData` object,
   // if it doesn't already exist in the graph settings
   graphObj.chartConfig.options = graphObj.chartConfig.options ?? {};
