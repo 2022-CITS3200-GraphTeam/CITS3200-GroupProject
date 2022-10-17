@@ -86,23 +86,29 @@ function getXTitle() {
 }
 function getScaleMin() {
   var testScaleMin = document.getElementById("scaleMin").value;
-  return Math.round(testScaleMin * 100) / 100;
+  if (testScaleMin === "") testScaleMin = document.getElementById("scaleMin").placeholder;
+  return toStepSizeDP(testScaleMin);
 }
 function getScaleMax() {
   var testScaleMax = document.getElementById("scaleMax").value;
-  return Math.round(testScaleMax * 100) / 100;
+  if (testScaleMax === "") testScaleMax = document.getElementById("scaleMax").placeholder;
+  return toStepSizeDP(testScaleMax);
 }
 function getScaleIncrement() {
   var testScaleIncrement = document.getElementById("scaleIncrement").value;
-  return Math.round(testScaleIncrement * 100) / 100;
+  if (testScaleIncrement === "") return undefined;
+  return toStepSizeDP(testScaleIncrement);
 }
 function getEnforceStepSize() {
   return document.getElementById("roundToStepSizeButton").checked;
 }
 function getStepSize() {
   var stepSize = document.getElementById('stepSize').value;
-  if (stepSize === "") return 1;
+  if (stepSize === "") stepSize = document.getElementById('stepSize').placeholder;
   return stepSize;
+}
+function toStepSizeDP(value) {
+  return new Decimal(value).toDecimalPlaces(new Decimal(getStepSize()).dp()).toNumber();
 }
 function roundValueToStepSize(value) {
   var decimalPlaces = new Decimal(getStepSize()).dp();
