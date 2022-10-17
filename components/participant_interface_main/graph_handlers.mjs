@@ -1,4 +1,6 @@
+import { Decimal } from "https://cdn.jsdelivr.net/gh/MikeMcl/decimal.js@v10.4.2/decimal.min.mjs";
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
+import { roundToWithin } from "../js_helper_funcs/rounding.mjs";
 import { setAnswer, setAnswerInvalid } from "./iframe_coms.mjs";
 
 /**
@@ -25,7 +27,7 @@ export function loadGraph(graphObj) {
   graphObj.chartConfig.options.plugins.dragData.onDrag = (event, datasetIndex, index, value) => {
     let result = dragHandler(datasetIndex, index, value);
 
-    updateGraph();
+    updateGraph(false);
 
     return result;
   };
@@ -47,9 +49,9 @@ export function loadGraph(graphObj) {
     return graphObj.restrictions.every(restriction => restriction.isValid(graphValues));
   }
 
-  function updateGraph() {
+  function updateGraph(updateChart=true) {
     // update the graph display
-    graphChart.update();
+    if(updateChart)graphChart.update();
 
     let answerValid = true;
 
@@ -58,8 +60,10 @@ export function loadGraph(graphObj) {
 
     if (graphObj.totalSum !== undefined) {
       let currentSum = getGraphValues().reduce((r, v) => r + v, 0);
+      var decimalPlaces = new Decimal(graphObj.stepSize).dp();
+      currentSum = new Decimal(currentSum).toDecimalPlaces(decimalPlaces);
       document.getElementById("currentSumDisplay").innerText = currentSum;
-      if (currentSum !== graphObj.totalSum) { // ? should there be an epsilon
+      if (!currentSum.equals(graphObj.totalSum)) { // ? should there be an epsilon
         answerValid = false;
         document.getElementById("sumDisplayContainer").classList.add("invalid");
       } else {
@@ -143,6 +147,22 @@ export function loadGraph(graphObj) {
     selectElement.appendChild(optionElement);
   });
 
+  const valueInput = document.getElementById("integerValue");
+  valueInput.min = graphObj.chartConfig.options.scales.y.min;
+  valueInput.max = graphObj.chartConfig.options.scales.y.max;
+  valueInput.step = graphObj.stepSize;
+  valueInput.addEventListener("change", (e) => {
+    if (graphObj.enforceStepSize && new Decimal(valueInput.value).modulo(graphObj.stepSize) != 0) {
+      valueInput.value = parseFloat(valueInput.value);
+      valueInput.value = roundToWithin(
+        valueInput.value,
+        graphObj.stepSize,
+        graphObj.chartConfig.options.scales.y.min,
+        graphObj.chartConfig.options.scales.y.max
+      );
+      e.target.dispatchEvent(new InputEvent("input"));
+    }
+  });
 
   if (graphObj.totalSum !== undefined) {
     // enabled: populate the sum display
