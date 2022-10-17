@@ -10,18 +10,16 @@ function makeColRowHTML(n) {
 
 function minErrorMessage() {
   if (getStepSize() != 0 && new Decimal(getScaleMin()).modulo(getStepSize()) != 0) {
-    document.getElementById("errorText").style.display = "block";
-  }
-  else {
-    document.getElementById("errorText").style.display = "none";
+    document.getElementById("errorTextMin").style.display = "block";
+  } else {
+    document.getElementById("errorTextMin").style.display = "none";
   }
 }
 
 function maxErrorMessage() {
-  if (getStepSize() != 0 && new Decimal(getScaleMax()).modulo(getStepSize()) != 0) {
+  if (getStepSize() != 0 && new Decimal(getScaleMax()).minus(getScaleMin()).modulo(getStepSize()) != 0) {
     document.getElementById("errorTextMax").style.display = "block";
-  }
-  else {
+  } else {
     document.getElementById("errorTextMax").style.display = "none";
   }
 }
@@ -222,14 +220,21 @@ function updateGraph(updateChart = true) {
   if (updateChart) {
     myChart.update();
   }
-  var values = document.getElementsByClassName('valueInput');
-  updateStepSize(values);
+  var values = document.getElementsByClassName("valueInput");
+  updateStepSize([
+    ...values,
+    document.getElementById("scaleMax"),
+    document.getElementById("scaleMin")
+  ]);
   //for each value automatically updates the values and rounds them if the checkbox is ticked.
 }
 
 //Updates the minimum values and changes the value if it is less then the new minimum
 function updateMinValues() {
-  var values = document.getElementsByClassName('valueInput');
+  var values = [
+    ...document.getElementsByClassName("valueInput"),
+    document.getElementById("scaleMax")
+  ];
   for (var x in values) {
     values[x].min = getScaleMin();
     if (values[x].value < getScaleMin()) {
@@ -241,17 +246,18 @@ function updateMinValues() {
 //Updates the maximum values and changes the value if it is more then the new maximum
 function updateMaxValues() {
   let max = getScaleMax();
-  [...document.getElementsByClassName('valueInput')].forEach(input => {
+  let values = document.getElementsByClassName('valueInput');
+  for (let input of values) {
     input.max = max;
     if (input.value > max) input.value = roundValueToStepSize(max);
-  });
+  }
 }
 
 //Updates the step size for all the value boxes so the first click on the up arrow will 
 //use the new correct step size
 function updateStepSize(values) {
-  for (var x in values) {
-    values[x].step = getStepSize();
+  for (let value of values) {
+    value.step = getStepSize();
   }
 }
 
