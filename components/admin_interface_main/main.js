@@ -96,6 +96,9 @@ function getScaleIncrement() {
   var testScaleIncrement = document.getElementById("scaleIncrement").value;
   return Math.round(testScaleIncrement * 100) / 100;
 }
+function getEnforceStepSize() {
+  return document.getElementById("roundToStepSizeButton").checked;
+}
 function getStepSize() {
   var stepSize = document.getElementById('stepSize').value;
   return stepSize;
@@ -315,13 +318,12 @@ function roundToStepSize() {
     var values = document.getElementsByClassName('valueInput');
     length = values.length;
     for (let step = 0; step < length; step++) {
-      if (document.getElementById("roundToStepSizeButton").checked && new Decimal(values[step].value).modulo(getStepSize()) != 0) {
+      if (getEnforceStepSize() && new Decimal(values[step].value).modulo(getStepSize()) != 0) {
         values[step].value = parseFloat(values[step].value)
         values[step].value = roundValueToStepSize(values[step].value)
       }
     }
   }
-
 }
 
 function getDecimalPlaces(number) {

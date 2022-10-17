@@ -1,5 +1,6 @@
 import { Decimal } from "https://cdn.jsdelivr.net/gh/MikeMcl/decimal.js@v10.4.2/decimal.min.mjs";
 import { GraphDataObject } from "../graph_data_types/GraphDataObject.mjs";
+import { roundToWithin } from "../js_helper_funcs/rounding.mjs";
 import { setAnswer, setAnswerInvalid } from "./iframe_coms.mjs";
 
 /**
@@ -146,9 +147,22 @@ export function loadGraph(graphObj) {
     selectElement.appendChild(optionElement);
   });
 
-  document.getElementById("integerValue").step = graphObj.stepSize;
-  document.getElementById("integerValue").min = graphObj.chartConfig.options.scales.y.min;
-  document.getElementById("integerValue").max = graphObj.chartConfig.options.scales.y.max;
+  const valueInput = document.getElementById("integerValue");
+  valueInput.min = graphObj.chartConfig.options.scales.y.min;
+  valueInput.max = graphObj.chartConfig.options.scales.y.max;
+  valueInput.step = graphObj.stepSize;
+  valueInput.addEventListener("change", (e) => {
+    if (graphObj.enforceStepSize && new Decimal(valueInput.value).modulo(graphObj.stepSize) != 0) {
+      valueInput.value = parseFloat(valueInput.value);
+      valueInput.value = roundToWithin(
+        valueInput.value,
+        graphObj.stepSize,
+        graphObj.chartConfig.options.scales.y.min,
+        graphObj.chartConfig.options.scales.y.max
+      );
+      e.target.dispatchEvent(new InputEvent("input"));
+    }
+  });
 
   if (graphObj.totalSum !== undefined) {
     // enabled: populate the sum display
