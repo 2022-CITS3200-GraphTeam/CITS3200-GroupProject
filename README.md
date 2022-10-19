@@ -6,8 +6,8 @@
 Link to admin interface: https://2022-cits3200-graphteam.github.io/CITS3200-GroupProject/templates/admin_interface.html
 
 # Participant Documentation to insert into Qualtrics Survey
-[CITS3200_Team Graph Manipulation Tool Participant User Guide.docx](https://github.com/2022-CITS3200-GraphTeam/CITS3200-GroupProject/files/9818375/CITS3200_Team.Graph.Manipulation.Tool.Participant.User.Guide.docx)
-[CITS3200_Team Graph Manipulation Tool Participant User Guide.pdf](https://github.com/2022-CITS3200-GraphTeam/CITS3200-GroupProject/files/9818376/CITS3200_Team.Graph.Manipulation.Tool.Participant.User.Guide.pdf)
+[Participant User Guide word document](https://github.com/2022-CITS3200-GraphTeam/CITS3200-GroupProject/files/9818375/CITS3200_Team.Graph.Manipulation.Tool.Participant.User.Guide.docx)
+[Participant User Guide PDF](https://github.com/2022-CITS3200-GraphTeam/CITS3200-GroupProject/files/9818376/CITS3200_Team.Graph.Manipulation.Tool.Participant.User.Guide.pdf)
 
 
 ## Links
