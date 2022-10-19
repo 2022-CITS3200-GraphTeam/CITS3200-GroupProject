@@ -43,8 +43,10 @@
         <header><strong>Tutorial</strong></header>
         <p>
           You can click Add Column to add column, or click Delete to delete column.<br />
-          To generate a graph enter the graph name, column names, values, axis names.<br />
-          When ready to generate click submit.
+          To generate a graph enter the desired names and values<br />
+          When ready to generate click Generate Question JavaScript.<br /> <br />
+          Rules may be applied that can perform functions such as col(1) < col(2).
+          Some warnings may appear for minimum and maximum scale if they are not an increment of step size, please try and make these an increment of step size to avoid errors. For more info refer to the <a href="https://github.com/2022-CITS3200-GraphTeam/CITS3200-GroupProject#readme" target="_blank"> admin documentation. </a>
         </p>
         <div class="modal-footer">
           <button onclick="closeModal('myModal')" type="button" class="btn btn-primary"
@@ -164,7 +166,7 @@
           <br>
           <div class="row">
             <div class="col">
-              <label for="stepSize">Round to the nearest:</label>
+              <label for="stepSize">Step size (Round to the Nearest ):</label>
             </div>
             <div class="col">
               <input type="number" id="stepSize" name="stepSize"
