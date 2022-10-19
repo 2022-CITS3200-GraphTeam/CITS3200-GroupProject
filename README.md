@@ -3,6 +3,10 @@
 # How To Use Admin Documentation
 [Admin Documentation.docx](https://github.com/2022-CITS3200-GraphTeam/CITS3200-GroupProject/files/9818108/Admin.Documentation.docx)
 
+# Participant Documentation to insert into Qualtrics Survey
+
+[CITS3200_Team Graph Manipulation Tool Participant User Guide_Danna Torres Bennz(Oct 2022) (2).pdf](https://github.com/2022-CITS3200-GraphTeam/CITS3200-GroupProject/files/9818127/CITS3200_Team.Graph.Manipulation.Tool.Participant.User.Guide_Danna.Torres.Bennz.Oct.2022.2.pdf)
+
 ## Links
 
 [Admin Interface](./templates/admin_interface.html)
