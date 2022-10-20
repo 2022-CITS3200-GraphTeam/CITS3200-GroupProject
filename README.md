@@ -1,7 +1,7 @@
 # CITS3200-GroupProject
 
 # How To Use Admin Documentation
-[Admin User Guide](https://github.com/2022-CITS3200-GraphTeam/CITS3200-GroupProject/files/9818108/Admin.Documentation.docx)
+[Admin User Guide][Admin Documentation.docx](https://github.com/2022-CITS3200-GraphTeam/CITS3200-GroupProject/files/9830128/Admin.Documentation.docx)
 
 Link to admin interface: [Admin Interface](https://2022-cits3200-graphteam.github.io/CITS3200-GroupProject/templates/admin_interface.html)
 
